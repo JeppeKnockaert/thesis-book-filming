@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+    	<title>Synchronize books and filmings</title>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<!-- Bootstrap -->
+    	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    	<!-- Main css -->
+    	<link href="css/main.css" rel="stylesheet" media="screen">
+  	</head>
+  	<body>
+	  	<div class="container">
+	    	<form>
+	    		<label>Subtitles (srt)</label>
+	    		<input type="text" id="subtitleupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
+			  	<div class="fileUpload btn">			  		
+				    <span>Upload</span>
+				    <input id="subtitlebtn" type="file" class="upload" />
+				</div>
+				<label>Book (epub)</label>
+	    		<input type="text" id="bookupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
+			  	<div class="fileUpload btn">			  		
+				    <span>Upload</span>
+				    <input id="bookbtn" type="file" class="upload" />
+				</div>
+				<div class="submit">
+					<button class="btn btn-primary" type="submit">Synchronize</button>
+				</div>
+			</form>
+		</div>
+		<script src="http://code.jquery.com/jquery.js"></script>
+    	<script src="js/bootstrap.min.js"></script>
+		<script>
+			document.getElementById("subtitlebtn").onchange = function () {
+    			document.getElementById("subtitleupload").value = this.value.replace("C:\\fakepath\\", "");;
+			};
+			document.getElementById("bookbtn").onchange = function () {
+    			document.getElementById("bookupload").value = this.value.replace("C:\\fakepath\\", "");;
+			};
+		</script>
+
+  	</body>
+</html>
