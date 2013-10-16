@@ -11,7 +11,14 @@ var app = express();
 // Enable file upload
 app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/tmp' }));
 
-// Make the loader available (for reading and parsing purposes)
+// Describe the files that need to be used in the processing chain
+// TODO: put this in a config file
+var processingsequence = {
+	parser : 'simpleparser',
+	matcher : 'simplematcher'
+};
+
+// Get the loader
 var loader = require(__dirname + '/loader.js');
 
 // If a user surfs to the root folder, send him to index file in the client folder
@@ -25,7 +32,9 @@ app.get(/^(\/(js|css)\/.+)$/, function(req, res) {
 });
 
 // Send the uploaded files to the loader when the form is submitted
-app.post('/synchronize', loader.readFiles);
+app.post('/synchronize', function(req,res){
+	loader.readFiles(req,res,processingsequence)
+});
 
 // Let the server listen for incoming requests on port 4000
 app.listen(4000);
