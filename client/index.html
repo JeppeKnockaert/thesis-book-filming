@@ -10,18 +10,18 @@
   	</head>
   	<body>
 	  	<div class="container">
-	    	<form>
+	    	<form method="post" action="/synchronize" enctype="multipart/form-data">
 	    		<label>Subtitles (srt)</label>
 	    		<input type="text" id="subtitleupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
 			  	<div class="fileUpload btn">			  		
 				    <span>Upload</span>
-				    <input id="subtitlebtn" type="file" class="upload" />
+				    <input id="subtitlebtn" type="file" class="upload" name="subtitlefile" />
 				</div>
 				<label>Book (epub)</label>
 	    		<input type="text" id="bookupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
 			  	<div class="fileUpload btn">			  		
 				    <span>Upload</span>
-				    <input id="bookbtn" type="file" class="upload" />
+				    <input id="bookbtn" type="file" class="upload" name="bookfile"/>
 				</div>
 				<div class="submit">
 					<button class="btn btn-primary" type="submit">Synchronize</button>
@@ -30,11 +30,14 @@
 		</div>
 		<script src="http://code.jquery.com/jquery.js"></script>
     	<script src="js/bootstrap.min.js"></script>
+    	<!-- Fill in the filenames of the chosen files -->
 		<script>
 			document.getElementById("subtitlebtn").onchange = function () {
+				// Remove the fakepath prefix if there is one
     			document.getElementById("subtitleupload").value = this.value.replace("C:\\fakepath\\", "");;
 			};
 			document.getElementById("bookbtn").onchange = function () {
+				// Remove the fakepath prefix if there is one
     			document.getElementById("bookupload").value = this.value.replace("C:\\fakepath\\", "");;
 			};
 		</script>
