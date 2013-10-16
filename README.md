@@ -3,13 +3,11 @@ thesis-book-filming
 
 Thesis for MMLab (UGent) about synchronization of books and their filming.
 
-Requirements
-============
+##Requirements
 
 - Node.js
 
-Installation
-============
+##Installation
 
 Go into your cloned folder trough a terminal and enter the following
 
