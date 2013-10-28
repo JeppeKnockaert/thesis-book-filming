@@ -1,0 +1,9 @@
+build
+.lock-wscript
+.DS_Store
+*.o
+*.a
+deps/libzip-0.10/
+lib/node_zipfile.node
+node_modules
+test/tmp/

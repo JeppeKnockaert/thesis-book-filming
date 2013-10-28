@@ -1,8 +1,8 @@
 {
 	"name": "thesis-book-filming",
-	"description": "Thesis about the synchronization of books and their filmings",
+	"description": "Thesis about the synchronization of books and their film adaptations",
 	"private": true,
 	"dependencies": {
-		"express": "3.4.1"
+		"express" : "3.4.1",
 	}
 }

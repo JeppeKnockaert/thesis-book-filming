@@ -1,0 +1,1 @@
+cmd_Release/node_zipfile.node := ./gyp-mac-tool flock ./Release/linker.lock c++ -shared -Wl,-search_paths_first -mmacosx-version-min=10.5 -arch x86_64 -L./Release -install_name @rpath/node_zipfile.node  -o Release/node_zipfile.node Release/obj.target/node_zipfile/src/node_zipfile.o Release/zip.a Release/chrome_zlib.a -undefined dynamic_lookup
