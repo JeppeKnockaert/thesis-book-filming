@@ -4,5 +4,6 @@
 	"private": true,
 	"dependencies": {
 		"express" : "3.4.1",
+		"natural" : "0.1.23"
 	}
 }

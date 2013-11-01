@@ -10,28 +10,82 @@
   	</head>
   	<body>
 	  	<div class="container">
-	    	<form method="post" action="/synchronize" enctype="multipart/form-data">
-	    		<label>Subtitles (srt)</label>
-	    		<input type="text" id="subtitleupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
-			  	<div class="fileUpload btn">			  		
-				    <span>Upload</span>
-				    <input id="subtitlebtn" type="file" class="upload" name="subtitlefile" />
-				</div>
+	    	<form id="syncform" method="post" enctype="multipart/form-data">
 				<label>Book (epub)</label>
 	    		<input type="text" id="bookupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
 			  	<div class="fileUpload btn">			  		
 				    <span>Upload</span>
 				    <input id="bookbtn" type="file" class="upload" name="bookfile"/>
 				</div>
+				<label>Subtitles (srt)</label>
+	    		<input type="text" id="subtitleupload" class="uploadFile" placeholder="Choose File" disabled="disabled"/>
+			  	<div class="fileUpload btn">			  		
+				    <span>Upload</span>
+				    <input id="subtitlebtn" type="file" class="upload" name="subtitlefile" />
+				</div>
 				<div class="submit">
-					<button class="btn btn-primary" type="submit">Synchronize</button>
+					<button id="syncButton" type="submit" class="btn btn-primary">Synchronize</button>
 				</div>
 			</form>
+
+			<!-- Modal -->
+			<div id="progressModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  	<div class="modal-header">
+			    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			    	<h3>Synchronizing...</h3>
+			  	</div>
+			  	<div class="modal-body">
+					<div class="progress progress-striped active">
+		  				<div id="syncprogressbar" class="bar" ></div>
+					</div>
+			  	</div>
+			  	<div class="modal-footer">
+			    	<a href="#" class="btn">Cancel</a>
+			  	</div>
+			</div>
+
 		</div>
 		<script src="http://code.jquery.com/jquery.js"></script>
     	<script src="js/bootstrap.min.js"></script>
     	<!-- Fill in the filenames of the chosen files -->
 		<script>
+			// intervalID 
+			var intervalid = -1;
+
+			// Update the progressbar
+			var checkProgress = function(){
+				$.ajax( {
+					type: "GET",
+					url: "/progressreport",
+					success: function( response ) {
+						$("#syncprogressbar").text(response);
+						$("#syncprogressbar").width(response);
+						// Stop updating the progress if the bar is full
+						if (response === "100%"){ 
+							clearInterval(intervalid);
+						}
+					}
+			    });
+			};
+			// Stay on the same page when updating and instead send an Ajax POST with the form contents
+			$('#syncform').submit(function(e) {
+				e.preventDefault();
+				$('#progressModal').modal('show');
+				var form = $('#syncform');
+				var formData = new FormData(form[0]);
+			    $.ajax( {
+					type: "POST",
+					url: "/synchronize",
+					data: formData,
+					success: function( response ) {
+						// Update the progress each second starting when the upload is finished
+						intervalid = setInterval(function(){checkProgress()},1000);
+					},
+					// Ignore the content of the POST
+			        contentType: false,
+			        processData: false,
+			    });
+			});
 			document.getElementById("subtitlebtn").onchange = function () {
 				// Remove the fakepath prefix if there is one
     			document.getElementById("subtitleupload").value = this.value.replace("C:\\fakepath\\", "");;

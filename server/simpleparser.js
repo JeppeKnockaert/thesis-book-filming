@@ -8,11 +8,9 @@ var fs = require('fs'); // Module for reading files
 /**
  * Parses epubs
  * @param bookfile the epub file in the format of the express bodyparser
- * @param req request object from express
- * @param res response object from express
  * @param callback that needs to be executed after this function is ready
  */
-exports.parseBook = function(bookfile, req, res, callback){
+exports.parseBook = function(bookfile, callback){
 	var epub = new epubParser(bookfile.path); // Create the epub parser
 	var fulltext = "";
 	epub.on("end", function(){
@@ -24,7 +22,18 @@ exports.parseBook = function(bookfile, req, res, callback){
     			else{
     				fulltext += text; // Add each chapter to the full text
     				if (index == epub.flow.length-1){
-    					callback(null, fulltext); // Make a callback using the full text
+    					var paragraphs = fulltext.split(/<p\ [^>]*>/);
+    					var nonemptyparagraphs = new Array();
+						paragraphs.forEach(function (value, index){
+							value = value.replace(/<[^>]*>/g,"");
+							if (value.trim() !== ""){
+								nonemptyparagraphs.push(value);
+							}
+							if (index == paragraphs.length-1){
+		    					callback(null, nonemptyparagraphs); // Make a callback using the paragraphs
+							}
+						});
+
     				}
     			}
     		});
@@ -36,11 +45,9 @@ exports.parseBook = function(bookfile, req, res, callback){
 /**
  * Parses subtitles
  * @param subtitlefile the srt file in the format of the express bodyparser
- * @param req request object from express
- * @param res response object from express
  * @param callback that needs to be executed after this function is ready
  */
-exports.parseSubtitle = function(subtitlefile, req, res, callback){
+exports.parseSubtitle = function(subtitlefile, callback){
 	fs.readFile(subtitlefile.path, 'utf8', function (err,data) {
 	  	if (err) {
 	    	callback(err);
@@ -108,7 +115,7 @@ exports.parseSubtitle = function(subtitlefile, req, res, callback){
 				subtitles.push({ // Store the subtitle
 					"fromTime"	: new Date(0,0,0,fromHours,fromMinutes,fromSeconds,fromMillis),
 					"toTime"	: new Date(0,0,0,toHours,toMinutes,toSeconds,toMillis),
-					"text" : text
+					"text" : text.replace(/<[^>]*>/g,"") // Remove tags
 				});
 
 				if (data.trim() === ""){ // When the file is empty, pass the resulting array to the callback
