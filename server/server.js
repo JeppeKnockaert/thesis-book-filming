@@ -15,15 +15,8 @@ var app = express();
 app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/tmp' }));
 app.use(express.logger('dev'));
 
-// Describe the files that need to be used in the processing chain
-// TODO: put this in a config file
-var processingsequence = {
-	parser : 'simpleparser',
-	matcher : 'simplematcher'
-};
-
 // Keep track of the progress of the synchronization
-var progress = 0;
+var children = new Array();
 
 // If a JavaScript or CSS file is requested, send the request to the client folder
 app.get(/^(\/(js|css)\/.+)$/, function(req, res) {
@@ -37,18 +30,61 @@ app.post('/synchronize', function(req,res){
 	// Send the files to the child
 	child.send({"name" : "fileupload", "value" : [req.files.bookfile, req.files.subtitlefile] });
 	child.on("message", function(message){
-		// Update the progressvariable when an update is received
-		progress = message["value"];
+		if (message["name"] === "progressreport"){
+			// Update the progressvariable when an update is received
+			children[child.pid].progress = message["value"];
+		}
+		else if (message["name"] === "result"){
+			children[child.pid].filepath = message["value"];
+		}
 	});
-	// End the request, everything is ok
+	children[child.pid] = {"child": child, "progress":0, "result":null};
+	// End the request, return the pid of the child to fetch the progress and result later on
+	res.send(""+child.pid);
+});
+
+// If a request is received to return the progress, return it based on the pid
+app.post('/progressreport', function(req, res){
+	var child = children[req.param('childpid')];
+	if (typeof child !== "undefined"){
+		res.send(""+child['progress']+"%");
+	}
+	else{
+		res.send("0%");
+	}
+});
+
+// If a request is received to return the result, return it based on the pid
+app.post('/fetchresult', function(req, res){
+	var child = children[req.param('childpid')];
+	if (typeof child !== "undefined"){
+		res.download(child['filepath']);
+	}
+	else{
+		res.send(404);
+	}
+	killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
+});
+
+// Cancel the synchronization by killing the child process
+app.post('/cancelsynchronization', function(req, res){
+	killChild(req.param('childpid'));
 	res.send(200);
 });
 
-// If a request is received to return the progress, return it based on the variable
-app.get('/progressreport', function(req, res){
-	// TODO: fix for multiple requests at the same time
-	res.send(""+progress+"%");
-});
+/**
+ * Kills the child with the given childpid and removes it from the array of children
+ * @param childpid the PID of the child process
+ */
+var killChild = function(childpid){
+	var child = children[childpid];
+	if (typeof child !== "undefined"){
+		child["child"].kill();
+		// Remove the child from the array of children
+		var index = children.indexOf(child["child"]);
+		children.splice(index, 1);
+	}
+}
 
 // If a user surfs to any other folder, send him to index file in the client folder
 app.get('*', function(req, res){

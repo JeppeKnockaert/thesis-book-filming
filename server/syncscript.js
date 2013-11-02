@@ -17,7 +17,10 @@ process.on('message', function(message) {
 		// TODO: put this in a config file
 		var processingsequence = {
 			parser : 'simpleparser',
-			matcher : 'simplematcher'
+			preprocessor: 'tagremoverpreprocessor',
+			matcher : 'jarowinklerdistancematcher',
+			postprocessor : 'wordsentencepostprocessor',
+			formatter : 'xmlformatter'
 		};
 
 		// Get the loader
@@ -27,6 +30,11 @@ process.on('message', function(message) {
 		updater.on('syncprogressupdate',function(progress){
 			// Send the progress to the master process
 			process.send({"name":"progressreport", "value":progress});
+		});
+
+		updater.on('result', function(filepath){
+			// Send the result to the master process
+			process.send({"name":"result", "value":filepath});
 		});
 		loader.readFiles(bookfile,subtitlefile,processingsequence,updater);
 	}

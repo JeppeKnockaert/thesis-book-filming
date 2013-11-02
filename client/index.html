@@ -40,7 +40,11 @@
 					</div>
 			  	</div>
 			  	<div class="modal-footer">
-			    	<a href="#" class="btn">Cancel</a>
+			    	<form action="/fetchresult" method="post">
+			    		<input id="childpid" name="childpid" type="hidden" value="" />
+			    		<button id="cancelbutton" class="btn" style="display: none" type="button">Cancel</button>
+			    		<button id="downloadbutton" style="display: none" type="submit" class="btn">Download</button>
+		    		</form>
 			  	</div>
 			</div>
 
@@ -51,11 +55,14 @@
 		<script>
 			// intervalID 
 			var intervalid = -1;
+			// child ID
+			var pid = -1;
 
 			// Update the progressbar
 			var checkProgress = function(){
 				$.ajax( {
-					type: "GET",
+					type: "POST",
+					data: {"childpid":pid},
 					url: "/progressreport",
 					success: function( response ) {
 						$("#syncprogressbar").text(response);
@@ -63,13 +70,37 @@
 						// Stop updating the progress if the bar is full
 						if (response === "100%"){ 
 							clearInterval(intervalid);
+							$("#childpid").val(pid);
+							$("#downloadbutton").show();
 						}
 					}
 			    });
 			};
+
+			$('#cancelbutton').click(function(){
+				$.ajax( {
+					type: "POST",
+					data: {"childpid":pid},
+					url: "/cancelsynchronization",
+					success: function( response ) {
+						clearInterval(intervalid);
+						$("#progressModal").modal("hide");
+						$("#downloadbutton").hide();
+						$("#cancelbutton").hide();
+					}
+			    });
+			});
+
 			// Stay on the same page when updating and instead send an Ajax POST with the form contents
 			$('#syncform').submit(function(e) {
 				e.preventDefault();
+				// Make sure the buttons are still hidden
+				$("#downloadbutton").hide();
+				$("#cancelbutton").hide();
+				// Make sure the progressbar is reset
+				$("#syncprogressbar").text("0%");
+				$("#syncprogressbar").width("0%");
+				// Show the dialog
 				$('#progressModal').modal('show');
 				var form = $('#syncform');
 				var formData = new FormData(form[0]);
@@ -78,6 +109,8 @@
 					url: "/synchronize",
 					data: formData,
 					success: function( response ) {
+						pid = response;
+						$("#cancelbutton").show();
 						// Update the progress each second starting when the upload is finished
 						intervalid = setInterval(function(){checkProgress()},1000);
 					},

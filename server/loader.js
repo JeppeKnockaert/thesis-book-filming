@@ -17,40 +17,45 @@ var parsedSubtitle = null;
  * @param updater the eventemitter to keep track of the progressupdates
  */
 exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
-	var matcher = require(__dirname + "/" + sequence.matcher + ".js");
 	var parser = require(__dirname + "/" + sequence.parser + ".js");
+	var preprocessor = require(__dirname + "/" + sequence.preprocessor + ".js");
 	// Parse the epub file
-	parser.parseBook(bookfile, function(err, book){
+	parser.parseBook(bookfile, preprocessor, function(err, book){
 		if (err){
 			console.log(err);
 		}
 		parsedBook = book;
 		if (parsedSubtitle !== null){
-			callSynchronization(matcher, parsedBook, parsedSubtitle, updater);
+			callSynchronization(sequence, parsedBook, parsedSubtitle, updater);
 		}
 	});
 	// Parse the srt file
-	parser.parseSubtitle(subtitlefile, function(err, subtitle){
+	parser.parseSubtitle(subtitlefile, preprocessor, function(err, subtitle){
 		if (err){
 			console.log(err);
 		}
 		parsedSubtitle = subtitle;
 		if (parsedBook !== null){
-			callSynchronization(matcher, parsedBook, parsedSubtitle, updater);
+			callSynchronization(sequence, parsedBook, parsedSubtitle, updater);
 		}
 	});
 };
 
 /**
  * Calls the synchronization function on the matcher object
- * @param matcher the object containing the main synchronization function
+ * @param sequence all files in the processing chain
  * @param bookfile the file containing the epub
  * @param subtitlefile the file containing the srt
  * @param updater the eventemitter to keep track of the progressupdates
  */
-callSynchronization = function(matcher, parsedBook, parsedSubtitle, updater){
+callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 	if (!synced){
+		var matcher = require(__dirname + "/" + sequence.matcher + ".js");
+		var postprocessor = require(__dirname + "/" + sequence.postprocessor + ".js");
+		var formatter = require(__dirname + "/" + sequence.formatter + ".js");
 		synced = true;
-		matcher.synchronize(parsedBook,parsedSubtitle, updater);
+		matcher.synchronize(parsedBook,parsedSubtitle,postprocessor,updater,function(matches){
+			formatter.format(matches, updater);
+		});
 	}
 }
