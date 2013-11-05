@@ -1,5 +1,7 @@
 /**
- * Takes care of the preprocessing by removing html tags from the text
+ * Takes care of the preprocessing by cleaning up the given text
+ * 	- removes tags
+ * 	- removes extra spaces
  */
 
 /**
@@ -8,5 +10,7 @@
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.preprocess = function(text, callback){
-	callback(text.replace(/<[^>]*>/g,""));
+	var returntext = text.replace(/<[^>]*>/g,""); // Remove tags
+	returntext = text.replace(/\s+/," "); // Remove extra spaces
+	callback(text); 
 }

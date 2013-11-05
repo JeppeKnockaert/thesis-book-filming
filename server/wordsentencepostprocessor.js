@@ -9,9 +9,11 @@
  */
 exports.postprocess = function(match, callback){
 	// Remove all non-whitespaces and non-alphabetical symbols and trim the whole string
-	var text = match.subtitle.replace("[^A-z\s]","").trim(); 
-	// If the string still has spaces, let it pass
-	if (text.indexOf(" ") !== -1){
+	var subtext = match.subtitle.replace("[^A-z\s]","").trim(); 
+	var booktext = match.paragraph.replace("[^A-z\s]","").trim(); 
+
+	// If the strings still have spaces, let it pass
+	if (subtext.indexOf(" ") !== -1 && booktext.indexOf(" ") !== -1){
 		callback(match);
 	}
 	// Else, remove the match

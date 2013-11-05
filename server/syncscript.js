@@ -17,7 +17,7 @@ process.on('message', function(message) {
 		// TODO: put this in a config file
 		var processingsequence = {
 			parser : 'simpleparser',
-			preprocessor: 'tagremoverpreprocessor',
+			preprocessor: 'cleantextpreprocessor',
 			matcher : 'jarowinklerdistancematcher',
 			postprocessor : 'wordsentencepostprocessor',
 			formatter : 'xmlformatter'
