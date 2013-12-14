@@ -21,21 +21,20 @@ exports.parseBook = function(bookfile, preprocessor, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				fulltext += text; // Add each chapter to the full text
+    				preprocessor.preprocess(text, function(processedtext){
+						if (processedtext.length > 5000){ // Empirically found threshold for the minimum length of a chapter
+							fulltext += processedtext;
+						}
+					});
     				if (index == epub.flow.length-1){
-    					var paragraphs = fulltext.split(/<p\ [^>]*>/);
-    					var nonemptyparagraphs = new Array();
-						paragraphs.forEach(function (value, index){
-							preprocessor.preprocess(value, function(processedtext){
-								if (processedtext.trim() !== ""){
-									nonemptyparagraphs.push(processedtext);
-								}
-								if (index == paragraphs.length-1){
-			    					callback(null, nonemptyparagraphs); // Make a callback using the paragraphs
-								}
-							});
-						});
-
+    					var regex = /[“]([^"“”]+?)[”]/g; // Match quotes
+    					var matches = new Array();
+    					var match = regex.exec(fulltext);
+    					matches.push(match[1]);
+						while (match = regex.exec(fulltext)) { // Go over all matches and put them in an array
+						    matches.push(match[1]);
+						}
+    					callback(null, matches); // Make a callback using all quotes
     				}
     			}
     		});

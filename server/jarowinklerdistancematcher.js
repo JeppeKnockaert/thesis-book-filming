@@ -4,7 +4,7 @@
 
 var natural = require('natural'); // load natural language facilities
 
-var delta = 0.80; // Minimum distance between two fragments to be equal
+var delta = 0.90; // Minimum distance between two fragments to be equal
 
 /**
  * Synchronizes a parsed epub and srt from simpleparser using the Jaro Winkler Distance
@@ -27,7 +27,8 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 					"toTime" : subvalue.toTime,
 					"subtitle" : subvalue.text,
 					"paragraphindex" : bookindex,
-			   		"paragraph" : bookvalue,								
+			   		"paragraph" : bookvalue,
+			   		"score" : dist								
 				};
 				postprocessor.postprocess(match,function(newmatch){
 					if (newmatch !== null){
