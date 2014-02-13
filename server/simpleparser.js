@@ -21,20 +21,21 @@ exports.parseBook = function(bookfile, preprocessor, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				preprocessor.preprocess(text, function(processedtext){
-						if (processedtext.length > 5000){ // Empirically found threshold for the minimum length of a chapter
-							fulltext += processedtext;
-						}
-					});
+    				var matches = text.match(/<p[^>]*>/g); // Match paragraphs
+					if (matches !== null && matches.length > 4){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
+						fulltext += text;
+					}
     				if (index == epub.flow.length-1){
-    					var regex = /[“]([^"“”]+?)[”]/g; // Match quotes
-    					var matches = new Array();
-    					var match = regex.exec(fulltext);
-    					matches.push(match[1]);
-						while (match = regex.exec(fulltext)) { // Go over all matches and put them in an array
-						    matches.push(match[1]);
+    					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
+    					var matcharray = new Array();
+    					matches = regex.exec(fulltext);
+    					matcharray.push(matches[1]);
+						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
+							preprocessor.preprocess(matches[1], function(processedmatch){
+						    	matcharray.push(processedmatch);
+						    });
 						}
-    					callback(null, matches); // Make a callback using all quotes
+    					callback(null, matcharray); // Make a callback using all quotes
     				}
     			}
     		});
@@ -113,13 +114,15 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, callback){
 					text += textline+"\n";
 					data = data.substring(linebreak+1);
 				}
-
+				text = // Remove quotes, because the preprocessor doesn't do this
 				preprocessor.preprocess(text, function(processedtext){
-					subtitles.push({ // Store the subtitle
-						"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
-						"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
-						"text" : processedtext
-					});
+					if (processedtext.trim() !== ""){
+						subtitles.push({ // Store the subtitle
+							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
+							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
+							"text" : processedtext
+						});
+					}
 				});
 
 				if (data.trim() === ""){ // When the file is empty, pass the resulting array to the callback
