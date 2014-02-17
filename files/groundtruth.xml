@@ -242,4 +242,444 @@
 			<subtitle>You will feed them yourselves</subtitle>
 		</subtitle>
 	</match>
+	<match>
+		<quote>
+			<quoteindex>169</quoteindex>
+			<quote>I am no Stark Father</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>112</subtitleindex>
+			<fromTime>00:17:42,520 </fromTime>
+			<subtitle>Im not a Stark</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>182</quoteindex>
+			<quote>What is it Jon</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>114</subtitleindex>
+			<fromTime>00:17:56,451 </fromTime>
+			<subtitle>What is it</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>219</quoteindex>
+			<quote>I am so sorry my love Jon Arryn is dead</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>141</subtitleindex>
+			<fromTime>00:21:13,522 </fromTime>
+			<subtitle>I am so sorry my love</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>219</quoteindex>
+			<quote>I am so sorry my love Jon Arryn is dead</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>143</subtitleindex>
+			<fromTime>00:21:22,740 </fromTime>
+			<subtitle>Jon Arryn is dead</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>224</quoteindex>
+			<quote>Your sister</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>146</subtitleindex>
+			<fromTime>00:21:35,086 </fromTime>
+			<subtitle>Your sister the boy  They both have their health</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>233</quoteindex>
+			<quote>The letter had other tidings The king is riding to Winterfell to seek you out</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>149</subtitleindex>
+			<fromTime>00:21:53,980 </fromTime>
+			<subtitle>The king rides for Winterfell</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>340</quoteindex>
+			<quote>Your Grace Winterfell is yours</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>188</subtitleindex>
+			<fromTime>00:27:27,187 </fromTime>
+			<subtitle>Guarding the North for you Your Grace Winterfell is yours</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>341</quoteindex>
+			<quote>Take me down to your crypt Eddard I would pay my respects</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>200</subtitleindex>
+			<fromTime>00:28:19,948 </fromTime>
+			<subtitle>Take me to your crypt I want to pay my respects</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>381</quoteindex>
+			<quote>Tell me about Jon</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>207</subtitleindex>
+			<fromTime>00:28:48,685 </fromTime>
+			<subtitle>Tell me about Jon Arryn</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>382</quoteindex>
+			<quote>I have never seen a man sicken so quickly We gave a tourney on my sons name day If you had seen Jon then you would have sworn he would live forever A fortnight later he was dead The sickness was like a fire in his gut It burned right through him</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>209</subtitleindex>
+			<fromTime>00:28:55,025 </fromTime>
+			<subtitle>burned right through him whatever it was</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>383</quoteindex>
+			<quote>I loved that old man</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>210</subtitleindex>
+			<fromTime>00:28:58,946 </fromTime>
+			<subtitle>I loved that man</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>384</quoteindex>
+			<quote>We both did</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>211</subtitleindex>
+			<fromTime>00:29:01,073 </fromTime>
+			<subtitle>We both did</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>416</quoteindex>
+			<quote>I have need of you Ned</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>217</subtitleindex>
+			<fromTime>00:29:22,136 </fromTime>
+			<subtitle>I need you Ned</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>421</quoteindex>
+			<quote>Lord Eddard Stark I would name you the Hand of the King</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>219</subtitleindex>
+			<fromTime>00:29:29,852 </fromTime>
+			<subtitle>Lord Eddard Stark</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>421</quoteindex>
+			<quote>Lord Eddard Stark I would name you the Hand of the King</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>220</subtitleindex>
+			<fromTime>00:29:32,604 </fromTime>
+			<subtitle>I would name you the Hand of the King</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>423</quoteindex>
+			<quote>I am not worthy of the honor</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>221</subtitleindex>
+			<fromTime>00:29:39,528 </fromTime>
+			<subtitle>Im not worthy of the honor</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>424</quoteindex>
+			<quote>If I wanted to honor you Id let you retire I am planning to make you run the kingdom and fight the wars while I eat and drink and wench myself into an early grave</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>223</subtitleindex>
+			<fromTime>00:29:43,323 </fromTime>
+			<subtitle>Im trying to get you to run my kingdom</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>424</quoteindex>
+			<quote>If I wanted to honor you Id let you retire I am planning to make you run the kingdom and fight the wars while I eat and drink and wench myself into an early grave</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>224</subtitleindex>
+			<fromTime>00:29:45,159 </fromTime>
+			<subtitle>while I eat drink and whore my way to an early grave</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>429</quoteindex>
+			<quote>Damn it Ned</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>225</subtitleindex>
+			<fromTime>00:29:48,996 </fromTime>
+			<subtitle>Damn it Ned stand up</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>226</subtitleindex>
+			<fromTime>00:29:52,374 </fromTime>
+			<subtitle>You helped me win the Iron Throne</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>227</subtitleindex>
+			<fromTime>00:29:54,460 </fromTime>
+			<subtitle>now help me keep the damn thing</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>228</subtitleindex>
+			<fromTime>00:29:57,296 </fromTime>
+			<subtitle>We were meant to rule together</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>229</subtitleindex>
+			<fromTime>00:29:59,798 </fromTime>
+			<subtitle>If your sister had lived wed have been bound by blood</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>230</subtitleindex>
+			<fromTime>00:30:04,595 </fromTime>
+			<subtitle>Well its not too late</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>231</subtitleindex>
+			<fromTime>00:30:07,848 </fromTime>
+			<subtitle>I have a son you have a daughter</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>434</quoteindex>
+			<quote>You helped me win this damnable throne now help me hold it We were meant to rule together If Lyanna had lived we should have been brothers bound by blood as well as affection Well it is not too late I have a son You have a daughter My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>232</subtitleindex>
+			<fromTime>00:30:11,351 </fromTime>
+			<subtitle>Well join our houses</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>363</quoteindex>
+			<quote>Ah damn it Ned did you have to bury her in a place like this</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>266</subtitleindex>
+			<fromTime>00:32:39,750 </fromTime>
+			<subtitle>Did you have to bury her in a place like this</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>367</quoteindex>
+			<quote>She should be on a hill somewhere under a fruit tree with the sun and clouds above her and the rain to wash her clean</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>267</subtitleindex>
+			<fromTime>00:32:44,379 </fromTime>
+			<subtitle>She should be on a hill somewhere</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>367</quoteindex>
+			<quote>She should be on a hill somewhere under a fruit tree with the sun and clouds above her and the rain to wash her clean</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>268</subtitleindex>
+			<fromTime>00:32:46,715 </fromTime>
+			<subtitle>with the sun and the clouds above her</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>366</quoteindex>
+			<quote>This is her place</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>270</subtitleindex>
+			<fromTime>00:32:51,345 </fromTime>
+			<subtitle>This is where she belongs</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>375</quoteindex>
+			<quote>In my dreams I kill him every night</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>272</subtitleindex>
+			<fromTime>00:33:01,980 </fromTime>
+			<subtitle>In my dreams I kill him every night</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>252</quoteindex>
+			<quote>A gift from the Magister Illyrio</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>278</subtitleindex>
+			<fromTime>00:33:37,057 </fromTime>
+			<subtitle>Look a gift from Illyrio</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>250</quoteindex>
+			<quote>This is beauty Touch it Go on Caress the fabric</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>279</subtitleindex>
+			<fromTime>00:33:41,228 </fromTime>
+			<subtitle>Touch it</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>250</quoteindex>
+			<quote>This is beauty Touch it Go on Caress the fabric</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>280</subtitleindex>
+			<fromTime>00:33:42,938 </fromTime>
+			<subtitle>Go on feel the fabric</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>256</quoteindex>
+			<quote>Illyrio is no fool</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>284</subtitleindex>
+			<fromTime>00:34:02,249 </fromTime>
+			<subtitle>Illyrios no fool</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>257</quoteindex>
+			<quote>The magister knows that I will not forget my friends when I come into my throne</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>285</subtitleindex>
+			<fromTime>00:34:04,251 </fromTime>
+			<subtitle>He knows I wont forget my friends</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>257</quoteindex>
+			<quote>The magister knows that I will not forget my friends when I come into my throne</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>286</subtitleindex>
+			<fromTime>00:34:06,169 </fromTime>
+			<subtitle>when I come into my throne</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>258</quoteindex>
+			<quote>waking the dragon</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>292</subtitleindex>
+			<fromTime>00:34:54,092 </fromTime>
+			<subtitle>You dont want to wake the dragon do you</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>260</quoteindex>
+			<quote>You still slouch Straighten yourself</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>287</subtitleindex>
+			<fromTime>00:34:12,759 </fromTime>
+			<subtitle>You still slouch</subtitle>
+		</subtitle>
+	</match>
+	<match>
+		<quote>
+			<quoteindex>261</quoteindex>
+			<quote>Let them see that you have a womans shape now</quote>
+		</quote>
+		<subtitle>
+			<subtitleindex>288</subtitleindex>
+			<fromTime>00:34:18,890 </fromTime>
+			<subtitle>Let them see</subtitle>
+		</subtitle>
+	</match>
 </matches>
