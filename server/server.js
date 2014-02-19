@@ -86,6 +86,11 @@ var killChild = function(childpid){
 	}
 }
 
+// If a user wants to surf to the evaluation page, send him to that page
+app.get('/evaluate', function(req, res){
+	res.sendfile('client/evaluate.html');
+});
+
 // If a user surfs to any other folder, send him to index file in the client folder
 app.get('*', function(req, res){
   res.sendfile('client/index.html');

@@ -18,7 +18,7 @@ process.on('message', function(message) {
 		var processingsequence = {
 			parser : 'simpleparser',
 			preprocessor: 'cleantextpreprocessor',
-			matcher : 'inputprinter',
+			matcher : 'jarowinklerdistancematcher',
 			postprocessor : 'wordsentencepostprocessor',
 			formatter : 'xmlformatter'
 		};

@@ -5,8 +5,8 @@ body{
 .fileUpload {
 	position: relative;
 	overflow: hidden;
-	margin: 10px;
 }
+
 .fileUpload input {
 	position: absolute;
 	top: 0;
@@ -19,10 +19,10 @@ body{
 	filter: alpha(opacity=0);
 }
 
-.uploadFile{
-	margin-top:10px;
+#syncButton{
+	margin-left: 2px;
 }
 
-.submit{
-	margin-top: 10px;
+#evalButton{
+	margin-left: 4px;
 }
