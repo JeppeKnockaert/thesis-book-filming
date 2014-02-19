@@ -26,3 +26,9 @@ body{
 #evalButton{
 	margin-left: 4px;
 }
+
+#evaluationpanel{
+	display:none;
+	margin-top: 40px;
+	width:50%;
+}

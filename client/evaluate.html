@@ -35,47 +35,66 @@
 					<button id="evalButton" type="submit" class="btn btn-primary">Evaluate</button>
 				</div>
 			</form>
+			<div id="evaluationpanel" class="panel panel-default">
+			 	<div class="panel-heading">
+			    	<h3 class="panel-title">Results</h3>
+			  	</div>
+			  	<div id="evaluationpanelbody" class="panel-body"></div>
+			</div>
 		</div>
 		<script src="http://code.jquery.com/jquery.js"></script>
     	<script src="js/bootstrap.min.js"></script>
     	<!-- Fill in the filenames of the chosen files -->
 		<script>
+			// intervalID 
+			var intervalid = -1;
+			// child ID
+			var pid = -1;
 
 			// Stay on the same page when updating and instead send an Ajax POST with the form contents
-			$('#syncform').submit(function(e) {
+			$('#evaluationform').submit(function(e) {
 				e.preventDefault();
-				// Make sure the buttons are still hidden
-				$("#downloadbutton").hide();
-				$("#cancelbutton").hide();
-				// Make sure the progressbar is reset
-				$("#syncprogressbar").text("0%");
-				$("#syncprogressbar").width("0%");
-				// Show the dialog
-				$('#progressModal').modal('show');
-				var form = $('#syncform');
+				var form = $('#evaluationform');
 				var formData = new FormData(form[0]);
 			    $.ajax( {
 					type: "POST",
-					url: "/synchronize",
+					url: "/evaluate",
 					data: formData,
 					success: function( response ) {
 						pid = response;
-						$("#cancelbutton").show();
 						// Update the progress each second starting when the upload is finished
-						intervalid = setInterval(function(){checkProgress()},1000);
+						intervalid = setInterval(function(){checkResult()},1000);
 					},
 					// Ignore the content of the POST
 			        contentType: false,
 			        processData: false,
 			    });
 			});
-			document.getElementById("subtitlebtn").onchange = function () {
-				// Remove the fakepath prefix if there is one
-    			document.getElementById("subtitleupload").value = this.value.replace("C:\\fakepath\\", "");;
+
+			var checkResult = function(){
+				$("#evaluationpanel").show();
+				$.ajax( {
+					type: "POST",
+					data: {"childpid":pid, "method":"eval"},
+					url: "/fetchresult",
+					success: function( response ) {
+						console.log(response);
+						// Remove the interval once the results have been returned
+						if (response !== "Please wait..."){
+							clearInterval(intervalid);
+						}
+						$("#evaluationpanelbody").html(response);
+					}
+			    });
 			};
-			document.getElementById("bookbtn").onchange = function () {
+
+			document.getElementById("resultbtn").onchange = function () {
 				// Remove the fakepath prefix if there is one
-    			document.getElementById("bookupload").value = this.value.replace("C:\\fakepath\\", "");;
+    			document.getElementById("resultupload").value = this.value.replace("C:\\fakepath\\", "");;
+			};
+			document.getElementById("groundtruthbtn").onchange = function () {
+				// Remove the fakepath prefix if there is one
+    			document.getElementById("groundtruthupload").value = this.value.replace("C:\\fakepath\\", "");;
 			};
 		</script>
 

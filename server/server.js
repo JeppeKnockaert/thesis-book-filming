@@ -15,18 +15,20 @@ var app = express();
 app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/tmp' }));
 app.use(express.logger('dev'));
 
-// Keep track of the progress of the synchronization
-var children = new Array();
-
 // If a JavaScript or CSS file is requested, send the request to the client folder
 app.get(/^(\/(js|css)\/.+)$/, function(req, res) {
   res.sendfile('client/' + req.params[0]);
 });
 
+// Keep track of the progress of the synchronization
+var children = new Array();
+
 // Send the uploaded files to the loader when the form is submitted
 app.post('/synchronize', function(req,res){
 	// Make a new child to start the processing because this is a lot of work
 	var child = cp.fork(__dirname + '/syncscript.js'); 
+	// Add the child to the array to keep track of its progress
+	children[child.pid] = {"child": child, "progress":0, "result":null};
 	// Send the files to the child
 	child.send({"name" : "fileupload", "value" : [req.files.bookfile, req.files.subtitlefile] });
 	child.on("message", function(message){
@@ -38,7 +40,22 @@ app.post('/synchronize', function(req,res){
 			children[child.pid].filepath = message["value"];
 		}
 	});
-	children[child.pid] = {"child": child, "progress":0, "result":null};
+	// End the request, return the pid of the child to fetch the progress and result later on
+	res.send(""+child.pid);
+});
+
+// Send the uploaded files to the evaluator when the form is submitted
+app.post('/evaluate', function(req, res){
+	// Make a new child to start the processing
+	var child = cp.fork(__dirname + '/evaluationscript.js'); 
+	// Add the child to the array to keep track of its results
+	children[child.pid] = {"child": child, "evaluation": null};
+	child.send({"name" : "fileupload", "value" : [req.files.resultfile, req.files.groundtruthfile] });
+	child.on("message", function(message){
+		if (message["name"] === "result"){
+			children[child.pid].evaluation = message["value"];
+		}
+	});
 	// End the request, return the pid of the child to fetch the progress and result later on
 	res.send(""+child.pid);
 });
@@ -57,13 +74,25 @@ app.post('/progressreport', function(req, res){
 // If a request is received to return the result, return it based on the pid
 app.post('/fetchresult', function(req, res){
 	var child = children[req.param('childpid')];
-	if (typeof child !== "undefined"){
-		res.download(child['filepath']);
+	var method = req.param('method');
+	if (method === "sync"){
+		if (typeof child !== "undefined"){
+			res.download(child['filepath']);
+		}
+		else{
+			res.send(404);
+		}
+		killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
 	}
 	else{
-		res.send(404);
+		if (typeof child !== "undefined" && child['evaluation'] !== null){
+			res.send(""+child['evaluation']);
+			killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
+		}
+		else{
+			res.send("Please wait...");
+		}
 	}
-	killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
 });
 
 // Cancel the synchronization by killing the child process
@@ -87,7 +116,7 @@ var killChild = function(childpid){
 }
 
 // If a user wants to surf to the evaluation page, send him to that page
-app.get('/evaluate', function(req, res){
+app.get('/evaluation', function(req, res){
 	res.sendfile('client/evaluate.html');
 });
 

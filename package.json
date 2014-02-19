@@ -6,6 +6,7 @@
 		"express" : "3.4.1",
 		"natural" : "0.1.23",
 		"js2xmlparser" : "0.1.2",
-		"tmp" : "0.0.21"
+		"tmp" : "0.0.21",
+    "libxmljs" : "0.8.1"
 	}
 }

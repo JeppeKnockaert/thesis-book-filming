@@ -24,10 +24,10 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			if (dist > delta){
 				var match = { 
 					"fromTime" : subvalue.fromTime,
-					"toTime" : subvalue.toTime,
+					"subtitleindex" : subindex,
+					"quoteindex" : bookindex,
 					"subtitle" : subvalue.text,
-					"paragraphindex" : bookindex,
-			   		"paragraph" : bookvalue,
+			   		"quote" : bookvalue,
 			   		"score" : dist								
 				};
 				postprocessor.postprocess(match,function(newmatch){

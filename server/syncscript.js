@@ -1,6 +1,6 @@
 /**
- * This is the script to be executed by a child process. When it receives a message with the needed files,
- * it sends them to the fileloader for processing.
+ * This is the script to be executed by a child process of the synchronisation function.
+ * When it receives a message with the needed files, it sends them to the fileloader for processing.
  */
 
 // Create an eventemitter to keep track of the progress
