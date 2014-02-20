@@ -43,7 +43,7 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 				}
 			});
 			falsepositives = resultChildren.length - truepositives; // Every match found, minus the real matches = false matches
-			updater.emit("result","<p>True positives: "+truepositives+"</p><p>False positives: "+falsepositives+"</p><p>False negatives: "+falsenegatives+"</p>");
+			updater.emit("result","<p>True positives: "+truepositives+"</p><p>False positives: "+falsepositives+"</p><p>False negatives: "+falsenegatives+"</p><p>Precision: "+(truepositives/(truepositives+falsepositives))+"</p><p>Recall: "+(truepositives/(truepositives+falsenegatives))+"</p>");
 		});
 	});
 
