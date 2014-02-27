@@ -18,7 +18,7 @@ exports.format = function(matches, updater){
 	var fs = require('fs');
 
 	// Create a temporary file
-	tmp.tmpName({ dir: __dirname+'/download/', prefix: "result", postfix: ".xml" }, function _tempNameGenerated(err, path) {
+	tmp.tmpName({ dir: __dirname+'/../download/', prefix: "result", postfix: ".xml" }, function _tempNameGenerated(err, path) {
 		if (err){
 			console.log(err);
 		}

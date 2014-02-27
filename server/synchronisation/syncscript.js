@@ -2,6 +2,8 @@
  * This is the script to be executed by a child process of the synchronisation function.
  * When it receives a message with the needed files, it sends them to the fileloader for processing.
  */
+// Load IO library
+var fs = require('fs');
 
 // Create an eventemitter to keep track of the progress
 var events = require('events');
@@ -15,13 +17,8 @@ process.on('message', function(message) {
 
 		// Describe the files that need to be used in the processing chain
 		// TODO: put this in a config file
-		var processingsequence = {
-			parser : 'simpleparser',
-			preprocessor: 'cleantextpreprocessor',
-			matcher : 'jarowinklerdistancematcher',
-			postprocessor : 'wordsentencepostprocessor',
-			formatter : 'xmlformatter'
-		};
+		var config = fs.readFileSync(__dirname + '/../config.json');
+		var processingsequence = JSON.parse(config);
 
 		// Get the loader
 		var loader = require(__dirname + '/loader.js');

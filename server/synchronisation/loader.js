@@ -50,7 +50,7 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
  */
 callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 	if (!synced){
-		var matcher = require(__dirname + "/" + sequence.matcher + ".js");
+		var matcher = require(__dirname + "/matchers/" + sequence.matcher + ".js");
 		var postprocessor = require(__dirname + "/" + sequence.postprocessor + ".js");
 		var formatter = require(__dirname + "/" + sequence.formatter + ".js");
 		synced = true;

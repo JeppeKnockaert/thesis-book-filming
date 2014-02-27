@@ -26,7 +26,7 @@ var children = new Array();
 // Send the uploaded files to the loader when the form is submitted
 app.post('/synchronize', function(req,res){
 	// Make a new child to start the processing because this is a lot of work
-	var child = cp.fork(__dirname + '/syncscript.js'); 
+	var child = cp.fork(__dirname + '/synchronisation/syncscript.js'); 
 	// Add the child to the array to keep track of its progress
 	children[child.pid] = {"child": child, "progress":0, "result":null};
 	// Send the files to the child
@@ -47,7 +47,7 @@ app.post('/synchronize', function(req,res){
 // Send the uploaded files to the evaluator when the form is submitted
 app.post('/evaluate', function(req, res){
 	// Make a new child to start the processing
-	var child = cp.fork(__dirname + '/evaluationscript.js'); 
+	var child = cp.fork(__dirname + '/evaluation/evaluationscript.js'); 
 	// Add the child to the array to keep track of its results
 	children[child.pid] = {"child": child, "evaluation": null};
 	child.send({"name" : "fileupload", "value" : [req.files.resultfile, req.files.groundtruthfile] });
