@@ -1,11 +1,5 @@
-/**
- * Example configuration
- * 
- * Usage: fill in your personal details and rename the file to config.json
- */
-
 {
-	"processingsequence":{ // Filename without extension for each module
+	"processingsequence":{
 		"parser" : "simpleparser",
 		"preprocessor": "cleantextpreprocessor",
 		"matcher" : "defaultmatcher",
@@ -13,7 +7,7 @@
 		"formatter" : "xmlformatter"
 	},
 	"alchemyapi":{
-		"APIkey" : "12345" // Enter your alchemy API key
+		"APIkey" : "12345"
 	}
 
 }

@@ -17,7 +17,7 @@ process.on('message', function(message) {
 
 		// Describe the files that need to be used in the processing chain
 		var config = fs.readFileSync(__dirname + '/../config.json');
-		var processingsequence = JSON.parse(config);
+		var processingsequence = JSON.parse(config)["processingsequence"];
 
 		// Get the loader
 		var loader = require(__dirname + '/loader.js');

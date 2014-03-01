@@ -11,6 +11,8 @@ Thesis for MMLab (UGent) about synchronization of books and their filming.
 
 ###Configuration
 Go to the server folder, rename config-example.json to config.json and fill the needed fields in the file.
+- For processingsequence, each module can be chosen by using the filename of the module without the extension.
+- For alchemyapi, you need to fill your private API key.
 
 ###Dependencies
 Go into your cloned folder trough a terminal and enter the following
