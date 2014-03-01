@@ -4,3 +4,4 @@ server/tmp/*
 server/download/*
 files/*
 !files/*.xml
+server/config.json

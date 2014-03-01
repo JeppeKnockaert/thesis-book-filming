@@ -1,7 +1,0 @@
-{
-	"parser" : "simpleparser",
-	"preprocessor": "cleantextpreprocessor",
-	"matcher" : "jaromatchertimewindows",
-	"postprocessor" : "wordsentencepostprocessor",
-	"formatter" : "xmlformatter"
-}

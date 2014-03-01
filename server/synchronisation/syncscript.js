@@ -16,7 +16,6 @@ process.on('message', function(message) {
 		var subtitlefile = message["value"][1];
 
 		// Describe the files that need to be used in the processing chain
-		// TODO: put this in a config file
 		var config = fs.readFileSync(__dirname + '/../config.json');
 		var processingsequence = JSON.parse(config);
 

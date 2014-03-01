@@ -5,7 +5,7 @@
 var natural = require('natural'); // load natural language facilities
 
 var delta = 0.90; // Minimum distance between two fragments to be equal
-var windowsize = 10; // Size of the window around an exact match
+var windowsize = 8; // Size of the window around an exact match
 
 /**
  * Synchronizes a parsed epub and srt from simpleparser using the Jaro Winkler Distance
