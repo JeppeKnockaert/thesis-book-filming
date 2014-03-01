@@ -9,6 +9,9 @@ Thesis for MMLab (UGent) about synchronization of books and their filming.
 
 ##Installation
 
+###Configuration
+Go to the server folder, rename config-example.json to config.json and fill the needed fields in the file.
+
 ###Dependencies
 Go into your cloned folder trough a terminal and enter the following
 
