@@ -3,9 +3,13 @@
  */
 
 var natural = require('natural'); // load natural language facilities
+var pos = require('pos');
+var fs = require('fs'); // Module for reading files
 
-var windowsize = 0.2;
-var allowedretries = 5;
+
+var noundelta = 0.9;
+var otherdelta = 0.75;
+var maxnrofmatches = 3;
 
 /**
  * Synchronizes a parsed epub and srt from simpleparser using (partial) exact matching
@@ -20,34 +24,68 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	var matches = {"match" : new Array()};
 	var lastmatch = -1;
 	var retries = 0;
-	book.forEach(function (bookvalue, bookindex){ 
-		subtitle.forEach(function (subvalue, subindex){ 
-			if ((Math.abs(lastmatch-subindex)/subtitle.length <= windowsize||lastmatch === -1) && 
-				(subvalue.text.search(bookvalue) >= 0 || bookvalue.search(subvalue.text) >= 0)){ // One contains the other
-				lastmatch = bookindex;
-				var match = { 
-					"fromTime" : subvalue.fromTime,
-					"subtitleindex" : subindex,
-					"quoteindex" : bookindex,
-					"subtitle" : subvalue.text,
-			   		"quote" : bookvalue,
-			   		"score" : 1								
-				};
-				postprocessor.postprocess(match,function(newmatch){
-					if (newmatch !== null){
-						matches["match"].push(newmatch);
-					}
-				});
-			}
-			else{
-				retries++;
-				if (retries === allowedretries){
-					lastmatch = -1;
-					retries = 0;
+	var booktext = "";
+	var subtext = "";
+
+	var lexer = new pos.Lexer();
+	var tagger = new pos.Tagger();
+
+	var bookWords = new Array();
+	book.forEach(function (bookvalue, bookindex){
+		bookWords[bookindex] = lexer.lex(bookvalue);
+	});
+	var subWords = new Array();
+	subtitle.forEach(function (subvalue, subindex){				
+		subWords[subindex] = lexer.lex(subvalue.text);
+	});
+
+	subWords.forEach(function (subvalue, subindex){
+		var maxmatches = 0;
+		var matchindex = 0;
+		var bookmatches = new Array();
+		var doublematches = new Array();
+		var doublematchindex = 0;
+		bookWords.forEach(function (bookvalue, bookindex){
+			var matchingwords = 0;
+			subvalue.forEach(function (subword, subwordindex){
+				if (bookvalue.indexOf(subword) !== -1){
+					matchingwords++;
 				}
+			});
+			if (matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length)){
+				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
+					bookmatches[matchindex++] = bookindex;
+					if (bookvalue.length == subvalue.length){ // Double exact match
+						doublematches[doublematchindex++] = bookindex;
+					}
+				}
+				else{
+					bookmatches[0] = bookindex; //Will be overwritten by subsequent better matches
+				}
+				maxmatches = matchingwords;							
 			}
 		});
-		updater.emit('syncprogressupdate',Math.floor((bookindex*100)/book.length));
+
+		var matchfunction = function (matchvalue, matchindex){	
+			var match = { 
+				"fromTime" : subtitle[subindex].fromTime,
+				"subtitleindex" : subindex,
+				"quoteindex" : matchvalue,
+				"subtitle" : subtitle[subindex].text,
+		   		"quote" : book[matchvalue],
+		   		"score" : maxmatches
+			};
+			matches["match"].push(match);
+		};
+
+		if (bookmatches.length <= maxnrofmatches){
+			bookmatches.forEach(matchfunction);	
+		}
+		else{
+			doublematches.forEach(matchfunction);
+		}
+		
+		updater.emit('syncprogressupdate',Math.floor((subindex*100)/subtitle.length));
 	});
-	callback(matches); // Return the array with matches
+	callback(matches); // Return the array with matches	
 }
