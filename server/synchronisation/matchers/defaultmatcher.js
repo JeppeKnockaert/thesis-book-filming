@@ -7,8 +7,7 @@ var pos = require('pos');
 var fs = require('fs'); // Module for reading files
 
 
-var noundelta = 0.9;
-var otherdelta = 0.75;
+var verbmatchdelta = 0.5;
 var maxnrofmatches = 3;
 
 /**
@@ -31,12 +30,16 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	var tagger = new pos.Tagger();
 
 	var bookWords = new Array();
+	var bookTags = new Array();
 	book.forEach(function (bookvalue, bookindex){
 		bookWords[bookindex] = lexer.lex(bookvalue);
+		bookTags[bookindex] = tagger.tag(bookWords[bookindex]);
 	});
 	var subWords = new Array();
+	var subTags = new Array();
 	subtitle.forEach(function (subvalue, subindex){				
 		subWords[subindex] = lexer.lex(subvalue.text);
+		subTags[subindex] = tagger.tag(subWords[subindex]);
 	});
 
 	subWords.forEach(function (subvalue, subindex){
@@ -47,12 +50,37 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 		var doublematchindex = 0;
 		bookWords.forEach(function (bookvalue, bookindex){
 			var matchingwords = 0;
-			subvalue.forEach(function (subword, subwordindex){
-				if (bookvalue.indexOf(subword) !== -1){
-					matchingwords++;
+			var matchingverbs = 0;
+			var usedindices = new Array();
+			var nrofsubverbs = 0;
+			var nrofbookverbs = 0;
+			bookvalue.forEach(function (bookword, bookwordindex){
+				var tag = bookTags[bookindex][bookwordindex][1];
+				if (tag.search("VB") !== -1){ // Tagged as verb
+					nrofbookverbs++;
 				}
 			});
-			if (matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length)){
+			subvalue.forEach(function (subword, subwordindex){
+				var tag = subTags[subindex][subwordindex][1];
+				var verb = false;
+				if (tag.search("VB") !== -1){ // Tagged as verb
+					nrofsubverbs++;
+					verb = true;
+				}
+
+				var index = bookvalue.indexOf(subword);
+				if (index !== -1 && usedindices.indexOf(index) === -1){ // Make sure the same word isn't matched twice
+					matchingwords++;
+					if (verb){
+						matchingverbs++;
+					}
+					usedindices.push(index);
+				}
+			});
+			// Take the maximum of the two relative numbers of matched verbs
+			var relnrofmatchingverbs = (nrofsubverbs > nrofbookverbs)?matchingverbs/nrofbookverbs:matchingverbs/nrofsubverbs;
+			if ((matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length))
+				&& (relnrofmatchingverbs >= verbmatchdelta)){
 				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
 					bookmatches[matchindex++] = bookindex;
 					if (bookvalue.length == subvalue.length){ // Double exact match
@@ -78,13 +106,13 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			matches["match"].push(match);
 		};
 
-		if (bookmatches.length <= maxnrofmatches){
-			bookmatches.forEach(matchfunction);	
-		}
-		else{
+		if (doublematches.length > 0 && doublematches.length <= maxnrofmatches){
 			doublematches.forEach(matchfunction);
 		}
-		
+		else if(bookmatches.length <= maxnrofmatches){
+			bookmatches.forEach(matchfunction);
+		}
+
 		updater.emit('syncprogressupdate',Math.floor((subindex*100)/subtitle.length));
 	});
 	callback(matches); // Return the array with matches	
