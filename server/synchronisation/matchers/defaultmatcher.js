@@ -6,8 +6,10 @@ var natural = require('natural'); // load natural language facilities
 var pos = require('pos');
 var fs = require('fs'); // Module for reading files
 
+var mindelta = 0.6;
 var verbmatchdelta = 0.5;
 var maxnrofmatches = 3;
+var windowsize = 0.2;
 
 /**
  * Synchronizes a parsed epub and srt from simpleparser using (partial) exact matching
@@ -41,13 +43,23 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 		subTags[subindex] = tagger.tag(subWords[subindex]);
 	});
 
+	var lastexactmatchindex = -1;
 	subWords.forEach(function (subvalue, subindex){
 		var maxmatches = 0;
 		var matchindex = 0;
 		var bookmatches = new Array();
 		var doublematches = new Array();
 		var doublematchindex = 0;
-		bookWords.forEach(function (bookvalue, bookindex){
+
+		var startindex = 0; 
+		var endindex = bookWords.length;
+		if (lastexactmatchindex !== -1){
+			startindex = ((lastexactmatchindex/bookWords.length)-windowsize > 0)?Math.round(((lastexactmatchindex/bookWords.length)-windowsize)*bookWords.length):0;
+			endindex = ((lastexactmatchindex/bookWords.length)+windowsize < 1)?Math.round(((lastexactmatchindex/bookWords.length)+windowsize)*bookWords.length):1;
+		}
+		console.log(subindex+") "+startindex+" -> "+endindex);
+		for (var bookindex = startindex; bookindex < endindex; bookindex++){
+			var bookvalue = bookWords[bookindex];
 			var matchingwords = 0;
 			var matchingverbs = 0;
 			var usedindices = new Array();
@@ -81,12 +93,15 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			if (nrofsubverbs > 0){
 				relnrofmatchingverbs = (nrofsubverbs > nrofbookverbs)?matchingverbs/nrofbookverbs:matchingverbs/nrofsubverbs;
 			}
+			var relnrofmatches = (subvalue.length > bookvalue.length)?matchingwords/bookvalue.length:matchingwords/subvalue.length;
 			if ((matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length))
-				&& (relnrofmatchingverbs >= verbmatchdelta)){
+				&& (relnrofmatchingverbs >= verbmatchdelta)
+				&& (relnrofmatches >= mindelta)){
 				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
 					bookmatches[matchindex++] = bookindex;
 					if (bookvalue.length == subvalue.length){ // Double exact match
 						doublematches[doublematchindex++] = bookindex;
+						lastexactmatchindex = bookindex;
 					}
 				}
 				else{
@@ -94,7 +109,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 				}
 				maxmatches = matchingwords;							
 			}
-		});
+		}
 
 		var matchfunction = function (matchvalue, matchindex){	
 			var match = { 
