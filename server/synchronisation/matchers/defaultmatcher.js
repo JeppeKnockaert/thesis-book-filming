@@ -6,7 +6,6 @@ var natural = require('natural'); // load natural language facilities
 var pos = require('pos');
 var fs = require('fs'); // Module for reading files
 
-
 var verbmatchdelta = 0.5;
 var maxnrofmatches = 3;
 
@@ -78,7 +77,10 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 				}
 			});
 			// Take the maximum of the two relative numbers of matched verbs
-			var relnrofmatchingverbs = (nrofsubverbs > nrofbookverbs)?matchingverbs/nrofbookverbs:matchingverbs/nrofsubverbs;
+			var relnrofmatchingverbs = 1;
+			if (nrofsubverbs > 0){
+				relnrofmatchingverbs = (nrofsubverbs > nrofbookverbs)?matchingverbs/nrofbookverbs:matchingverbs/nrofsubverbs;
+			}
 			if ((matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length))
 				&& (relnrofmatchingverbs >= verbmatchdelta)){
 				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
@@ -101,7 +103,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 				"quoteindex" : matchvalue,
 				"subtitle" : subtitle[subindex].text,
 		   		"quote" : book[matchvalue],
-		   		"score" : maxmatches
+		   		"matches" : maxmatches
 			};
 			matches["match"].push(match);
 		};
