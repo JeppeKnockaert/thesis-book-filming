@@ -6,7 +6,7 @@ var natural = require('natural'); // load natural language facilities
 var pos = require('pos');
 var fs = require('fs'); // Module for reading files
 
-var mindelta = 0.7;
+var mindelta = 0.8;
 var verbmatchdelta = 0.5;
 var maxnrofmatches = 1;
 var windowsize = 0.20;
@@ -33,19 +33,20 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	var bookWords = new Array();
 	var bookTags = new Array();
 	book.forEach(function (bookvalue, bookindex){
-		bookWords[bookindex] = lexer.lex(bookvalue);
+		bookWords[bookindex] = lexer.lex(bookvalue.toLowerCase());
 		bookTags[bookindex] = tagger.tag(bookWords[bookindex]);
 	});
 	var subWords = new Array();
 	var subTags = new Array();
 	subtitle.forEach(function (subvalue, subindex){				
-		subWords[subindex] = lexer.lex(subvalue.text);
+		subWords[subindex] = lexer.lex(subvalue.text.toLowerCase());
 		subTags[subindex] = tagger.tag(subWords[subindex]);
 	});
 
 	var lastexactmatchindex = -1;
 	subWords.forEach(function (subvalue, subindex){
 		var maxmatches = 0;
+		var maxlength = 0;
 		var matchindex = 0;
 		var bookmatches = new Array();
 		var doublematches = new Array();
@@ -53,10 +54,10 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 
 		var startindex = 0; 
 		var endindex = bookWords.length;
-		// if (lastexactmatchindex !== -1){
-		// 	startindex = ((lastexactmatchindex/bookWords.length)-windowsize > 0)?Math.round(((lastexactmatchindex/bookWords.length)-windowsize)*bookWords.length):0;
-		// 	endindex = ((lastexactmatchindex/bookWords.length)+windowsize < 1)?Math.round(((lastexactmatchindex/bookWords.length)+windowsize)*bookWords.length):bookWords.length;
-		// }
+		if (lastexactmatchindex !== -1){
+			startindex = ((lastexactmatchindex/bookWords.length)-windowsize > 0)?Math.round(((lastexactmatchindex/bookWords.length)-windowsize)*bookWords.length):0;
+			endindex = ((lastexactmatchindex/bookWords.length)+windowsize < 1)?Math.round(((lastexactmatchindex/bookWords.length)+windowsize)*bookWords.length):bookWords.length;
+		}
 		for (var bookindex = startindex; bookindex < endindex; bookindex++){
 			var bookvalue = bookWords[bookindex];
 			var matchingwords = 0;
@@ -103,10 +104,9 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 				relnrofmatchingverbs = (nrofsubverbs > nrofbookverbs)?matchingverbs/nrofbookverbs:matchingverbs/nrofsubverbs;
 			}
 			var relnrofmatches = (subvalue.length > bookvalue.length)?matchingwords/bookvalue.length:matchingwords/subvalue.length;
-			if ((matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length))
+			if (matchingwords > maxmatches
 				&& (relnrofmatchingverbs >= verbmatchdelta)
 				&& (relnrofmatches >= mindelta)){
-
 				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
 					bookmatches[matchindex++] = bookindex;
 					if (bookvalue.length == subvalue.length){ // Double exact match

@@ -29,18 +29,18 @@
 		<quote>In the name of Robert of the House Baratheon the First of his Name King of the Andals and the Rhoynar and the First Men Lord of the Seven Kingdoms and Protector of the Realm by the word of Eddard of the House Stark Lord of Winterfell and Warden of the North I do sentence you to die</quote>
 	</match>
 	<match>
-		<fromTime>00:13:24,429 </fromTime>
-		<subtitleindex>79</subtitleindex>
-		<quoteindex>144</quoteindex>
-		<subtitle>King of the Andals and the First Men</subtitle>
-		<quote>In the name of Robert of the House Baratheon the First of his Name King of the Andals and the Rhoynar and the First Men Lord of the Seven Kingdoms and Protector of the Realm by the word of Eddard of the House Stark Lord of Winterfell and Warden of the North I do sentence you to die</quote>
-	</match>
-	<match>
 		<fromTime>00:13:22,343 </fromTime>
 		<subtitleindex>78</subtitleindex>
 		<quoteindex>146</quoteindex>
 		<subtitle>Don't look away</subtitle>
 		<quote>And don’t look away</quote>
+	</match>
+	<match>
+		<fromTime>00:13:24,429 </fromTime>
+		<subtitleindex>79</subtitleindex>
+		<quoteindex>144</quoteindex>
+		<subtitle>King of the Andals and the First Men</subtitle>
+		<quote>In the name of Robert of the House Baratheon the First of his Name King of the Andals and the Rhoynar and the First Men Lord of the Seven Kingdoms and Protector of the Realm by the word of Eddard of the House Stark Lord of Winterfell and Warden of the North I do sentence you to die</quote>
 	</match>
 	<match>
 		<fromTime>00:13:24,429 </fromTime>
@@ -170,721 +170,721 @@
 	</match>
 	<match>
 		<fromTime>00:21:13,522 </fromTime>
-		<subtitleindex>161</subtitleindex>
+		<subtitleindex>159</subtitleindex>
 		<quoteindex>313</quoteindex>
 		<subtitle>I am so sorry my love</subtitle>
 		<quote>I am so sorry my love</quote>
 	</match>
 	<match>
 		<fromTime>00:21:22,740 </fromTime>
-		<subtitleindex>164</subtitleindex>
+		<subtitleindex>162</subtitleindex>
 		<quoteindex>314</quoteindex>
 		<subtitle>Jon Arryn is dead</subtitle>
 		<quote>Jon Arryn is dead</quote>
 	</match>
 	<match>
 		<fromTime>00:21:35,086 </fromTime>
-		<subtitleindex>167</subtitleindex>
+		<subtitleindex>165</subtitleindex>
 		<quoteindex>322</quoteindex>
 		<subtitle>Your sister the boy</subtitle>
 		<quote>Your sister</quote>
 	</match>
 	<match>
 		<fromTime>00:21:53,980 </fromTime>
-		<subtitleindex>171</subtitleindex>
+		<subtitleindex>169</subtitleindex>
 		<quoteindex>341</quoteindex>
 		<subtitle>The king rides for Winterfell</subtitle>
 		<quote>The king is riding to Winterfell to seek you out</quote>
 	</match>
 	<match>
 		<fromTime>00:27:27,187 </fromTime>
-		<subtitleindex>221</subtitleindex>
+		<subtitleindex>219</subtitleindex>
 		<quoteindex>516</quoteindex>
 		<subtitle>Guarding the North for you Your Grace</subtitle>
 		<quote>Your Grace</quote>
 	</match>
 	<match>
 		<fromTime>00:27:27,187 </fromTime>
-		<subtitleindex>222</subtitleindex>
+		<subtitleindex>220</subtitleindex>
 		<quoteindex>516</quoteindex>
 		<subtitle>Winterfell is yours</subtitle>
 		<quote>Winterfell is yours</quote>
 	</match>
 	<match>
 		<fromTime>00:28:19,948 </fromTime>
-		<subtitleindex>235</subtitleindex>
+		<subtitleindex>233</subtitleindex>
 		<quoteindex>518</quoteindex>
 		<subtitle>Take me to your crypt</subtitle>
 		<quote>Take me down to your crypt Eddard</quote>
 	</match>
 	<match>
 		<fromTime>00:28:19,948 </fromTime>
-		<subtitleindex>236</subtitleindex>
+		<subtitleindex>234</subtitleindex>
 		<quoteindex>525</quoteindex>
 		<subtitle>I want to pay my respects</subtitle>
 		<quote>I would pay my respects</quote>
 	</match>
 	<match>
 		<fromTime>00:28:48,685 </fromTime>
-		<subtitleindex>243</subtitleindex>
+		<subtitleindex>241</subtitleindex>
 		<quoteindex>575</quoteindex>
 		<subtitle>Tell me about Jon Arryn</subtitle>
 		<quote>Tell me about Jon</quote>
 	</match>
 	<match>
 		<fromTime>00:28:55,025 </fromTime>
-		<subtitleindex>245</subtitleindex>
+		<subtitleindex>243</subtitleindex>
 		<quoteindex>581</quoteindex>
 		<subtitle>burned right through him whatever it was</subtitle>
 		<quote>It burned right through him</quote>
 	</match>
 	<match>
 		<fromTime>00:28:58,946 </fromTime>
-		<subtitleindex>246</subtitleindex>
+		<subtitleindex>244</subtitleindex>
 		<quoteindex>582</quoteindex>
 		<subtitle>I loved that man</subtitle>
 		<quote>I loved that old man</quote>
 	</match>
 	<match>
 		<fromTime>00:29:01,073 </fromTime>
-		<subtitleindex>247</subtitleindex>
+		<subtitleindex>245</subtitleindex>
 		<quoteindex>583</quoteindex>
 		<subtitle>We both did</subtitle>
 		<quote>We both did</quote>
 	</match>
 	<match>
 		<fromTime>00:29:22,136 </fromTime>
-		<subtitleindex>256</subtitleindex>
+		<subtitleindex>254</subtitleindex>
 		<quoteindex>654</quoteindex>
 		<subtitle>I need you Ned</subtitle>
 		<quote>I have need of you Ned</quote>
 	</match>
 	<match>
 		<fromTime>00:29:29,852 </fromTime>
-		<subtitleindex>258</subtitleindex>
+		<subtitleindex>256</subtitleindex>
 		<quoteindex>663</quoteindex>
 		<subtitle>Lord Eddard Stark</subtitle>
 		<quote>Lord Eddard Stark I would name you the Hand of the King</quote>
 	</match>
 	<match>
 		<fromTime>00:29:32,604 </fromTime>
-		<subtitleindex>259</subtitleindex>
+		<subtitleindex>257</subtitleindex>
 		<quoteindex>663</quoteindex>
 		<subtitle>I would name you the Hand of the King</subtitle>
 		<quote>Lord Eddard Stark I would name you the Hand of the King</quote>
 	</match>
 	<match>
 		<fromTime>00:29:39,528 </fromTime>
-		<subtitleindex>260</subtitleindex>
+		<subtitleindex>258</subtitleindex>
 		<quoteindex>665</quoteindex>
 		<subtitle>I'm not worthy of the honor</subtitle>
 		<quote>I am not worthy of the honor</quote>
 	</match>
 	<match>
 		<fromTime>00:29:43,323 </fromTime>
-		<subtitleindex>262</subtitleindex>
+		<subtitleindex>260</subtitleindex>
 		<quoteindex>667</quoteindex>
 		<subtitle>I'm trying to get you to run my kingdom</subtitle>
 		<quote>I am planning to make you run the kingdom and fight the wars while I eat and drink and wench myself into an early grave</quote>
 	</match>
 	<match>
 		<fromTime>00:29:45,159 </fromTime>
-		<subtitleindex>263</subtitleindex>
+		<subtitleindex>261</subtitleindex>
 		<quoteindex>667</quoteindex>
 		<subtitle>while I eat drink and whore my way to an early grave</subtitle>
 		<quote>I am planning to make you run the kingdom and fight the wars while I eat and drink and wench myself into an early grave</quote>
 	</match>
 	<match>
 		<fromTime>00:29:48,996 </fromTime>
-		<subtitleindex>264</subtitleindex>
+		<subtitleindex>262</subtitleindex>
 		<quoteindex>673</quoteindex>
 		<subtitle>Damn it Ned stand up</subtitle>
 		<quote>Damn it Ned</quote>
 	</match>
 	<match>
 		<fromTime>00:29:52,374 </fromTime>
-		<subtitleindex>265</subtitleindex>
+		<subtitleindex>263</subtitleindex>
 		<quoteindex>678</quoteindex>
 		<subtitle>You helped me win the Iron Throne</subtitle>
 		<quote>You helped me win this damnable throne now help me hold it</quote>
 	</match>
 	<match>
 		<fromTime>00:29:54,460 </fromTime>
-		<subtitleindex>266</subtitleindex>
+		<subtitleindex>264</subtitleindex>
 		<quoteindex>678</quoteindex>
 		<subtitle>now help me keep the damn thing</subtitle>
 		<quote>You helped me win this damnable throne now help me hold it</quote>
 	</match>
 	<match>
 		<fromTime>00:29:57,296 </fromTime>
-		<subtitleindex>267</subtitleindex>
+		<subtitleindex>265</subtitleindex>
 		<quoteindex>679</quoteindex>
 		<subtitle>We were meant to rule together</subtitle>
 		<quote>We were meant to rule together</quote>
 	</match>
 	<match>
 		<fromTime>00:29:59,798 </fromTime>
-		<subtitleindex>268</subtitleindex>
+		<subtitleindex>266</subtitleindex>
 		<quoteindex>680</quoteindex>
 		<subtitle>If your sister had lived we'd have been bound by blood</subtitle>
 		<quote>If Lyanna had lived we should have been brothers bound by blood as well as affection</quote>
 	</match>
 	<match>
 		<fromTime>00:30:04,595 </fromTime>
-		<subtitleindex>269</subtitleindex>
+		<subtitleindex>267</subtitleindex>
 		<quoteindex>681</quoteindex>
 		<subtitle>Well it's not too late</subtitle>
 		<quote>Well it is not too late</quote>
 	</match>
 	<match>
 		<fromTime>00:30:07,848 </fromTime>
-		<subtitleindex>270</subtitleindex>
+		<subtitleindex>268</subtitleindex>
 		<quoteindex>682</quoteindex>
 		<subtitle>I have a son you have a daughter</subtitle>
 		<quote>I have a son</quote>
 	</match>
 	<match>
 		<fromTime>00:30:07,848 </fromTime>
-		<subtitleindex>270</subtitleindex>
+		<subtitleindex>268</subtitleindex>
 		<quoteindex>683</quoteindex>
 		<subtitle>I have a son you have a daughter</subtitle>
 		<quote>You have a daughter</quote>
 	</match>
 	<match>
 		<fromTime>00:30:11,351 </fromTime>
-		<subtitleindex>271</subtitleindex>
+		<subtitleindex>269</subtitleindex>
 		<quoteindex>684</quoteindex>
 		<subtitle>We'll join our houses</subtitle>
 		<quote>My Joff and your Sansa shall join our houses as Lyanna and I might once have done</quote>
 	</match>
 	<match>
 		<fromTime>00:32:39,750 </fromTime>
-		<subtitleindex>310</subtitleindex>
+		<subtitleindex>308</subtitleindex>
 		<quoteindex>555</quoteindex>
 		<subtitle>Did you have to bury her in a place like this</subtitle>
 		<quote>Ah damn it Ned did you have to bury her in a place like this</quote>
 	</match>
 	<match>
 		<fromTime>00:32:44,379 </fromTime>
-		<subtitleindex>311</subtitleindex>
+		<subtitleindex>309</subtitleindex>
 		<quoteindex>559</quoteindex>
 		<subtitle>She should be on a hill somewhere</subtitle>
 		<quote>She should be on a hill somewhere under a fruit tree with the sun and clouds above her and the rain to wash her clean</quote>
 	</match>
 	<match>
 		<fromTime>00:32:46,715 </fromTime>
-		<subtitleindex>312</subtitleindex>
+		<subtitleindex>310</subtitleindex>
 		<quoteindex>559</quoteindex>
 		<subtitle>with the sun and the clouds above her</subtitle>
 		<quote>She should be on a hill somewhere under a fruit tree with the sun and clouds above her and the rain to wash her clean</quote>
 	</match>
 	<match>
 		<fromTime>00:32:51,345 </fromTime>
-		<subtitleindex>314</subtitleindex>
+		<subtitleindex>312</subtitleindex>
 		<quoteindex>558</quoteindex>
 		<subtitle>This is where she belongs</subtitle>
 		<quote>This is her place</quote>
 	</match>
 	<match>
 		<fromTime>00:33:01,980 </fromTime>
-		<subtitleindex>316</subtitleindex>
+		<subtitleindex>314</subtitleindex>
 		<quoteindex>567</quoteindex>
 		<subtitle>In my dreams I kill him every night</subtitle>
 		<quote>In my dreams I kill him every night</quote>
 	</match>
 	<match>
 		<fromTime>00:33:37,057 </fromTime>
-		<subtitleindex>325</subtitleindex>
+		<subtitleindex>323</subtitleindex>
 		<quoteindex>378</quoteindex>
 		<subtitle>Look a gift from Illyrio</subtitle>
 		<quote>A gift from the Magister Illyrio</quote>
 	</match>
 	<match>
 		<fromTime>00:33:41,228 </fromTime>
-		<subtitleindex>326</subtitleindex>
+		<subtitleindex>324</subtitleindex>
 		<quoteindex>374</quoteindex>
 		<subtitle>Touch it</subtitle>
 		<quote>Touch it</quote>
 	</match>
 	<match>
 		<fromTime>00:33:42,938 </fromTime>
-		<subtitleindex>327</subtitleindex>
+		<subtitleindex>325</subtitleindex>
 		<quoteindex>375</quoteindex>
 		<subtitle>Go on feel the fabric</subtitle>
 		<quote>Go on</quote>
 	</match>
 	<match>
 		<fromTime>00:33:42,938 </fromTime>
-		<subtitleindex>327</subtitleindex>
+		<subtitleindex>325</subtitleindex>
 		<quoteindex>376</quoteindex>
 		<subtitle>Go on feel the fabric</subtitle>
 		<quote>Caress the fabric</quote>
 	</match>
 	<match>
 		<fromTime>00:34:02,249 </fromTime>
-		<subtitleindex>331</subtitleindex>
+		<subtitleindex>329</subtitleindex>
 		<quoteindex>385</quoteindex>
 		<subtitle>Illyrio's no fool</subtitle>
 		<quote>Illyrio is no fool</quote>
 	</match>
 	<match>
 		<fromTime>00:34:04,251 </fromTime>
-		<subtitleindex>332</subtitleindex>
+		<subtitleindex>330</subtitleindex>
 		<quoteindex>386</quoteindex>
 		<subtitle>He knows I won't forget my friends</subtitle>
 		<quote>The magister knows that I will not forget my friends when I come into my throne</quote>
 	</match>
 	<match>
 		<fromTime>00:34:06,169 </fromTime>
-		<subtitleindex>333</subtitleindex>
+		<subtitleindex>331</subtitleindex>
 		<quoteindex>386</quoteindex>
 		<subtitle>when I come into my throne</subtitle>
 		<quote>The magister knows that I will not forget my friends when I come into my throne</quote>
 	</match>
 	<match>
 		<fromTime>00:34:12,759 </fromTime>
-		<subtitleindex>334</subtitleindex>
+		<subtitleindex>332</subtitleindex>
 		<quoteindex>391</quoteindex>
 		<subtitle>You still slouch</subtitle>
 		<quote>You still slouch</quote>
 	</match>
 	<match>
 		<fromTime>00:34:18,890 </fromTime>
-		<subtitleindex>335</subtitleindex>
+		<subtitleindex>333</subtitleindex>
 		<quoteindex>393</quoteindex>
 		<subtitle>Let them see</subtitle>
 		<quote>Let them see that you have a womans shape now</quote>
 	</match>
 	<match>
 		<fromTime>00:34:23,979 </fromTime>
-		<subtitleindex>336</subtitleindex>
+		<subtitleindex>334</subtitleindex>
 		<quoteindex>393</quoteindex>
 		<subtitle>You have a womans body now</subtitle>
 		<quote>Let them see that you have a womans shape now</quote>
 	</match>
 	<match>
 		<fromTime>00:34:54,092 </fromTime>
-		<subtitleindex>339</subtitleindex>
+		<subtitleindex>337</subtitleindex>
 		<quoteindex>396</quoteindex>
 		<subtitle>You don't want to wake the dragon do you</subtitle>
 		<quote>You don’t want to wake the dragon do you</quote>
 	</match>
 	<match>
 		<fromTime>00:34:58,638 </fromTime>
-		<subtitleindex>340</subtitleindex>
+		<subtitleindex>338</subtitleindex>
 		<quoteindex>398</quoteindex>
 		<subtitle>No</subtitle>
 		<quote>No</quote>
 	</match>
 	<match>
 		<fromTime>00:35:06,813 </fromTime>
-		<subtitleindex>341</subtitleindex>
+		<subtitleindex>339</subtitleindex>
 		<quoteindex>400</quoteindex>
 		<subtitle>When they write the history of my reign sweet sister</subtitle>
 		<quote>When they write the history of my reign sweet sister they will say that it began tonight</quote>
 	</match>
 	<match>
 		<fromTime>00:35:09,524 </fromTime>
-		<subtitleindex>342</subtitleindex>
+		<subtitleindex>340</subtitleindex>
 		<quoteindex>400</quoteindex>
 		<subtitle>they will say it began today</subtitle>
 		<quote>When they write the history of my reign sweet sister they will say that it began tonight</quote>
 	</match>
 	<match>
 		<fromTime>00:36:22,597 </fromTime>
-		<subtitleindex>347</subtitleindex>
+		<subtitleindex>345</subtitleindex>
 		<quoteindex>465</quoteindex>
 		<subtitle>Viserys of House Targaryen</subtitle>
 		<quote>Viserys of the House Targaryen the Third of his Name</quote>
 	</match>
 	<match>
 		<fromTime>00:36:26,268 </fromTime>
-		<subtitleindex>348</subtitleindex>
+		<subtitleindex>346</subtitleindex>
 		<quoteindex>465</quoteindex>
 		<subtitle>the third of his name</subtitle>
 		<quote>Viserys of the House Targaryen the Third of his Name</quote>
 	</match>
 	<match>
 		<fromTime>00:36:27,894 </fromTime>
-		<subtitleindex>349</subtitleindex>
+		<subtitleindex>347</subtitleindex>
 		<quoteindex>466</quoteindex>
 		<subtitle>the rightful King of the Andals and the First Men</subtitle>
 		<quote>King of the Andals and the Rhoynar and the First Men Lord of the Seven Kingdoms and Protector of the Realm</quote>
 	</match>
 	<match>
 		<fromTime>00:36:31,398 </fromTime>
-		<subtitleindex>350</subtitleindex>
+		<subtitleindex>348</subtitleindex>
 		<quoteindex>467</quoteindex>
 		<subtitle>and his sister</subtitle>
 		<quote>His sister Daenerys Stormborn Princess of Dragonstone</quote>
 	</match>
 	<match>
 		<fromTime>00:36:32,816 </fromTime>
-		<subtitleindex>351</subtitleindex>
+		<subtitleindex>349</subtitleindex>
 		<quoteindex>467</quoteindex>
 		<subtitle>Daenerys of House Targaryen</subtitle>
 		<quote>His sister Daenerys Stormborn Princess of Dragonstone</quote>
 	</match>
 	<match>
 		<fromTime>00:36:38,738 </fromTime>
-		<subtitleindex>352</subtitleindex>
+		<subtitleindex>350</subtitleindex>
 		<quoteindex>488</quoteindex>
 		<subtitle>Do you see how long his hair is</subtitle>
 		<quote>You see how long it is</quote>
 	</match>
 	<match>
 		<fromTime>00:36:41,283 </fromTime>
-		<subtitleindex>353</subtitleindex>
+		<subtitleindex>351</subtitleindex>
 		<quoteindex>489</quoteindex>
 		<subtitle>When Dothraki are defeated in combat</subtitle>
 		<quote>When Dothraki are defeated in combat they cut off their braids in disgrace so the world will know their shame</quote>
 	</match>
 	<match>
 		<fromTime>00:36:44,202 </fromTime>
-		<subtitleindex>354</subtitleindex>
+		<subtitleindex>352</subtitleindex>
 		<quoteindex>489</quoteindex>
 		<subtitle>they cut off their braid so the whole world can see their shame</subtitle>
 		<quote>When Dothraki are defeated in combat they cut off their braids in disgrace so the world will know their shame</quote>
 	</match>
 	<match>
 		<fromTime>00:36:47,914 </fromTime>
-		<subtitleindex>355</subtitleindex>
+		<subtitleindex>353</subtitleindex>
 		<quoteindex>490</quoteindex>
 		<subtitle>Khal Drogo has never been defeated</subtitle>
 		<quote>Khal Drogo has never lost a fight</quote>
 	</match>
 	<match>
 		<fromTime>00:36:58,466 </fromTime>
-		<subtitleindex>357</subtitleindex>
+		<subtitleindex>355</subtitleindex>
 		<quoteindex>491</quoteindex>
 		<subtitle>And you will be his queen</subtitle>
 		<quote>He is Aegon the Dragonlord come again and you will be his queen</quote>
 	</match>
 	<match>
 		<fromTime>00:38:23,927 </fromTime>
-		<subtitleindex>374</subtitleindex>
+		<subtitleindex>372</subtitleindex>
 		<quoteindex>435</quoteindex>
 		<subtitle>Do you take me for a fool</subtitle>
 		<quote>Do you take me for a fool</quote>
 	</match>
 	<match>
 		<fromTime>00:38:26,179 </fromTime>
-		<subtitleindex>375</subtitleindex>
+		<subtitleindex>373</subtitleindex>
 		<quoteindex>436</quoteindex>
 		<subtitle>I take you for a king</subtitle>
 		<quote>I take you for a king</quote>
 	</match>
 	<match>
 		<fromTime>00:38:28,014 </fromTime>
-		<subtitleindex>376</subtitleindex>
+		<subtitleindex>374</subtitleindex>
 		<quoteindex>437</quoteindex>
 		<subtitle>Kings lack the caution of common men</subtitle>
 		<quote>Kings lack the caution of common men</quote>
 	</match>
 	<match>
 		<fromTime>00:38:31,267 </fromTime>
-		<subtitleindex>377</subtitleindex>
+		<subtitleindex>375</subtitleindex>
 		<quoteindex>438</quoteindex>
 		<subtitle>My apologies if Ive given offense</subtitle>
 		<quote>My apologies if I have given offense</quote>
 	</match>
 	<match>
 		<fromTime>00:38:39,526 </fromTime>
-		<subtitleindex>380</subtitleindex>
+		<subtitleindex>378</subtitleindex>
 		<quoteindex>492</quoteindex>
 		<subtitle>I don't want to be his queen</subtitle>
 		<quote>I don’t want to be his queen</quote>
 	</match>
 	<match>
 		<fromTime>00:38:46,658 </fromTime>
-		<subtitleindex>381</subtitleindex>
+		<subtitleindex>379</subtitleindex>
 		<quoteindex>493</quoteindex>
 		<subtitle>I want to go home</subtitle>
 		<quote>Please please Viserys I don’t want to I want to go home</quote>
 	</match>
 	<match>
 		<fromTime>00:38:57,877 </fromTime>
-		<subtitleindex>386</subtitleindex>
+		<subtitleindex>384</subtitleindex>
 		<quoteindex>495</quoteindex>
 		<subtitle>how do we go home</subtitle>
 		<quote>How are we to go home sweet sister</quote>
 	</match>
 	<match>
 		<fromTime>00:39:02,257 </fromTime>
-		<subtitleindex>387</subtitleindex>
+		<subtitleindex>385</subtitleindex>
 		<quoteindex>498</quoteindex>
 		<subtitle>I don't know</subtitle>
 		<quote>I don’t know…</quote>
 	</match>
 	<match>
 		<fromTime>00:39:03,550 </fromTime>
-		<subtitleindex>388</subtitleindex>
+		<subtitleindex>386</subtitleindex>
 		<quoteindex>500</quoteindex>
 		<subtitle>We go home with an army</subtitle>
 		<quote>We go home with an army sweet sister</quote>
 	</match>
 	<match>
 		<fromTime>00:39:07,887 </fromTime>
-		<subtitleindex>389</subtitleindex>
+		<subtitleindex>387</subtitleindex>
 		<quoteindex>501</quoteindex>
 		<subtitle>With Khal Drogos army</subtitle>
 		<quote>With Khal Drogo’s army that is how we go home</quote>
 	</match>
 	<match>
 		<fromTime>00:39:11,391 </fromTime>
-		<subtitleindex>390</subtitleindex>
+		<subtitleindex>388</subtitleindex>
 		<quoteindex>503</quoteindex>
 		<subtitle>I would let his whole tribe fuck you</subtitle>
 		<quote>I’d let his whole khalasar fuck you if need be sweet sister all forty thousand men and their horses too if that was what it took to get my army</quote>
 	</match>
 	<match>
 		<fromTime>00:39:14,519 </fromTime>
-		<subtitleindex>391</subtitleindex>
+		<subtitleindex>389</subtitleindex>
 		<quoteindex>503</quoteindex>
 		<subtitle>all 40000 men and their horses too</subtitle>
 		<quote>I’d let his whole khalasar fuck you if need be sweet sister all forty thousand men and their horses too if that was what it took to get my army</quote>
 	</match>
 	<match>
 		<fromTime>00:39:17,731 </fromTime>
-		<subtitleindex>392</subtitleindex>
+		<subtitleindex>390</subtitleindex>
 		<quoteindex>503</quoteindex>
 		<subtitle>if that's what it took</subtitle>
 		<quote>I’d let his whole khalasar fuck you if need be sweet sister all forty thousand men and their horses too if that was what it took to get my army</quote>
 	</match>
 	<match>
 		<fromTime>00:41:18,977 </fromTime>
-		<subtitleindex>423</subtitleindex>
+		<subtitleindex>421</subtitleindex>
 		<quoteindex>717</quoteindex>
 		<subtitle>Lady Stark thought it might insult the royal family</subtitle>
 		<quote>But tonight Lady Stark thought it might give insult to the royal family to seat a bastard among them</quote>
 	</match>
 	<match>
 		<fromTime>00:41:21,855 </fromTime>
-		<subtitleindex>424</subtitleindex>
+		<subtitleindex>422</subtitleindex>
 		<quoteindex>717</quoteindex>
 		<subtitle>to seat a bastard in their midst</subtitle>
 		<quote>But tonight Lady Stark thought it might give insult to the royal family to seat a bastard among them</quote>
 	</match>
 	<match>
 		<fromTime>00:41:29,195 </fromTime>
-		<subtitleindex>427</subtitleindex>
+		<subtitleindex>425</subtitleindex>
 		<quoteindex>727</quoteindex>
 		<subtitle>So take me with you when you go back</subtitle>
 		<quote>Take me with you when you go back to the Wall</quote>
 	</match>
 	<match>
 		<fromTime>00:41:31,030 </fromTime>
-		<subtitleindex>429</subtitleindex>
+		<subtitleindex>427</subtitleindex>
 		<quoteindex>728</quoteindex>
 		<subtitle>Father will let me if you ask him</subtitle>
 		<quote>Father will give me leave to go if you ask him I know he will</quote>
 	</match>
 	<match>
 		<fromTime>00:41:34,033 </fromTime>
-		<subtitleindex>430</subtitleindex>
+		<subtitleindex>428</subtitleindex>
 		<quoteindex>728</quoteindex>
 		<subtitle>I know he will</subtitle>
 		<quote>Father will give me leave to go if you ask him I know he will</quote>
 	</match>
 	<match>
 		<fromTime>00:41:40,748 </fromTime>
-		<subtitleindex>432</subtitleindex>
+		<subtitleindex>430</subtitleindex>
 		<quoteindex>749</quoteindex>
 		<subtitle>I'm ready to swear your oath</subtitle>
 		<quote>I am ready to swear your oath</quote>
 	</match>
 	<match>
 		<fromTime>00:41:43,543 </fromTime>
-		<subtitleindex>433</subtitleindex>
+		<subtitleindex>431</subtitleindex>
 		<quoteindex>752</quoteindex>
 		<subtitle>You don't understand what you'd be giving up</subtitle>
 		<quote>Until you have known a woman you cannot understand what you would be giving up</quote>
 	</match>
 	<match>
 		<fromTime>00:41:46,796 </fromTime>
-		<subtitleindex>434</subtitleindex>
+		<subtitleindex>432</subtitleindex>
 		<quoteindex>744</quoteindex>
 		<subtitle>We have no families</subtitle>
 		<quote>We have no families</quote>
 	</match>
 	<match>
 		<fromTime>00:41:48,840 </fromTime>
-		<subtitleindex>435</subtitleindex>
+		<subtitleindex>433</subtitleindex>
 		<quoteindex>745</quoteindex>
 		<subtitle>None of us will ever father sons</subtitle>
 		<quote>None of us will ever father sons</quote>
 	</match>
 	<match>
 		<fromTime>00:41:48,840 </fromTime>
-		<subtitleindex>436</subtitleindex>
+		<subtitleindex>434</subtitleindex>
 		<quoteindex>753</quoteindex>
 		<subtitle>I don't care about that</subtitle>
 		<quote>I don’t care about that</quote>
 	</match>
 	<match>
 		<fromTime>00:41:52,677 </fromTime>
-		<subtitleindex>437</subtitleindex>
+		<subtitleindex>435</subtitleindex>
 		<quoteindex>754</quoteindex>
 		<subtitle>You might if you knew what it meant</subtitle>
 		<quote>You might if you knew what it meant</quote>
 	</match>
 	<match>
 		<fromTime>00:42:22,707 </fromTime>
-		<subtitleindex>442</subtitleindex>
+		<subtitleindex>440</subtitleindex>
 		<quoteindex>766</quoteindex>
 		<subtitle>What are you doing back there</subtitle>
 		<quote>What are you doing up there</quote>
 	</match>
 	<match>
 		<fromTime>00:42:41,434 </fromTime>
-		<subtitleindex>448</subtitleindex>
+		<subtitleindex>446</subtitleindex>
 		<quoteindex>792</quoteindex>
 		<subtitle>And you you're Ned Stark's bastard aren't you</subtitle>
 		<quote>You’re Ned Stark’s bastard aren’t you</quote>
 	</match>
 	<match>
 		<fromTime>00:42:47,565 </fromTime>
-		<subtitleindex>449</subtitleindex>
+		<subtitleindex>447</subtitleindex>
 		<quoteindex>793</quoteindex>
 		<subtitle>Did I offend you</subtitle>
 		<quote>Did I offend you</quote>
 	</match>
 	<match>
 		<fromTime>00:42:51,861 </fromTime>
-		<subtitleindex>451</subtitleindex>
+		<subtitleindex>449</subtitleindex>
 		<quoteindex>797</quoteindex>
 		<subtitle>You are the bastard though</subtitle>
 		<quote>You are the bastard though</quote>
 	</match>
 	<match>
 		<fromTime>00:42:55,615 </fromTime>
-		<subtitleindex>452</subtitleindex>
+		<subtitleindex>450</subtitleindex>
 		<quoteindex>798</quoteindex>
 		<subtitle>Lord Eddard Stark is my father</subtitle>
 		<quote>Lord Eddard Stark is my father</quote>
 	</match>
 	<match>
 		<fromTime>00:43:06,459 </fromTime>
-		<subtitleindex>456</subtitleindex>
+		<subtitleindex>454</subtitleindex>
 		<quoteindex>803</quoteindex>
 		<subtitle>Let me give you some advice bastard</subtitle>
 		<quote>Let me give you some counsel bastard</quote>
 	</match>
 	<match>
 		<fromTime>00:43:10,255 </fromTime>
-		<subtitleindex>457</subtitleindex>
+		<subtitleindex>455</subtitleindex>
 		<quoteindex>804</quoteindex>
 		<subtitle>Never forget what you are</subtitle>
 		<quote>Never forget what you are for surely the world will not</quote>
 	</match>
 	<match>
 		<fromTime>00:43:12,173 </fromTime>
-		<subtitleindex>458</subtitleindex>
+		<subtitleindex>456</subtitleindex>
 		<quoteindex>804</quoteindex>
 		<subtitle>The rest of the world will not</subtitle>
 		<quote>Never forget what you are for surely the world will not</quote>
 	</match>
 	<match>
 		<fromTime>00:43:17,011 </fromTime>
-		<subtitleindex>460</subtitleindex>
+		<subtitleindex>458</subtitleindex>
 		<quoteindex>807</quoteindex>
 		<subtitle>and it can never be used to hurt you</subtitle>
 		<quote>Armor yourself in it and it will never be used to hurt you</quote>
 	</match>
 	<match>
 		<fromTime>00:43:20,974 </fromTime>
-		<subtitleindex>461</subtitleindex>
+		<subtitleindex>459</subtitleindex>
 		<quoteindex>808</quoteindex>
 		<subtitle>What the hell do you know about being a bastard</subtitle>
 		<quote>What do you know about being a bastard</quote>
 	</match>
 	<match>
 		<fromTime>00:43:26,104 </fromTime>
-		<subtitleindex>462</subtitleindex>
+		<subtitleindex>460</subtitleindex>
 		<quoteindex>809</quoteindex>
 		<subtitle>All dwarves are bastards in their fathers eyes</subtitle>
 		<quote>All dwarfs are bastards in their father’s eyes</quote>
 	</match>
 	<match>
 		<fromTime>00:47:46,739 </fromTime>
-		<subtitleindex>538</subtitleindex>
+		<subtitleindex>534</subtitleindex>
 		<quoteindex>860</quoteindex>
 		<subtitle>It's Maester Luwin my lord</subtitle>
 		<quote>My lord Maester Luwin is without and begs urgent audience</quote>
 	</match>
 	<match>
 		<fromTime>00:47:50,618 </fromTime>
-		<subtitleindex>539</subtitleindex>
+		<subtitleindex>535</subtitleindex>
 		<quoteindex>865</quoteindex>
 		<subtitle>Send him in</subtitle>
 		<quote>Send him in</quote>
 	</match>
 	<match>
 		<fromTime>00:47:54,830 </fromTime>
-		<subtitleindex>540</subtitleindex>
+		<subtitleindex>536</subtitleindex>
 		<quoteindex>867</quoteindex>
 		<subtitle>Pardon my lord my lady</subtitle>
 		<quote>My lord</quote>
 	</match>
 	<match>
 		<fromTime>00:48:40,126 </fromTime>
-		<subtitleindex>549</subtitleindex>
+		<subtitleindex>545</subtitleindex>
 		<quoteindex>922</quoteindex>
 		<subtitle>She says Jon Arryn was murdered</subtitle>
 		<quote>Lysa says Jon Arryn was murdered</quote>
 	</match>
 	<match>
 		<fromTime>00:48:42,795 </fromTime>
-		<subtitleindex>550</subtitleindex>
+		<subtitleindex>546</subtitleindex>
 		<quoteindex>924</quoteindex>
 		<subtitle>By the Lannisters</subtitle>
 		<quote>The Lannisters</quote>
 	</match>
 	<match>
 		<fromTime>00:48:49,969 </fromTime>
-		<subtitleindex>553</subtitleindex>
+		<subtitleindex>549</subtitleindex>
 		<quoteindex>928</quoteindex>
 		<subtitle>She doesn't know what she's saying</subtitle>
 		<quote>She cannot know what she is saying</quote>
 	</match>
 	<match>
 		<fromTime>00:49:43,272 </fromTime>
-		<subtitleindex>568</subtitleindex>
+		<subtitleindex>564</subtitleindex>
 		<quoteindex>944</quoteindex>
 		<subtitle>Your father and brother rode south once</subtitle>
 		<quote>My father went south once to answer the summons of a king</quote>
 	</match>
 	<match>
 		<fromTime>00:49:51,155 </fromTime>
-		<subtitleindex>570</subtitleindex>
+		<subtitleindex>566</subtitleindex>
 		<quoteindex>946</quoteindex>
 		<subtitle>A different time</subtitle>
 		<quote>A different time</quote>
 	</match>
 	<match>
 		<fromTime>00:49:54,659 </fromTime>
-		<subtitleindex>571</subtitleindex>
+		<subtitleindex>567</subtitleindex>
 		<quoteindex>947</quoteindex>
 		<subtitle>A different king</subtitle>
 		<quote>A different king</quote>
 	</match>
 	<match>
 		<fromTime>00:51:01,559 </fromTime>
-		<subtitleindex>574</subtitleindex>
+		<subtitleindex>570</subtitleindex>
 		<quoteindex>1488</quoteindex>
 		<subtitle>If Khal Drogo has promised you a crown you shall have it</subtitle>
 		<quote>The khal has promised you a crown and you shall have it</quote>
 	</match>
 	<match>
 		<fromTime>00:51:05,104 </fromTime>
-		<subtitleindex>576</subtitleindex>
+		<subtitleindex>572</subtitleindex>
 		<quoteindex>1493</quoteindex>
 		<subtitle>When their omens favor war</subtitle>
 		<quote>If the omens favor war</quote>
 	</match>
 	<match>
 		<fromTime>00:51:09,275 </fromTime>
-		<subtitleindex>577</subtitleindex>
+		<subtitleindex>572</subtitleindex>
 		<quoteindex>1494</quoteindex>
 		<subtitle>I piss on Dothraki omens</subtitle>
 		<quote>I piss on Dothraki omens</quote>
@@ -898,105 +898,112 @@
 	</match>
 	<match>
 		<fromTime>00:53:27,246 </fromTime>
-		<subtitleindex>587</subtitleindex>
+		<subtitleindex>583</subtitleindex>
 		<quoteindex>1516</quoteindex>
 		<subtitle>Dragon's eggs Daenerys</subtitle>
 		<quote>Dragon’s eggs from the Shadow Lands beyond Asshai</quote>
 	</match>
 	<match>
 		<fromTime>00:53:30,040 </fromTime>
-		<subtitleindex>588</subtitleindex>
+		<subtitleindex>584</subtitleindex>
 		<quoteindex>1516</quoteindex>
 		<subtitle>from the Shadow Lands beyond Asshai</subtitle>
 		<quote>Dragon’s eggs from the Shadow Lands beyond Asshai</quote>
 	</match>
 	<match>
 		<fromTime>00:53:32,918 </fromTime>
-		<subtitleindex>589</subtitleindex>
+		<subtitleindex>585</subtitleindex>
 		<quoteindex>1517</quoteindex>
 		<subtitle>The ages have turned them to stone</subtitle>
 		<quote>The eons have turned them to stone yet still they burn bright with beauty</quote>
 	</match>
 	<match>
 		<fromTime>00:56:31,764 </fromTime>
-		<subtitleindex>598</subtitleindex>
+		<subtitleindex>594</subtitleindex>
 		<quoteindex>1537</quoteindex>
 		<subtitle>Do you know the common tongue</subtitle>
 		<quote>You speak the Common Tongue</quote>
 	</match>
 	<match>
 		<fromTime>00:56:38,437 </fromTime>
-		<subtitleindex>599</subtitleindex>
+		<subtitleindex>595</subtitleindex>
 		<quoteindex>1538</quoteindex>
 		<subtitle>No</subtitle>
 		<quote>No</quote>
 	</match>
 	<match>
 		<fromTime>00:56:44,401 </fromTime>
-		<subtitleindex>600</subtitleindex>
+		<subtitleindex>596</subtitleindex>
 		<quoteindex>1540</quoteindex>
 		<subtitle>Is "no" the only word that you know</subtitle>
 		<quote>Is that the only word you know</quote>
 	</match>
 	<match>
 		<fromTime>00:56:48,113 </fromTime>
-		<subtitleindex>601</subtitleindex>
+		<subtitleindex>597</subtitleindex>
 		<quoteindex>1541</quoteindex>
 		<subtitle>No</subtitle>
 		<quote>No</quote>
 	</match>
 	<match>
 		<fromTime>00:59:45,958 </fromTime>
-		<subtitleindex>623</subtitleindex>
+		<subtitleindex>619</subtitleindex>
 		<quoteindex>1223</quoteindex>
 		<subtitle>Stop</subtitle>
 		<quote>Stop it</quote>
 	</match>
 	<match>
-		<fromTime>00:59:45,958 </fromTime>
-		<subtitleindex>624</subtitleindex>
+		<fromTime>00:59:45,958</fromTime>
+		<subtitleindex>619</subtitleindex>
 		<quoteindex>1223</quoteindex>
 		<subtitle>Stop</subtitle>
 		<quote>Stop it</quote>
 	</match>
 	<match>
-		<fromTime>00:59:45,958 </fromTime>
-		<subtitleindex>623</subtitleindex>
+		<fromTime>00:59:45,958</fromTime>
+		<subtitleindex>619</subtitleindex>
 		<quoteindex>1224</quoteindex>
 		<subtitle>Stop</subtitle>
 		<quote>stop it stop it</quote>
 	</match>
 	<match>
+		<fromTime>00:59:45,958</fromTime>
+		<subtitleindex>620</subtitleindex>
+		<quoteindex>1223</quoteindex>
+		<subtitle>Stop</subtitle>
+		<quote>Stop it</quote>
+	</match>
+	<match>
 		<fromTime>00:59:45,958 </fromTime>
-		<subtitleindex>624</subtitleindex>
+		<subtitleindex>620</subtitleindex>
 		<quoteindex>1224</quoteindex>
 		<subtitle>Stop</subtitle>
 		<quote>stop it stop it</quote>
 	</match>
 	<match>
 		<fromTime>00:59:56,009 </fromTime>
-		<subtitleindex>626</subtitleindex>
+		<subtitleindex>622</subtitleindex>
 		<quoteindex>1226</quoteindex>
 		<subtitle>He saw us</subtitle>
 		<quote>He saw us</quote>
 	</match>
 	<match>
 		<fromTime>00:59:58,637</fromTime>
-		<subtitleindex>629</subtitleindex>
+		<subtitleindex>625</subtitleindex>
 		<quoteindex>1226</quoteindex>
 		<subtitle>He saw us</subtitle>
 		<quote>He saw us</quote>
 	</match>
 	<match>
 		<fromTime>01:00:10,649 </fromTime>
-		<subtitleindex>632</subtitleindex>
+		<subtitleindex>628</subtitleindex>
 		<quoteindex>1231</quoteindex>
 		<subtitle>How old are you boy</subtitle>
 		<quote>How old are you boy</quote>
 	</match>
 	<match>
 		<fromTime>01:00:23,996 </fromTime>
-		<subtitleindex>635</subtitleindex>
+		<subtitleindex>631</subtitleindex>
 		<quoteindex>1233</quoteindex>
 		<subtitle>The things I do for love</subtitle>
 		<quote>The things I do for love</quote>
