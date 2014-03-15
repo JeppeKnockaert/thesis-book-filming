@@ -104,7 +104,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 				relnrofmatchingverbs = (nrofsubverbs > nrofbookverbs)?matchingverbs/nrofbookverbs:matchingverbs/nrofsubverbs;
 			}
 			var relnrofmatches = (subvalue.length > bookvalue.length)?matchingwords/bookvalue.length:matchingwords/subvalue.length;
-			if (matchingwords > maxmatches
+			if (matchingwords > maxmatches // Prefer longer matches
 				&& (relnrofmatchingverbs >= verbmatchdelta)
 				&& (relnrofmatches >= mindelta)){
 				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
