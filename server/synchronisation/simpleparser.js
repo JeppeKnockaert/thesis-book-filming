@@ -28,12 +28,15 @@ exports.parseBook = function(bookfile, preprocessor, callback){
     				if (index == epub.flow.length-1){
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
     					var matcharray = new Array();
-    					matches = regex.exec(fulltext);
-    					matcharray.push(matches[1]);
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
-							preprocessor.preprocess(matches[1], function(processedmatch){
-						    	matcharray.push(processedmatch);
-						    });
+							var sentences = matches[1].split(/[\.\?\!]/);
+							sentences.forEach(function (sentence){
+								preprocessor.preprocess(sentence, function(processedmatch){
+									if (processedmatch.trim() !== ""){
+						    			matcharray.push(processedmatch);
+						    		}
+						    	});
+							});
 						}
     					callback(null, matcharray); // Make a callback using all quotes
     				}
@@ -114,15 +117,17 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, callback){
 					text += textline+"\n";
 					data = data.substring(linebreak+1);
 				}
-				text = // Remove quotes, because the preprocessor doesn't do this
-				preprocessor.preprocess(text, function(processedtext){
-					if (processedtext.trim() !== ""){
-						subtitles.push({ // Store the subtitle
-							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
-							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
-							"text" : processedtext
-						});
-					}
+				var sentences = text.split(/[\.\?\!\-]/);
+				sentences.forEach(function (sentence){
+					preprocessor.preprocess(sentence, function(processedtext){
+						if (processedtext.trim() !== ""){
+							subtitles.push({ // Store the subtitle
+								"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
+								"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
+								"text" : processedtext
+							});
+						}
+					});
 				});
 
 				if (data.trim() === ""){ // When the file is empty, pass the resulting array to the callback

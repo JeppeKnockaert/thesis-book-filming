@@ -38,6 +38,7 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 						falsenegatives--; // One less false negative
 						truepositives++; // Add a new true match
 						found = true;
+						console.log(groundsubindex+" en "+groundquoteindex);
 					}
 					i++;
 				}

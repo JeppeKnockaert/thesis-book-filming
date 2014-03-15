@@ -6,10 +6,10 @@ var natural = require('natural'); // load natural language facilities
 var pos = require('pos');
 var fs = require('fs'); // Module for reading files
 
-var mindelta = 0.6;
+var mindelta = 0.7;
 var verbmatchdelta = 0.5;
-var maxnrofmatches = 3;
-var windowsize = 0.2;
+var maxnrofmatches = 1;
+var windowsize = 0.20;
 
 /**
  * Synchronizes a parsed epub and srt from simpleparser using (partial) exact matching
@@ -53,11 +53,10 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 
 		var startindex = 0; 
 		var endindex = bookWords.length;
-		if (lastexactmatchindex !== -1){
-			startindex = ((lastexactmatchindex/bookWords.length)-windowsize > 0)?Math.round(((lastexactmatchindex/bookWords.length)-windowsize)*bookWords.length):0;
-			endindex = ((lastexactmatchindex/bookWords.length)+windowsize < 1)?Math.round(((lastexactmatchindex/bookWords.length)+windowsize)*bookWords.length):1;
-		}
-		console.log(subindex+") "+startindex+" -> "+endindex);
+		// if (lastexactmatchindex !== -1){
+		// 	startindex = ((lastexactmatchindex/bookWords.length)-windowsize > 0)?Math.round(((lastexactmatchindex/bookWords.length)-windowsize)*bookWords.length):0;
+		// 	endindex = ((lastexactmatchindex/bookWords.length)+windowsize < 1)?Math.round(((lastexactmatchindex/bookWords.length)+windowsize)*bookWords.length):bookWords.length;
+		// }
 		for (var bookindex = startindex; bookindex < endindex; bookindex++){
 			var bookvalue = bookWords[bookindex];
 			var matchingwords = 0;
@@ -79,15 +78,25 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 					verb = true;
 				}
 
+				// Check if the word occurs in the epub
 				var index = bookvalue.indexOf(subword);
-				if (index !== -1 && usedindices.indexOf(index) === -1){ // Make sure the same word isn't matched twice
+				// Look if the word in the epub was already used as a match
+				var usedindex = usedindices.indexOf(index); 
+				// Check if the word occurs multiple times in the sentence of the epub
+				while (usedindex !== -1 && usedindex+1 < bookvalue.length){
+					index = bookvalue.indexOf(subword,index+1);
+					usedindex = usedindices.indexOf(index);
+				}
+				// If the word was found and the word wasn't used as match before, add the match
+				if (index !== -1 && usedindex === -1){ 
 					matchingwords++;
 					if (verb){
 						matchingverbs++;
 					}
 					usedindices.push(index);
-				}
+				}				
 			});
+
 			// Take the maximum of the two relative numbers of matched verbs
 			var relnrofmatchingverbs = 1;
 			if (nrofsubverbs > 0){
@@ -97,6 +106,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			if ((matchingwords > maxmatches || (matchingwords == bookvalue.length || matchingwords == subvalue.length))
 				&& (relnrofmatchingverbs >= verbmatchdelta)
 				&& (relnrofmatches >= mindelta)){
+
 				if (matchingwords == bookvalue.length || matchingwords == subvalue.length){ //Exact match
 					bookmatches[matchindex++] = bookindex;
 					if (bookvalue.length == subvalue.length){ // Double exact match
@@ -118,7 +128,6 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 				"quoteindex" : matchvalue,
 				"subtitle" : subtitle[subindex].text,
 		   		"quote" : book[matchvalue],
-		   		"matches" : maxmatches
 			};
 			matches["match"].push(match);
 		};
