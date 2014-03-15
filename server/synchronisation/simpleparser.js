@@ -117,7 +117,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, callback){
 					text += textline+"\n";
 					data = data.substring(linebreak+1);
 				}
-				var sentences = text.split(/[\.\?\!\-]/);
+				var sentences = text.split(/([\.\?\!]|^\-)/);
 				sentences.forEach(function (sentence){
 					preprocessor.preprocess(sentence, function(processedtext){
 						if (processedtext.trim() !== ""){
