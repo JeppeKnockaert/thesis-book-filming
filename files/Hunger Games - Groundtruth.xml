@@ -1,10 +1,1417 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <matches>
 	<match>
-		<fromTime>00:03:32,588 </fromTime>
-		<subtitleindex>10</subtitleindex>
-		<quoteindex>2</quoteindex>
-		<subtitle>Do the dead frighten you</subtitle>
-		<quote>Do the dead frighten you</quote>
+		<subtitleindex>83</subtitleindex>
+		<fromTime>00:06:44,446 </fromTime>
+		<subtitle>We could do it you know</subtitle>
+		<quoteindex>17</quoteindex>
+		<quote>We could do it you know</quote>
+	</match>
+	<match>
+		<subtitleindex>84</subtitleindex>
+		<fromTime>00:06:48,533 </fromTime>
+		<subtitle>Take off live in the woods</subtitle>
+		<quoteindex>20</quoteindex>
+		<quote>Run off</quote>
+	</match>
+	<match>
+		<subtitleindex>84</subtitleindex>
+		<fromTime>00:06:48,533 </fromTime>
+		<subtitle>Take off live in the woods</subtitle>
+		<quoteindex>21</quoteindex>
+		<quote>Live in the woods</quote>
+	</match>
+	<match>
+		<subtitleindex>96</subtitleindex>
+		<fromTime>00:07:10,764 </fromTime>
+		<subtitle>Im never having kids</subtitle>
+		<quoteindex>24</quoteindex>
+		<quote>I never want to have kids</quote>
+	</match>
+	<match>
+		<subtitleindex>97</subtitleindex>
+		<fromTime>00:07:13,892 </fromTime>
+		<subtitle>I might if I didnt live here</subtitle>
+		<quoteindex>25</quoteindex>
+		<quote>I might</quote>
+	</match>
+	<match>
+		<subtitleindex>97</subtitleindex>
+		<fromTime>00:07:13,892 </fromTime>
+		<subtitle>I might if I didnt live here</subtitle>
+		<quoteindex>26</quoteindex>
+		<quote>If I didnt live here</quote>
+	</match>
+	<match>
+		<subtitleindex>98</subtitleindex>
+		<fromTime>00:07:16,061 </fromTime>
+		<subtitle>But you do live here</subtitle>
+		<quoteindex>27</quoteindex>
+		<quote>But you do</quote>
+	</match>
+	<match>
+		<subtitleindex>106</subtitleindex>
+		<fromTime>00:07:27,572 </fromTime>
+		<subtitle>Cost me a squirrel</subtitle>
+		<quoteindex>6</quoteindex>
+		<quote>Just a squirrel</quote>
+	</match>
+	<match>
+		<subtitleindex>107</subtitleindex>
+		<fromTime>00:07:31,576 </fromTime>
+		<subtitle>Happy Hunger Games</subtitle>
+		<quoteindex>14</quoteindex>
+		<quote>Happy Hunger Games</quote>
+	</match>
+	<match>
+		<subtitleindex>108</subtitleindex>
+		<fromTime>00:07:33,078 </fromTime>
+		<subtitle>And may the odds be ever in your favor</subtitle>
+		<quoteindex>15</quoteindex>
+		<quote>And may the odds</quote>
+	</match>		
+	<match>
+		<subtitleindex>108</subtitleindex>
+		<fromTime>00:07:33,078 </fromTime>
+		<subtitle>And may the odds be ever in your favor</subtitle>
+		<quoteindex>16</quoteindex>
+		<quote>be ever in your favor</quote>
+	</match>
+	<match>
+		<subtitleindex>121</subtitleindex>
+		<fromTime>00:08:55,660 </fromTime>
+		<subtitle>You look beautiful</subtitle>
+		<quoteindex>51</quoteindex>
+		<quote>You look beautiful</quote>
+	</match>
+	<match>
+		<subtitleindex>122</subtitleindex>
+		<fromTime>00:08:57,787 </fromTime>
+		<subtitle>But you better tuck in that tail little duck</subtitle>
+		<quoteindex>53</quoteindex>
+		<quote>Tuck your tail in little duck</quote>
+	</match>
+	<match>
+		<subtitleindex>160</subtitleindex>
+		<fromTime>00:12:26,121 </fromTime>
+		<subtitle>Happy Hunger Games</subtitle>
+		<quoteindex>61</quoteindex>
+		<quote>Happy Hunger Games</quote>
+	</match>
+	<match>
+		<subtitleindex>161</subtitleindex>
+		<fromTime>00:12:28,039 </fromTime>
+		<subtitle>And may the odds be ever in your favor</subtitle>
+		<quoteindex>62</quoteindex>
+		<quote>And may the odds be ever in your favor</quote>
+	</match>
+	<match>
+		<subtitleindex>189</subtitleindex>
+		<fromTime>00:14:18,650 </fromTime>
+		<subtitle>As usual ladies first</subtitle>
+		<quoteindex>64</quoteindex>
+		<quote>Ladies first</quote>
+	</match>
+	<match>
+		<subtitleindex>194</subtitleindex>
+		<fromTime>00:15:25,758 </fromTime>
+		<subtitle>Prim</subtitle>
+		<quoteindex>65</quoteindex>
+		<quote>Prim</quote>
+	</match>
+	<match>
+		<subtitleindex>195</subtitleindex>
+		<fromTime>00:15:25,758 </fromTime>
+		<subtitle>Prim</subtitle>
+		<quoteindex>66</quoteindex>
+		<quote>Prim</quote>
+	</match>
+	<match>
+		<subtitleindex>198</subtitleindex>
+		<fromTime>00:15:29,804 </fromTime>
+		<subtitle>I volunteer</subtitle>
+		<quoteindex>67</quoteindex>
+		<quote>I volunteer</quote>
+	</match>
+	<match>
+		<subtitleindex>199</subtitleindex>
+		<fromTime>00:15:29,804 </fromTime>
+		<subtitle>I volunteer</subtitle>
+		<quoteindex>67</quoteindex>
+		<quote>I volunteer</quote>
+	</match>
+	<match>
+		<subtitleindex>200</subtitleindex>
+		<fromTime>00:15:33,474 </fromTime>
+		<subtitle>I volunteer as Tribute</subtitle>
+		<quoteindex>68</quoteindex>
+		<quote>I volunteer as tribute</quote>
+	</match>
+	<match>
+		<subtitleindex>205</subtitleindex>
+		<fromTime>00:15:43,109 </fromTime>
+		<subtitle>No</subtitle>
+		<quoteindex>75</quoteindex>
+		<quote>No</quote>
+	</match>
+	<match>
+		<subtitleindex>206</subtitleindex>
+		<fromTime>00:15:43,109 </fromTime>
+		<subtitle>No</subtitle>
+		<quoteindex>75</quoteindex>
+		<quote>No</quote>
+	</match>
+	<match>
+		<subtitleindex>224</subtitleindex>
+		<fromTime>00:15:59,626 </fromTime>
+		<subtitle>Bring her up</subtitle>
+		<quoteindex>73</quoteindex>
+		<quote>Let her come forward</quote>		
+	</match>
+	<match>
+		<subtitleindex>226</subtitleindex>
+		<fromTime>00:16:18,937 </fromTime>
+		<subtitle>Whats your name</subtitle>
+		<quoteindex>82</quoteindex>
+		<quote>Whats your name</quote>
+	</match>
+	<match>
+		<subtitleindex>227</subtitleindex>
+		<fromTime>00:16:20,438 </fromTime>
+		<subtitle>Katniss Everdeen</subtitle>
+		<quoteindex>83</quoteindex>
+		<quote>Katniss Everdeen</quote>
+	</match>
+	<match>
+		<subtitleindex>228</subtitleindex>
+		<fromTime>00:16:22,857 </fromTime>
+		<subtitle>Well I bet my hat that was your sister wasnt it</subtitle>
+		<quoteindex>84</quoteindex>
+		<quote>I bet my buttons that was your sister</quote>
+	</match>
+	<match>
+		<subtitleindex>230</subtitleindex>
+		<fromTime>00:16:29,447 </fromTime>
+		<subtitle>Lets have a big hand for our very first volunteer Katniss Everdeen</subtitle>
+		<quoteindex>87</quoteindex>
+		<quote>Lets give a big round of applause to our newest tribute</quote>
+	</match>
+	<match>
+		<subtitleindex>231</subtitleindex>
+		<fromTime>00:16:48,049 </fromTime>
+		<subtitle>And now for the boys</subtitle>
+		<quoteindex>96</quoteindex>
+		<quote>Its time to choose our boy tribute</quote>
+	</match>
+	<match>
+		<subtitleindex>232</subtitleindex>
+		<fromTime>00:17:01,270 </fromTime>
+		<subtitle>Peeta Mellark</subtitle>
+		<quoteindex>97</quoteindex>
+		<quote>Peeta Mellark</quote>
+	</match>
+	<match>
+		<subtitleindex>254</subtitleindex>
+		<fromTime>00:18:30,526 </fromTime>
+		<subtitle>Maybe you can</subtitle>
+		<quoteindex>120</quoteindex>
+		<quote>Maybe you can win</quote>
+	</match>
+	<match>
+		<subtitleindex>262</subtitleindex>
+		<fromTime>00:19:08,189 </fromTime>
+		<subtitle>You cant tune out again</subtitle>
+		<quoteindex>103</quoteindex>
+		<quote>You cant leave again</quote>
+	</match>
+	<match>
+		<subtitleindex>263</subtitleindex>
+		<fromTime>00:19:10,775 </fromTime>
+		<subtitle>I wont</subtitle>
+		<quoteindex>105</quoteindex>
+		<quote>I wont</quote>
+	</match>
+	<match>
+		<subtitleindex>266</subtitleindex>
+		<fromTime>00:19:14,195 </fromTime>
+		<subtitle>I wont be there anymore</subtitle>
+		<quoteindex>109</quoteindex>
+		<quote>Theres no me now to keep you both alive</quote>
+	</match>
+	<match>
+		<subtitleindex>288</subtitleindex>
+		<fromTime>00:20:03,161 </fromTime>
+		<subtitle>Get to a bow</subtitle>
+		<quoteindex>146</quoteindex>
+		<quote>Getting a knife should be pretty easy but youve got to get your hands on a bow</quote>
+	</match>
+	<match>
+		<subtitleindex>289</subtitleindex>
+		<fromTime>00:20:03,161 </fromTime>
+		<subtitle>They may not have</subtitle>
+		<quoteindex>148</quoteindex>
+		<quote>They dont always have bows</quote>
+	</match>
+	<match>
+		<subtitleindex>293</subtitleindex>
+		<fromTime>00:20:09,041 </fromTime>
+		<subtitle>If they dont have a bow then you make one okay</subtitle>
+		<quoteindex>149</quoteindex>
+		<quote>Then make one</quote>
+	</match>
+	<match>
+		<subtitleindex>294</subtitleindex>
+		<fromTime>00:20:10,960 </fromTime>
+		<subtitle>You know how to hunt</subtitle>
+		<quoteindex>157</quoteindex>
+		<quote>Youre the best hunter I know</quote>
+	</match>
+	<match>
+		<subtitleindex>296</subtitleindex>
+		<fromTime>00:20:15,548 </fromTime>
+		<subtitle>Its no different Katniss</subtitle>
+		<quoteindex>166</quoteindex>
+		<quote>How different can it be really</quote>
+	</match>
+	<match>
+		<subtitleindex>303</subtitleindex>
+		<fromTime>00:20:25,725 </fromTime>
+		<subtitle>Whatever you do dont let them starve</subtitle>
+		<quoteindex>167</quoteindex>
+		<quote>Dont let them starve</quote>
+	</match>
+	<match>
+		<subtitleindex>336</subtitleindex>
+		<fromTime>00:23:57,353 </fromTime>
+		<subtitle>Youre supposed to tell us how to get sponsors and give us advice</subtitle>
+		<quoteindex>185</quoteindex>
+		<quote>The one who advises you lines up your sponsors and dictates the presentation of any gifts</quote>
+	</match>
+	<match>
+		<subtitleindex>413</subtitleindex>
+		<fromTime>00:29:50,998 </fromTime>
+		<subtitle>My names Cinna</subtitle>
+		<quoteindex>266</quoteindex>
+		<quote>Im Cinna your stylist</quote>
+	</match>
+	<match>
+		<subtitleindex>423</subtitleindex>
+		<fromTime>00:30:17,065 </fromTime>
+		<subtitle>Now usually they dress people in the clothes from their district</subtitle>
+		<quoteindex>286</quoteindex>
+		<quote>As you know its customary to reflect the flavor of the district</quote>
+	</match>
+	<match>
+		<subtitleindex>424</subtitleindex>
+		<fromTime>00:30:19,610 </fromTime>
+		<subtitle>Yeah were always coalminers</subtitle>
+		<quoteindex>287</quoteindex>
+		<quote>So Ill be in a coal miner outfit</quote>
+	</match>
+	<match>
+		<subtitleindex>435</subtitleindex>
+		<fromTime>00:30:54,811 </fromTime>
+		<subtitle>Its not real fire</subtitle>
+		<quoteindex>296</quoteindex>
+		<quote>Its not real flame of course just a little synthetic fire Portia and I came up with</quote>
+	</match>
+	<match>
+		<subtitleindex>433</subtitleindex>
+		<fromTime>00:30:52,643 </fromTime>
+		<subtitle>Okay this is safe</subtitle>
+		<quoteindex>297</quoteindex>
+		<quote>Youll be perfectly safe</quote>
+	</match>
+	<match>
+		<subtitleindex>489</subtitleindex>
+		<fromTime>00:34:37,701 </fromTime>
+		<subtitle>Are you sure you should be near an open flame</subtitle>
+		<quoteindex>307</quoteindex>
+		<quote>With all that alcohol in him its probably not advisable to have him around an open flame</quote>
+	</match>
+	<match>
+		<subtitleindex>553</subtitleindex>
+		<fromTime>00:39:05,635 </fromTime>
+		<subtitle>My father buys her squirrels</subtitle>
+		<quoteindex>474</quoteindex>
+		<quote>My father buys her squirrels</quote>
+	</match>
+	<match>
+		<subtitleindex>554</subtitleindex>
+		<fromTime>00:39:09,639 </fromTime>
+		<subtitle>He says she hits them right in the eye every time</subtitle>
+		<quoteindex>476</quoteindex>
+		<quote>She hits every one in the eye</quote>
+	</match>
+	<match>
+		<subtitleindex>557</subtitleindex>
+		<fromTime>00:39:15,979 </fromTime>
+		<subtitle>He can throw a 100pound sack of flour right over his head</subtitle>
+		<quoteindex>485</quoteindex>
+		<quote>You can lift hundredpound bags of flour</quote>
+	</match>
+	<match>
+		<subtitleindex>558</subtitleindex>
+		<fromTime>00:39:15,979 </fromTime>
+		<subtitle>Ive seen it</subtitle>
+		<quoteindex>484</quoteindex>
+		<quote>Ive seen you in the market</quote>
+	</match>
+	<match>
+		<subtitleindex>567</subtitleindex>
+		<fromTime>00:39:38,501 </fromTime>
+		<subtitle>You know what my mother said</subtitle>
+		<quoteindex>500</quoteindex>
+		<quote>You know what my mother said to me when she came to say goodbye as if to cheer me up she says maybe District Twelve will finally have a winner</quote>
+	</match>
+	<match>
+		<subtitleindex>568</subtitleindex>
+		<fromTime>00:39:40,920 </fromTime>
+		<subtitle>She said District 12 might finally have a winner</subtitle>
+		<quoteindex>500</quoteindex>
+		<quote>You know what my mother said to me when she came to say goodbye as if to cheer me up she says maybe District Twelve will finally have a winner</quote>
+	</match>
+	<match>
+		<subtitleindex>570</subtitleindex>
+		<fromTime>00:39:47,677 </fromTime>
+		<subtitle>She was talking about you</subtitle>
+		<quoteindex>501</quoteindex>
+		<quote>Then I realized she didnt mean me she meant you</quote>
+	</match>
+	<match>
+		<subtitleindex>587</subtitleindex>
+		<fromTime>00:42:36,221 </fromTime>
+		<subtitle>Hey I think you have a shadow</subtitle>
+		<quoteindex>558</quoteindex>
+		<quote>I think we have a shadow</quote>
+	</match>
+	<match>
+		<subtitleindex>599</subtitleindex>
+		<fromTime>00:43:56,259 </fromTime>
+		<subtitle>Shoot straight</subtitle>
+		<quoteindex>571</quoteindex>
+		<quote>shoot straight</quote>
+	</match>
+	<match>
+		<subtitleindex>607</subtitleindex>
+		<fromTime>00:46:54,103 </fromTime>
+		<subtitle>Thank you for your consideration</subtitle>
+		<quoteindex>572</quoteindex>
+		<quote>Thank you for your consideration</quote>
+	</match>
+	<match>
+		<subtitleindex>706</subtitleindex>
+		<fromTime>00:51:10,025 </fromTime>
+		<subtitle>He says he wants to be trained on his own from now on</subtitle>
+		<quoteindex>655</quoteindex>
+		<quote>Peeta has asked to be coached separately</quote>
+	</match>
+	<match>
+		<subtitleindex>732</subtitleindex>
+		<fromTime>00:52:22,973 </fromTime>
+		<subtitle>Just be yourself Ill be there the whole time</subtitle>
+		<quoteindex>743</quoteindex>
+		<quote>Why dont you just be yourself</quote>
+	</match>
+	<match>
+		<subtitleindex>778</subtitleindex>
+		<fromTime>00:54:42,988 </fromTime>
+		<subtitle>When you came out of that chariot</subtitle>
+		<quoteindex>786</quoteindex>
+		<quote>When you came out in the opening ceremonies my heart actually stopped</quote>
+	</match>
+	<match>
+		<subtitleindex>779</subtitleindex>
+		<fromTime>00:54:44,573 </fromTime>
+		<subtitle>I have to say my heart stopped</subtitle>
+		<quoteindex>786</quoteindex>
+		<quote>When you came out in the opening ceremonies my heart actually stopped</quote>
+	</match>
+	<match>
+		<subtitleindex>781</subtitleindex>
+		<fromTime>00:54:51,163 </fromTime>
+		<subtitle>My heart stopped</subtitle>
+		<quoteindex>786</quoteindex>
+		<quote>When you came out in the opening ceremonies my heart actually stopped</quote>
+	</match>
+	<match>
+		<subtitleindex>803</subtitleindex>
+		<fromTime>00:56:11,744 </fromTime>
+		<subtitle>We were all very moved I think when you volunteered for her at the Reaping</subtitle>
+		<quoteindex>814</quoteindex>
+		<quote>Lets go back then to the moment they called your sisters name at the reaping</quote>
+	</match>
+	<match>
+		<subtitleindex>803</subtitleindex>
+		<fromTime>00:56:11,744 </fromTime>
+		<subtitle>We were all very moved I think when you volunteered for her at the Reaping</subtitle>
+		<quoteindex>815</quoteindex>
+		<quote>And you volunteered</quote>
+	</match>
+	<match>
+		<subtitleindex>808</subtitleindex>
+		<fromTime>00:56:28,635 </fromTime>
+		<subtitle>And what did you say to her in the end</subtitle>
+		<quoteindex>820</quoteindex>
+		<quote>What did she say to you</quote>
+	</match>
+	<match>
+		<subtitleindex>809</subtitleindex>
+		<fromTime>00:56:34,683 </fromTime>
+		<subtitle>I told her that I would try to win</subtitle>
+		<quoteindex>822</quoteindex>
+		<quote>She asked me to try really hard to win</quote>
+	</match>
+	<match>
+		<subtitleindex>810</subtitleindex>
+		<fromTime>00:56:38,645 </fromTime>
+		<subtitle>That I would try to win for her</subtitle>
+		<quoteindex>824</quoteindex>
+		<quote>I swore I would</quote>
+	</match>
+	<match>
+		<subtitleindex>811</subtitleindex>
+		<fromTime>00:56:41,857 </fromTime>
+		<subtitle>Of course you did</subtitle>
+		<quoteindex>825</quoteindex>
+		<quote>I bet you did</quote>
+	</match>
+	<match>
+		<subtitleindex>813</subtitleindex>
+		<fromTime>00:56:48,280 </fromTime>
+		<subtitle>Ladies and gentlemen from District 12</subtitle>
+		<quoteindex>827</quoteindex>
+		<quote>Best of luck Katniss Everdeen tribute from District Twelve</quote>
+	</match>
+	<match>
+		<subtitleindex>814</subtitleindex>
+		<fromTime>00:56:50,866 </fromTime>
+		<subtitle>Katniss Everdeen The Girl on Fire</subtitle>
+		<quoteindex>827</quoteindex>
+		<quote>Best of luck Katniss Everdeen tribute from District Twelve</quote>
+	</match>
+	<match>
+		<subtitleindex>837</subtitleindex>
+		<fromTime>00:57:39,039 </fromTime>
+		<subtitle>Do I smell like roses to you</subtitle>
+		<quoteindex>828</quoteindex>
+		<quote>Tell me do I still smell like roses</quote>
+	</match>
+	<match>
+		<subtitleindex>848</subtitleindex>
+		<fromTime>00:58:09,278 </fromTime>
+		<subtitle>is there a special girl back home</subtitle>
+		<quoteindex>830</quoteindex>
+		<quote>There must be some special girl</quote>
+	</match>
+	<match>
+		<subtitleindex>855</subtitleindex>
+		<fromTime>00:58:17,953 </fromTime>
+		<subtitle>Handsome man like you</subtitle>
+		<quoteindex>829</quoteindex>
+		<quote>Handsome lad like you</quote>
+	</match>
+	<match>
+		<subtitleindex>857</subtitleindex>
+		<fromTime>00:58:24,293 </fromTime>
+		<subtitle>Well there</subtitle>
+		<quoteindex>832</quoteindex>
+		<quote>Well there is this one girl</quote>
+	</match>
+	<match>
+		<subtitleindex>858</subtitleindex>
+		<fromTime>00:58:26,295 </fromTime>
+		<subtitle>There is this one girl that Ive had a crush on forever</subtitle>
+		<quoteindex>832</quoteindex>
+		<quote>Well there is this one girl</quote>
+	</match>
+	<match>
+		<subtitleindex>858</subtitleindex>
+		<fromTime>00:58:26,295 </fromTime>
+		<subtitle>There is this one girl that Ive had a crush on forever</subtitle>
+		<quoteindex>833</quoteindex>
+		<quote>Ive had a crush on her ever since I can remember</quote>
+	</match>
+	<match>
+		<subtitleindex>859</subtitleindex>
+		<fromTime>00:58:30,757 </fromTime>
+		<subtitle>But I dont think she actually recognized me until the Reaping</subtitle>
+		<quoteindex>834</quoteindex>
+		<quote>But Im pretty sure she didnt know I was alive until the reaping</quote>
+	</match>
+	<match>
+		<subtitleindex>861</subtitleindex>
+		<fromTime>00:58:40,976 </fromTime>
+		<subtitle>You go out there and you win this thing</subtitle>
+		<quoteindex>838</quoteindex>
+		<quote>You win you go home</quote>
+	</match>
+	<match>
+		<subtitleindex>862</subtitleindex>
+		<fromTime>00:58:44,897 </fromTime>
+		<subtitle>and when you get home shell have to go out with you</subtitle>
+		<quoteindex>839</quoteindex>
+		<quote>She cant turn you down then eh</quote>
+	</match>
+	<match>
+		<subtitleindex>864</subtitleindex>
+		<fromTime>00:58:53,113 </fromTime>
+		<subtitle>Thanks but I dont think winnings gonna help me at all</subtitle>
+		<quoteindex>840</quoteindex>
+		<quote>I dont think its going to work out</quote>
+	</match>
+	<match>
+		<subtitleindex>864</subtitleindex>
+		<fromTime>00:58:53,113 </fromTime>
+		<subtitle>Thanks but I dont think winnings gonna help me at all</subtitle>
+		<quoteindex>841</quoteindex>
+		<quote>Winning</quote>
+	</match>
+	<match>
+		<subtitleindex>864</subtitleindex>
+		<fromTime>00:58:53,113 </fromTime>
+		<subtitle>Thanks but I dont think winnings gonna help me at all</subtitle>
+		<quoteindex>842</quoteindex>
+		<quote>wont help in my case</quote>
+	</match>
+	<match>
+		<subtitleindex>865</subtitleindex>
+		<fromTime>00:58:56,825 </fromTime>
+		<subtitle>And why not</subtitle>
+		<quoteindex>843</quoteindex>
+		<quote>Why ever not</quote>
+	</match>
+	<match>
+		<subtitleindex>866</subtitleindex>
+		<fromTime>00:59:01,788 </fromTime>
+		<subtitle>Because she came here with me</subtitle>
+		<quoteindex>844</quoteindex>
+		<quote>Because</quote>
+	</match>
+	<match>
+		<subtitleindex>866</subtitleindex>
+		<fromTime>00:59:01,788 </fromTime>
+		<subtitle>Because she came here with me</subtitle>
+		<quoteindex>845</quoteindex>
+		<quote>because</quote>
+	</match>
+	<match>
+		<subtitleindex>866</subtitleindex>
+		<fromTime>00:59:01,788 </fromTime>
+		<subtitle>Because she came here with me</subtitle>
+		<quoteindex>846</quoteindex>
+		<quote>she came here with me</quote>
+	</match>
+	<match>
+		<subtitleindex>867</subtitleindex>
+		<fromTime>00:59:08,253 </fromTime>
+		<subtitle>Well thats bad luck</subtitle>
+		<quoteindex>847</quoteindex>
+		<quote>Oh that is a piece of bad luck</quote>
+	</match>
+	<match>
+		<subtitleindex>869</subtitleindex>
+		<fromTime>00:59:13,842 </fromTime>
+		<subtitle>And I wish you all the best of luck</subtitle>
+		<quoteindex>855</quoteindex>
+		<quote>Well best of luck to you Peeta Mellark and I think I speak for all of Panem when I say our hearts go with yours</quote>
+	</match>
+	<match>
+		<subtitleindex>870</subtitleindex>
+		<fromTime>00:59:13,842 </fromTime>
+		<subtitle>Thank you</subtitle>
+		<quoteindex>856</quoteindex>
+		<quote>Thank you</quote>
+	</match>
+	<match>
+		<subtitleindex>873</subtitleindex>
+		<fromTime>00:59:25,354 </fromTime>
+		<subtitle>What the hell was that</subtitle>
+		<quoteindex>857</quoteindex>
+		<quote>What was that for</quote>
+	</match>
+	<match>
+		<subtitleindex>882</subtitleindex>
+		<fromTime>00:59:36,198 </fromTime>
+		<subtitle>He made me look weak</subtitle>
+		<quoteindex>873</quoteindex>
+		<quote>He made me look weak</quote>
+	</match>
+	<match>
+		<subtitleindex>883</subtitleindex>
+		<fromTime>00:59:38,450 </fromTime>
+		<subtitle>He made you look desirable which in your case cant hurt sweetheart</subtitle>
+		<quoteindex>874</quoteindex>
+		<quote>He made you look desirable</quote>
+	</match>
+	<match>
+		<subtitleindex>886</subtitleindex>
+		<fromTime>00:59:44,957 </fromTime>
+		<subtitle>Now I can sell the starcrossed lovers from District 12</subtitle>
+		<quoteindex>879</quoteindex>
+		<quote>The starcrossed lovers from District Twelve</quote>
+	</match>
+	<match>
+		<subtitleindex>887</subtitleindex>
+		<fromTime>00:59:48,293 </fromTime>
+		<subtitle>We are not starcrossed lovers</subtitle>
+		<quoteindex>880</quoteindex>
+		<quote>But were not starcrossed lovers</quote>
+	</match>
+	<match>
+		<subtitleindex>888</subtitleindex>
+		<fromTime>00:59:49,878 </fromTime>
+		<subtitle>Its a television show</subtitle>
+		<quoteindex>882</quoteindex>
+		<quote>Its all a big show</quote>
+	</match>
+	<match>
+		<subtitleindex>889</subtitleindex>
+		<fromTime>00:59:51,838 </fromTime>
+		<subtitle>And being in love with that boy might just get you sponsors</subtitle>
+		<quoteindex>887</quoteindex>
+		<quote>Which do you think will get you more sponsors</quote>
+	</match>
+	<match>
+		<subtitleindex>897</subtitleindex>
+		<fromTime>01:00:43,015 </fromTime>
+		<subtitle>Cant sleep</subtitle>
+		<quoteindex>923</quoteindex>
+		<quote>Couldnt sleep either</quote>
+	</match>
+	<match>
+		<subtitleindex>898</subtitleindex>
+		<fromTime>01:00:44,266 </fromTime>
+		<subtitle>No</subtitle>
+		<quoteindex>926</quoteindex>
+		<quote>No</quote>
+	</match>
+	<match>
+		<subtitleindex>905</subtitleindex>
+		<fromTime>01:01:17,591 </fromTime>
+		<subtitle>I just dont want them to change me</subtitle>
+		<quoteindex>941</quoteindex>
+		<quote>I dont want them to change me in there</quote>
+	</match>
+	<match>
+		<subtitleindex>908</subtitleindex>
+		<fromTime>01:01:28,101 </fromTime>
+		<subtitle>Theyd turn me into something Im not</subtitle>
+		<quoteindex>942</quoteindex>
+		<quote>Turn me into some kind of monster that Im not</quote>
+	</match>
+	<match>
+		<subtitleindex>909</subtitleindex>
+		<fromTime>01:01:33,273 </fromTime>
+		<subtitle>I just dont want to be another piece in their game you know</subtitle>
+		<quoteindex>948</quoteindex>
+		<quote>That Im more than just a piece in their Games</quote>
+	</match>
+	<match>
+		<subtitleindex>910</subtitleindex>
+		<fromTime>01:01:38,779 </fromTime>
+		<subtitle>You mean you wont kill anyone</subtitle>
+		<quoteindex>943</quoteindex>
+		<quote>Do you mean you wont kill anyone</quote>
+	</match>
+	<match>
+		<subtitleindex>911</subtitleindex>
+		<fromTime>01:01:42,574 </fromTime>
+		<subtitle>No</subtitle>
+		<quoteindex>944</quoteindex>
+		<quote>No when the time comes Im sure Ill kill just like everybody else</quote>
+	</match>
+	<match>
+		<subtitleindex>912</subtitleindex>
+		<fromTime>01:01:44,326 </fromTime>
+		<subtitle>I mean Im sure I would just like anybody else</subtitle>
+		<quoteindex>944</quoteindex>
+		<quote>No when the time comes Im sure Ill kill just like everybody else</quote>
+	</match>
+	<match>
+		<subtitleindex>913</subtitleindex>
+		<fromTime>01:01:47,162 </fromTime>
+		<subtitle>when the time came</subtitle>
+		<quoteindex>944</quoteindex>
+		<quote>No when the time comes Im sure Ill kill just like everybody else</quote>
+	</match>
+	<match>
+		<subtitleindex>914</subtitleindex>
+		<fromTime>01:01:49,748 </fromTime>
+		<subtitle>but I just keep wishing that I could think of a way to show them</subtitle>
+		<quoteindex>946</quoteindex>
+		<quote>Only I keep wishing I could think of a way to</quote>
+	</match>
+	<match>
+		<subtitleindex>914</subtitleindex>
+		<fromTime>01:01:49,748 </fromTime>
+		<subtitle>but I just keep wishing that I could think of a way to show them</subtitle>
+		<quoteindex>947</quoteindex>
+		<quote>to show the Capitol they dont own me</quote>
+	</match>
+	<match>
+		<subtitleindex>915</subtitleindex>
+		<fromTime>01:01:53,752 </fromTime>
+		<subtitle>that they dont own me</subtitle>
+		<quoteindex>947</quoteindex>
+		<quote>to show the Capitol they dont own me</quote>
+	</match>
+	<match>
+		<subtitleindex>916</subtitleindex>
+		<fromTime>01:01:58,840 </fromTime>
+		<subtitle>If Im gonna die I want to still be me</subtitle>
+		<quoteindex>939</quoteindex>
+		<quote>I want to die as myself</quote>
+	</match>
+	<match>
+		<subtitleindex>917</subtitleindex>
+		<fromTime>01:02:08,975 </fromTime>
+		<subtitle>Does that make any sense</subtitle>
+		<quoteindex>940</quoteindex>
+		<quote>Does that make any sense</quote>
+	</match>
+	<match>
+		<subtitleindex>928</subtitleindex>
+		<fromTime>01:03:22,007 </fromTime>
+		<subtitle>Its a bloodbath</subtitle>
+		<quoteindex>912</quoteindex>
+		<quote>Youre neither of you up to the blood bath at the Cornucopia</quote>
+	</match>
+	<match>
+		<subtitleindex>931</subtitleindex>
+		<fromTime>01:03:25,802 </fromTime>
+		<subtitle>You turn run find high ground look for water</subtitle>
+		<quoteindex>913</quoteindex>
+		<quote>Just clear out put as much distance as you can between yourselves and the others and find a source of water</quote>
+	</match>
+	<match>
+		<subtitleindex>952</subtitleindex>
+		<fromTime>01:05:58,246 </fromTime>
+		<subtitle>Im not allowed to bet but if I could Id bet on you</subtitle>
+		<quoteindex>993</quoteindex>
+		<quote>Im not allowed to bet but if I could my money would be on you</quote>
+	</match>
+	<match>
+		<subtitleindex>984</subtitleindex>
+		<fromTime>01:15:22,393 </fromTime>
+		<subtitle>Hey lover boy</subtitle>
+		<quoteindex>1016</quoteindex>
+		<quote>Go on then Lover Boy</quote>
+	</match>
+	<match>
+		<subtitleindex>989</subtitleindex>
+		<fromTime>01:15:38,492 </fromTime>
+		<subtitle>Are you sure we shouldnt just kill him now</subtitle>
+		<quoteindex>1018</quoteindex>
+		<quote>Why dont we just kill him now and get it over with</quote>
+	</match>
+	<match>
+		<subtitleindex>991</subtitleindex>
+		<fromTime>01:15:40,828 </fromTime>
+		<subtitle>Hes our best chance of finding her</subtitle>
+		<quoteindex>1022</quoteindex>
+		<quote>Besides hes our best chance of finding her</quote>
+	</match>
+	<match>
+		<subtitleindex>1078</subtitleindex>
+		<fromTime>01:28:25,300 </fromTime>
+		<subtitle>Run</subtitle>
+		<quoteindex>1060</quoteindex>
+		<quote>Run</quote>
+	</match>
+	<match>
+		<subtitleindex>1078</subtitleindex>
+		<fromTime>01:28:25,300 </fromTime>
+		<subtitle>Run</subtitle>
+		<quoteindex>1061</quoteindex>
+		<quote>Run</quote>
+	</match>
+	<match>
+		<subtitleindex>1079</subtitleindex>
+		<fromTime>01:28:27,386 </fromTime>
+		<subtitle>Run</subtitle>
+		<quoteindex>1060</quoteindex>
+		<quote>Run</quote>
+	</match>
+	<match>
+		<subtitleindex>1079</subtitleindex>
+		<fromTime>01:28:27,386 </fromTime>
+		<subtitle>Run</subtitle>
+		<quoteindex>1061</quoteindex>
+		<quote>Run</quote>
+	</match>
+	<match>
+		<subtitleindex>1080</subtitleindex>
+		<fromTime>01:28:29,763 </fromTime>
+		<subtitle>Run</subtitle>
+		<quoteindex>1060</quoteindex>
+		<quote>Run</quote>
+	</match>
+	<match>
+		<subtitleindex>1080</subtitleindex>
+		<fromTime>01:28:29,763 </fromTime>
+		<subtitle>Run</subtitle>
+		<quoteindex>1061</quoteindex>
+		<quote>Run</quote>
+	</match>
+	<match>
+		<subtitleindex>1102</subtitleindex>
+		<fromTime>01:31:46,793 </fromTime>
+		<subtitle>How long was I asleep</subtitle>
+		<quoteindex>1159</quoteindex>
+		<quote>How many nights did I miss</quote>
+	</match>
+	<match>
+		<subtitleindex>1108</subtitleindex>
+		<fromTime>01:32:07,397 </fromTime>
+		<subtitle>And the boy from my district</subtitle>
+		<quoteindex>1166</quoteindex>
+		<quote>You know the boy from my district</quote>
+	</match>
+	<match>
+		<subtitleindex>1115</subtitleindex>
+		<fromTime>01:32:25,790 </fromTime>
+		<subtitle>They got all their supplies down by the lake</subtitle>
+		<quoteindex>1184</quoteindex>
+		<quote>But theyve got everything down by the lake</quote>
+	</match>
+	<match>
+		<subtitleindex>1132</subtitleindex>
+		<fromTime>01:33:39,239 </fromTime>
+		<subtitle>Okay so if we hear that</subtitle>
+		<quoteindex>1283</quoteindex>
+		<quote>But if you hear the mockingjays singing it youll know Im okay only I cant get back right away</quote>
+	</match>
+		<match>
+		<subtitleindex>1133</subtitleindex>
+		<fromTime>01:33:41,032 </fromTime>
+		<subtitle>it means were okay and well be back real soon</subtitle>
+		<quoteindex>1283</quoteindex>
+		<quote>But if you hear the mockingjays singing it youll know Im okay only I cant get back right away</quote>
+	</match>
+	<match>
+		<subtitleindex>1135</subtitleindex>
+		<fromTime>01:33:51,793 </fromTime>
+		<subtitle>Hey Ill see you for supper</subtitle>
+		<quoteindex>1288</quoteindex>
+		<quote>If all goes according to plan Ill see you for dinner</quote>
+	</match>
+	<match>
+		<subtitleindex>1146</subtitleindex>
+		<fromTime>01:35:10,497 </fromTime>
+		<subtitle>It seems theyve reburied their mines</subtitle>
+		<quoteindex>1301</quoteindex>
+		<quote>Its mined</quote>
+	</match>
+	<match>
+		<subtitleindex>1153</subtitleindex>
+		<fromTime>01:38:41,708 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1302</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1153</subtitleindex>
+		<fromTime>01:38:41,708 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1303</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1154</subtitleindex>
+		<fromTime>01:38:44,627 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1302</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1154</subtitleindex>
+		<fromTime>01:38:44,627 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1303</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1156</subtitleindex>
+		<fromTime>01:38:50,758 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1302</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1156</subtitleindex>
+		<fromTime>01:38:50,758 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1303</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1157</subtitleindex>
+		<fromTime>01:38:56,806 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1302</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1157</subtitleindex>
+		<fromTime>01:38:56,806 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1303</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1159</subtitleindex>
+		<fromTime>01:39:00,310 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1302</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1159</subtitleindex>
+		<fromTime>01:39:00,310 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1303</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1160</subtitleindex>
+		<fromTime>01:39:02,729 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1302</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1160</subtitleindex>
+		<fromTime>01:39:02,729 </fromTime>
+		<subtitle>Katniss</subtitle>
+		<quoteindex>1303</quoteindex>
+		<quote>Katniss</quote>
+	</match>
+	<match>
+		<subtitleindex>1171</subtitleindex>
+		<fromTime>01:40:00,286 </fromTime>
+		<subtitle>Did you blow up the food</subtitle>
+		<quoteindex>1309</quoteindex>
+		<quote>You blew up the food</quote>
+	</match>
+	<match>
+		<subtitleindex>1172</subtitleindex>
+		<fromTime>01:40:04,916 </fromTime>
+		<subtitle>Every bit of it</subtitle>
+		<quoteindex>1310</quoteindex>
+		<quote>Every last bit</quote>
+	</match>
+	<match>
+		<subtitleindex>1174</subtitleindex>
+		<fromTime>01:40:13,007 </fromTime>
+		<subtitle>You have to win</subtitle>
+		<quoteindex>1311</quoteindex>
+		<quote>You have to win</quote>
+	</match>
+	<match>
+		<subtitleindex>1175</subtitleindex>
+		<fromTime>01:40:24,143 </fromTime>
+		<subtitle>Can you sing</subtitle>
+		<quoteindex>1317</quoteindex>
+		<quote>Sing</quote>
+	</match>
+	<match>
+		<subtitleindex>1223</subtitleindex>
+		<fromTime>01:46:35,848 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1330</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1223</subtitleindex>
+		<fromTime>01:46:35,848 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1331</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1223</subtitleindex>
+		<fromTime>01:46:35,848 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1333</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1223</subtitleindex>
+		<fromTime>01:46:35,848 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1335</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1225</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1330</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1225</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1331</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1225</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1333</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1225</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1335</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1226</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1330</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1226</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1331</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1226</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1333</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1226</subtitleindex>
+		<fromTime>01:47:38,077 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>1335</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1250</subtitleindex>
+		<fromTime>01:50:28,539 </fromTime>
+		<subtitle>Soup</subtitle>
+		<quoteindex>1491</quoteindex>
+		<quote>Im going to make you soup</quote>
+	</match>
+	<match>
+		<subtitleindex>1261</subtitleindex>
+		<fromTime>01:51:12,207 </fromTime>
+		<subtitle>Your hair was in two braids instead of one</subtitle>
+		<quoteindex>1816</quoteindex>
+		<quote>it was in two braids instead of one</quote>
+	</match>
+	<match>
+		<subtitleindex>1262</subtitleindex>
+		<fromTime>01:51:15,669 </fromTime>
+		<subtitle>And I remember when you sang in the music assembly</subtitle>
+		<quoteindex>1832</quoteindex>
+		<quote>So that day in music assembly the teacher asked who knew the valley song</quote>
+	</match>
+	<match>
+		<subtitleindex>1263</subtitleindex>
+		<fromTime>01:51:18,797 </fromTime>
+		<subtitle>The teacher said</subtitle>
+		<quoteindex>1832</quoteindex>
+		<quote>So that day in music assembly the teacher asked who knew the valley song</quote>
+	</match>
+	<match>
+		<subtitleindex>1264</subtitleindex>
+		<fromTime>01:51:21,258 </fromTime>
+		<subtitle>And your hand shot straight up</subtitle>
+		<quoteindex>1833</quoteindex>
+		<quote>Your hand shot right up in the air</quote>
+	</match>
+	<match>
+		<quoteindex>1559</quoteindex>
+		<quote>Each of you needs something desperately</quote>
+		<subtitleindex>1279</subtitleindex>
+		<fromTime>01:52:27,366 </fromTime>
+		<subtitle>Each of you needs something desperately</subtitle>
+	</match>
+	<match>
+		<subtitleindex>1303</subtitleindex>
+		<fromTime>01:55:39,725 </fromTime>
+		<subtitle>What was her name again</subtitle>
+		<quoteindex>1623</quoteindex>
+		<quote>what was her name</quote>
+	</match>
+	<match>
+		<subtitleindex>1304</subtitleindex>
+		<fromTime>01:55:42,936 </fromTime>
+		<subtitle>Rue</subtitle>
+		<quoteindex>1625</quoteindex>
+		<quote>Rue</quote>
+	</match>
+	<match>
+		<subtitleindex>1307</subtitleindex>
+		<fromTime>01:55:58,410 </fromTime>
+		<subtitle>You kill her</subtitle>
+		<quoteindex>1636</quoteindex>
+		<quote>You kill her</quote>
+	</match>
+	<match>
+		<subtitleindex>1307</subtitleindex>
+		<fromTime>01:55:58,410 </fromTime>
+		<subtitle>You kill her</subtitle>
+		<quoteindex>1641</quoteindex>
+		<quote>You kill her</quote>
+	</match>
+	<match>
+		<subtitleindex>1308</subtitleindex>
+		<fromTime>01:55:59,786 </fromTime>
+		<subtitle>No</subtitle>
+		<quoteindex>1643</quoteindex>
+		<quote>No</quote>
+	</match>
+	<match>
+		<subtitleindex>1308</subtitleindex>
+		<fromTime>01:55:59,786 </fromTime>
+		<subtitle>No</subtitle>
+		<quoteindex>1644</quoteindex>
+		<quote>No I</quote>
+	</match>
+	<match>
+		<subtitleindex>1312</subtitleindex>
+		<fromTime>01:56:01,079 </fromTime>
+		<subtitle>You said her name</subtitle>
+		<quoteindex>1639</quoteindex>
+		<quote>You said her name</quote>
+	</match>
+	<match>
+		<subtitleindex>1312</subtitleindex>
+		<fromTime>01:56:01,079 </fromTime>
+		<subtitle>You said her name</subtitle>
+		<quoteindex>1639</quoteindex>
+		<quote>You said her name</quote>
+	</match>
+	<match>
+		<subtitleindex>1310</subtitleindex>
+		<fromTime>01:56:01,079 </fromTime>
+		<subtitle>Cato</subtitle>
+		<quoteindex>1645</quoteindex>
+		<quote>Cato</quote>
+	</match>
+	<match>
+		<subtitleindex>1311</subtitleindex>
+		<fromTime>01:56:01,079 </fromTime>
+		<subtitle>Cato</subtitle>
+		<quoteindex>1646</quoteindex>
+		<quote>Cato</quote>
+	</match>
+	<match>
+		<subtitleindex>1316</subtitleindex>
+		<fromTime>01:56:34,780 </fromTime>
+		<subtitle>Peeta I got it</subtitle>
+		<quoteindex>1675</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1338</subtitleindex>
+		<fromTime>01:58:14,963 </fromTime>
+		<subtitle>Youre so much better</subtitle>
+		<quoteindex>1682</quoteindex>
+		<quote>Youre better</quote>
+	</match>
+	<match>
+		<subtitleindex>1338</subtitleindex>
+		<fromTime>01:58:14,963 </fromTime>
+		<subtitle>Youre so much better</subtitle>
+		<quoteindex>1683</quoteindex>
+		<quote>Much better</quote>
+	</match>
+	<match>
+		<subtitleindex>1354</subtitleindex>
+		<fromTime>01:59:14,981 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>2010</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1354</subtitleindex>
+		<fromTime>01:59:14,981 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>2011</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1356</subtitleindex>
+		<fromTime>01:59:24,908 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>2010</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1356</subtitleindex>
+		<fromTime>01:59:24,908 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>2011</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1357</subtitleindex>
+		<fromTime>01:59:27,285 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>2010</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1357</subtitleindex>
+		<fromTime>01:59:27,285 </fromTime>
+		<subtitle>Peeta</subtitle>
+		<quoteindex>2011</quoteindex>
+		<quote>Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1362</subtitleindex>
+		<fromTime>01:59:31,498 </fromTime>
+		<subtitle>Thats Nightlock Peeta</subtitle>
+		<quoteindex>2037</quoteindex>
+		<quote>Theyre nightlock</quote>
+	</match>
+	<match>
+		<subtitleindex>1363</subtitleindex>
+		<fromTime>01:59:31,498 </fromTime>
+		<subtitle>Youd be dead in a minute</subtitle>
+		<quoteindex>2038</quoteindex>
+		<quote>Youll be dead before they reach your stomach</quote>
+	</match>
+	<match>
+		<subtitleindex>1370</subtitleindex>
+		<fromTime>01:59:53,645 </fromTime>
+		<subtitle>Shes clever</subtitle>
+		<quoteindex>2048</quoteindex>
+		<quote>And shes very clever Peeta</quote>
+	</match>
+	<match>
+		<subtitleindex>1415</subtitleindex>
+		<fromTime>02:07:10,957 </fromTime>
+		<subtitle>The previous revision</subtitle>
+		<quoteindex>2172</quoteindex>
+		<quote>The earlier revision has been revoked</quote>
+	</match>
+	<match>
+		<subtitleindex>1417</subtitleindex>
+		<fromTime>02:07:16,254 </fromTime>
+		<subtitle>has been revoked</subtitle>
+		<quoteindex>2172</quoteindex>
+		<quote>The earlier revision has been revoked</quote>
+	</match>
+	<match>
+		<subtitleindex>1418</subtitleindex>
+		<fromTime>02:07:19,465 </fromTime>
+		<subtitle>Only one victor may be crowned</subtitle>
+		<quoteindex>2173</quoteindex>
+		<quote>Closer examination of the rule book has disclosed that only one winner may be allowed</quote>
+	</match>
+	<match>
+		<subtitleindex>1419</subtitleindex>
+		<fromTime>02:07:19,465 </fromTime>
+		<subtitle>Good luck</subtitle>
+		<quoteindex>2174</quoteindex>
+		<quote>Good luck and may the odds be ever in your favor</quote>
+	</match>
+	<match>
+		<subtitleindex>1420</subtitleindex>
+		<fromTime>02:07:24,762 </fromTime>
+		<subtitle>And may the odds be ever in your favor</subtitle>
+		<quoteindex>2174</quoteindex>
+		<quote>Good luck and may the odds be ever in your favor</quote>
+	</match>
+	<match>
+		<subtitleindex>1424</subtitleindex>
+		<fromTime>02:07:50,580 </fromTime>
+		<subtitle>They have to have their victor</subtitle>
+		<quoteindex>2191</quoteindex>
+		<quote>We both know they have to have a victor</quote>
+	</match>
+	<match>
+		<subtitleindex>1429</subtitleindex>
+		<fromTime>02:08:02,425 </fromTime>
+		<subtitle>Trust me</subtitle>
+		<quoteindex>2196</quoteindex>
+		<quote>Trust me</quote>
+	</match>
+	<match>
+		<subtitleindex>1434</subtitleindex>
+		<fromTime>02:08:32,914 </fromTime>
+		<subtitle>One</subtitle>
+		<quoteindex>2201</quoteindex>
+		<quote>One</quote>
+	</match>
+	<match>
+		<subtitleindex>1435</subtitleindex>
+		<fromTime>02:08:36,334 </fromTime>
+		<subtitle>Two</subtitle>
+		<quoteindex>2202</quoteindex>
+		<quote>Two</quote>
+	</match>
+	<match>
+		<subtitleindex>1436</subtitleindex>
+		<fromTime>02:08:43,674 </fromTime>
+		<subtitle>Three</subtitle>
+		<quoteindex>2203</quoteindex>
+		<quote>Three</quote>
+	</match>
+	<match>
+		<subtitleindex>1437</subtitleindex>
+		<fromTime>02:08:46,552 </fromTime>
+		<subtitle>Stop</subtitle>
+		<quoteindex>2204</quoteindex>
+		<quote>Stop</quote>
+	</match>
+	<match>
+		<subtitleindex>1438</subtitleindex>
+		<fromTime>02:08:48,596 </fromTime>
+		<subtitle>Stop</subtitle>
+		<quoteindex>2205</quoteindex>
+		<quote>Stop</quote>
+	</match>
+	<match>
+		<subtitleindex>1439</subtitleindex>
+		<fromTime>02:08:53,309 </fromTime>
+		<subtitle>Ladies and gentlemen may I present the winners</subtitle>
+		<quoteindex>2206</quoteindex>
+		<quote>Ladies and gentlemen I am pleased to present the victors of the Seventyfourth Hunger Games Katniss Everdeen and Peeta Mellark</quote>
+	</match>
+	<match>
+		<subtitleindex>1440</subtitleindex>
+		<fromTime>02:08:57,730 </fromTime>
+		<subtitle>of the 74th Annual Hunger Games</subtitle>
+		<quoteindex>2206</quoteindex>
+		<quote>Ladies and gentlemen I am pleased to present the victors of the Seventyfourth Hunger Games Katniss Everdeen and Peeta Mellark</quote>
+	</match>
+	<match>
+		<subtitleindex>1441</subtitleindex>
+		<fromTime>02:09:27,635 </fromTime>
+		<subtitle>Theyre not happy with you</subtitle>
+		<quoteindex>2253</quoteindex>
+		<quote>Word is the Capitols furious about you showing them up in the arena</quote>
+	</match>
+	<match>
+		<subtitleindex>1452</subtitleindex>
+		<fromTime>02:10:41,083 </fromTime>
+		<subtitle>You were so in love with this boy</subtitle>
+		<quoteindex>2256</quoteindex>
+		<quote>Your only defense can be you were so madly in love you werent responsible for your actions</quote>
+	</match>
+	<match>
+		<subtitleindex>1471</subtitleindex>
+		<fromTime>02:12:23,728 </fromTime>
+		<subtitle>I dont know</subtitle>
+		<quoteindex>2360</quoteindex>
+		<quote>I dont know</quote>
 	</match>
 </matches>

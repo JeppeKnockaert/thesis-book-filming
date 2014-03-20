@@ -15,6 +15,7 @@ exports.preprocess = function(text, callback){
 	var returntext = text.replace(/\s+/g," "); // Remove extra spaces
 	returntext = returntext.replace(/\\n/g,""); // Remove linebreaks
 	returntext = returntext.replace(/<[^>]+?>/g,""); // Remove tags
+	returntext = returntext.replace(/—/," "); // Replace hyphen by space
 	returntext = returntext.replace(/[^A-z\ 0-9]/g,""); // Remove punctuation
 	callback(returntext.trim()); // Remove additional whitespaces 
 }
