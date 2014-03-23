@@ -3,7 +3,7 @@
  */
 
 var natural = require('natural'); // load natural language facilities
-var pos = require('pos');
+var pos = require('pos'); // Module with part-of-speech utilities
 var fs = require('fs'); // Module for reading files
 
 var mindelta = 0.8;

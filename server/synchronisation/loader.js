@@ -18,9 +18,12 @@ var parsedSubtitle = null;
  */
 exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 	var parser = require(__dirname + "/" + sequence.parser + ".js");
-	var preprocessor = require(__dirname + "/" + sequence.preprocessor + ".js");
+	var preprocessors = new Array();
+	sequence.preprocessor.forEach(function(preprocessor,i){
+		preprocessors[i] = require(__dirname + "/preprocessors/" + preprocessor + ".js");
+	});
 	// Parse the epub file
-	parser.parseBook(bookfile, preprocessor, function(err, book){
+	parser.parseBook(bookfile, preprocessors, function(err, book){
 		if (err){
 			console.log(err);
 		}
@@ -30,7 +33,7 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 		}
 	});
 	// Parse the srt file
-	parser.parseSubtitle(subtitlefile, preprocessor, function(err, subtitle){
+	parser.parseSubtitle(subtitlefile, preprocessors, function(err, subtitle){
 		if (err){
 			console.log(err);
 		}

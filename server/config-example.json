@@ -1,7 +1,7 @@
 {
 	"processingsequence":{
 		"parser" : "simpleparser",
-		"preprocessor": "cleantextpreprocessor",
+		"preprocessor": ["cleantextpreprocessor"],
 		"matcher" : "defaultmatcher",
 		"postprocessor" : "wordsentencepostprocessor",
 		"formatter" : "xmlformatter"

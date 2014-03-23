@@ -8,7 +8,7 @@ var fs = require('fs'); // Module for reading files
 /**
  * Parses epubs
  * @param bookfile the epub file in the format of the express bodyparser
- * @param preprocessor an instance of the preprocessor
+ * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.parseBook = function(bookfile, preprocessor, callback){
@@ -30,12 +30,21 @@ exports.parseBook = function(bookfile, preprocessor, callback){
     					var matcharray = new Array();
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
 							var sentences = matches[1].split(/[\.\?\!]/);
+							var process = function(functionind,processedmatch){
+					    		if (functionind !== -1){
+					    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
+					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
+					    		}
+					    		else if (processedmatch.trim() !== ""){
+				    				matcharray.push(processedmatch);
+					    		}
+						    };
 							sentences.forEach(function (sentence){
-								preprocessor.preprocess(sentence, function(processedmatch){
-									if (processedmatch.trim() !== ""){
-						    			matcharray.push(processedmatch);
-						    		}
-						    	});
+								var nextfunction = -1;
+								if (preprocessor.length > 1){
+									nextfunction = 1;
+								}
+								preprocessor[0].preprocess(sentence, process.bind(null,nextfunction));	
 							});
 						}
     					callback(null, matcharray); // Make a callback using all quotes
@@ -50,7 +59,7 @@ exports.parseBook = function(bookfile, preprocessor, callback){
 /**
  * Parses subtitles
  * @param subtitlefile the srt file in the format of the express bodyparser
- * @param preprocessor an instance of the preprocessor
+ * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.parseSubtitle = function(subtitlefile, preprocessor, callback){
@@ -118,16 +127,25 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, callback){
 					data = data.substring(linebreak+1);
 				}
 				var sentences = text.split(/([\.\?\!]|^\-)/);
+				var process = function(functionind,processedtext){
+		    		if (functionind !== -1){
+		    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
+		    			preprocessor[functionind].preprocess(processedtext, process.bind(null,nextfunction));
+		    		}
+		    		else if (processedtext.trim() !== ""){
+						subtitles.push({ // Store the subtitle
+							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
+							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
+							"text" : processedtext
+						});
+					}
+			    };
 				sentences.forEach(function (sentence){
-					preprocessor.preprocess(sentence, function(processedtext){
-						if (processedtext.trim() !== ""){
-							subtitles.push({ // Store the subtitle
-								"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
-								"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
-								"text" : processedtext
-							});
-						}
-					});
+					var nextfunction = -1;
+					if (preprocessor.length > 1){
+						nextfunction = 1;
+					}
+					preprocessor[0].preprocess(sentence, process.bind(null,nextfunction));
 				});
 
 				if (data.trim() === ""){ // When the file is empty, pass the resulting array to the callback
