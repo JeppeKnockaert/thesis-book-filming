@@ -120,9 +120,14 @@ app.get('/evaluation', function(req, res){
 	res.sendfile('client/evaluate.html');
 });
 
+// If a user wants to surf to the header page, send him to that page
+app.get('/header.html', function(req, res){
+	res.sendfile('client/header.html');
+});
+
 // If a user surfs to any other folder, send him to index file in the client folder
 app.get('*', function(req, res){
-  res.sendfile('client/index.html');
+	res.sendfile('client/index.html');
 });
 
 // Let the server listen for incoming requests on port 4000

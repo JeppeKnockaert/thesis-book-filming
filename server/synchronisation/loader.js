@@ -23,7 +23,7 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 		preprocessors[i] = require(__dirname + "/preprocessors/" + preprocessor + ".js");
 	});
 	// Parse the epub file
-	parser.parseBook(bookfile, preprocessors, function(err, book){
+	parser.parseBook(bookfile, preprocessors, updater, function(err, book){
 		if (err){
 			console.log(err);
 		}
@@ -33,7 +33,7 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 		}
 	});
 	// Parse the srt file
-	parser.parseSubtitle(subtitlefile, preprocessors, function(err, subtitle){
+	parser.parseSubtitle(subtitlefile, preprocessors, updater, function(err, subtitle){
 		if (err){
 			console.log(err);
 		}

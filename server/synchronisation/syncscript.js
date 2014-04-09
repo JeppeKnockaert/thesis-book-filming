@@ -2,8 +2,7 @@
  * This is the script to be executed by a child process of the synchronisation function.
  * When it receives a message with the needed files, it sends them to the fileloader for processing.
  */
-// Load IO library
-var fs = require('fs');
+var fs = require('fs'); // Module for reading files
 
 // Create an eventemitter to keep track of the progress
 var events = require('events');

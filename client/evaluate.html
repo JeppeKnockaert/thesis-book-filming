@@ -7,9 +7,18 @@
     	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     	<!-- Main css -->
     	<link href="css/main.css" rel="stylesheet" media="screen">
+    	<script src="http://code.jquery.com/jquery.js"></script>
+    	<script> 
+			$(function(){
+				$("#header").load("header.html",function() {
+					$('#evaluation').addClass("active");
+				}); 
+			});
+		</script>
   	</head>
   	<body>
   		<div class="container">
+  			<div id="header"></div>
 	    	<form id="evaluationform" class="form-horizontal" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label class="col-xs-2" for="resultupload">Result from matching (xml)</label>
@@ -42,7 +51,6 @@
 			  	<div id="evaluationpanelbody" class="panel-body"></div>
 			</div>
 		</div>
-		<script src="http://code.jquery.com/jquery.js"></script>
     	<script src="js/bootstrap.min.js"></script>
     	<!-- Fill in the filenames of the chosen files -->
 		<script>

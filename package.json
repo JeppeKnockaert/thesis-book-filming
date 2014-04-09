@@ -8,6 +8,6 @@
 		"js2xmlparser" : "0.1.2",
 		"tmp" : "0.0.21",
 		"pos" : "0.1.3",
-    "libxmljs" : "0.8.1"
+    	"libxmljs" : "0.8.1"
 	}
 }

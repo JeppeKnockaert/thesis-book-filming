@@ -7,9 +7,18 @@
     	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
     	<!-- Main css -->
     	<link href="css/main.css" rel="stylesheet" media="screen">
+    	<script src="http://code.jquery.com/jquery.js"></script>
+    	<script> 
+			$(function(){
+				$("#header").load("header.html",function() {
+					$('#synchronisation').addClass("active");
+				}); 
+			});
+		</script>
   	</head>
   	<body>
 	  	<div class="container">
+	  		<div id="header"></div>
 	    	<form id="syncform" class="form-horizontal" method="post" enctype="multipart/form-data">
 				<div class="form-group">
 					<label class="col-xs-1" for="bookupload">Book (epub)</label>
@@ -37,7 +46,7 @@
 			</form>
 
 			<!-- Modal -->
-			<div id="progressModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div id="progressModal" class="modal fade" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
     				<div class="modal-content">
 					  	<div class="modal-header">
@@ -62,7 +71,6 @@
 			</div>
 
 		</div>
-		<script src="http://code.jquery.com/jquery.js"></script>
     	<script src="js/bootstrap.min.js"></script>
     	<!-- Fill in the filenames of the chosen files -->
 		<script>

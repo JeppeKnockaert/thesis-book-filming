@@ -2,9 +2,8 @@
  * Synchronizes a given book and subtitle using (partial) exact string match
  */
 
-var natural = require('natural'); // load natural language facilities
+var natural = require('natural'); // Load natural language facilities
 var pos = require('pos'); // Module with part-of-speech utilities
-var fs = require('fs'); // Module for reading files
 
 var mindelta = 0.8;
 var verbmatchdelta = 0.5;
