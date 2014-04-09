@@ -12,8 +12,8 @@ var bookCallback; // Callback to execute after parsing book
 var parsedSubtitles; // Results from parsing the subtitles
 var subtitleCallback; // Callback to execute after parsing subtitles
 var eventupdater; // Updater for registring our progress
-var subsame = false; // Indicates that the subtitlefile has remained unchanged
-var booksame = false; // Indicates that the bookfile has remained unchanged
+
+var usecachedfile = true; // For debugging purposes
 
 /**
  * Parses epubs
@@ -69,31 +69,17 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 								}	
 							});
 						}
-						var filename = __dirname + '/srl/book';
-						fs.readFile(filename, function (err, data) {
-							var bookReady = function(){
-								if (subParsed && !srl){ // If subtitles are done and that method didn't start the SRL, start it
-									srl = true;
-									callSRLParser();
-								}
-								bookParsed = true; // Book has been parsed
-								bookCallback = callback; 
+						fs.writeFile(__dirname + '/srl/book', bookText, function (err) { // Write the sentences to file for SRL
+							if (err){
+								console.log(err);
 							}
-							var fileText = ''+data;
-							if (err||(fileText.indexOf(bookText) == -1 && bookText.indexOf(fileText) == -1)){
-								fs.writeFile(filename, bookText, function (err) { // Write the sentences to file for SRL
-									if (err){
-										console.log(err);
-									}
-									bookReady();
-								});
+							bookCallback = callback; 
+							if (subParsed && !srl){ // If subtitles are done and that method didn't start the SRL, start it
+								srl = true;
+								callSRLParser();
 							}
-							else{
-								booksame = true;
-								bookReady();
-							}
+							bookParsed = true; // Book has been parsed
 						});
-						
     				}
     			}
     		});
@@ -106,34 +92,32 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
  * Spawns the java application that does the semantic role labeling
  */
 callSRLParser = function(){
-	fs.readFile(__dirname + "/srl/srlout.json", function (err, data) {
-		if (err||!booksame||!subsame){
-			console.log("SRL started..");
-			var spawn = require('child_process').spawn;
-			var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
-			{
-				cwd : __dirname+'/srl/' // Set working directory to the srl folder (where the java application resides)
-			});
-			child.stdout.on('data', function (data) {
-				var procent = '' + data;
-				var procentindex = procent.indexOf('%');
-				if (procentindex !== -1){
-					var procentnumber = procent.substr(0,procentindex);
-					eventupdater.emit('syncprogressupdate',procentnumber);
-				}
-			});
-			child.on('close', function (code) {
-				console.log("SRL finished!");
-				bookCallback(null, parsedBook); // Make a callback using all quotes
-				subtitleCallback(null,parsedSubtitles); // Make a callback using all subtitles
-			});
-		}
-		else{
-			console.log("File unchanged.. Using old data! (Remove srlout.json if you want to parse again)");
+	if (!usecachedfile){
+		console.log("SRL started..");
+		var spawn = require('child_process').spawn;
+		var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
+		{
+			cwd : __dirname+'/srl/' // Set working directory to the srl folder (where the java application resides)
+		});
+		child.stdout.on('data', function (data) {
+			var procent = '' + data;
+			var procentindex = procent.indexOf('%');
+			if (procentindex !== -1){
+				var procentnumber = procent.substr(0,procentindex);
+				eventupdater.emit('syncprogressupdate',procentnumber);
+			}
+		});
+		child.on('close', function (code) {
+			console.log("SRL finished!");
 			bookCallback(null, parsedBook); // Make a callback using all quotes
 			subtitleCallback(null,parsedSubtitles); // Make a callback using all subtitles
-		}
-	});
+		});
+	}
+	else{
+		console.log("Using old data! (Only for debugging purposes)");
+		bookCallback(null, parsedBook); // Make a callback using all quotes
+		subtitleCallback(null,parsedSubtitles); // Make a callback using all subtitles
+	}
 }
 
 /**
@@ -245,29 +229,16 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 				});
 
 				if (data.trim() === ""){ // When the file is empty, we're ready
-					var filename = __dirname + '/srl/subtitle';
-					fs.readFile(filename, function (err, data) {
-						var subReady = function(){
-							if (bookParsed && !srl){ // If book is done and that method didn't start the SRL, start it
-								srl = true;
-								callSRLParser();
-							}
-							subParsed = true; // Subtites have been parsed
-							subtitleCallback = callback;
-						};
-						var fileText = ''+data;
-						if (err||(fileText.indexOf(subtitleText) == -1 && subtitleText.indexOf(fileText) == -1)){
-							fs.writeFile(filename, subtitleText, function (err) {
-								if (err){
-									console.log(err);
-								}
-								subReady();
-							});
+					fs.writeFile(__dirname + '/srl/subtitle', subtitleText, function (err) {
+						if (err){
+							console.log(err);
 						}
-						else{
-							subsame = true;
-							subReady();
+						subtitleCallback = callback;
+						if (bookParsed && !srl){ // If book is done and that method didn't start the SRL, start it
+							srl = true;
+							callSRLParser();
 						}
+						subParsed = true; // Subtites have been parsed
 					});
 				}
 			}
