@@ -13,7 +13,7 @@ var parsedSubtitles; // Results from parsing the subtitles
 var subtitleCallback; // Callback to execute after parsing subtitles
 var eventupdater; // Updater for registring our progress
 
-var usecachedfile = true; // For debugging purposes
+var usecachedfile = false; // For debugging purposes
 
 /**
  * Parses epubs
