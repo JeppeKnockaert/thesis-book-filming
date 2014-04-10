@@ -7,7 +7,9 @@
 		"formatter" : "xmlformatter"
 	},
 	"alchemyapi":{
-		"APIkey" : "12345"
+		"APIkey" : "example_must_be_replaced_with_real_key"
+	},
+	"srl":{
+		"usecachedversion" : false
 	}
-
 }

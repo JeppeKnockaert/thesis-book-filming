@@ -4,7 +4,7 @@
 	"private": true,
 	"dependencies": {
 		"express" : "3.4.1",
-		"natural" : "0.1.23",
+		"natural" : "0.1.27",
 		"js2xmlparser" : "0.1.2",
 		"tmp" : "0.0.21",
 		"pos" : "0.1.3",

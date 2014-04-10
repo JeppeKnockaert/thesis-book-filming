@@ -1,5 +1,6 @@
 /**
- * Parses books and subtitles
+ * Parses books and subtitles and performs semantic role labeling for each sentence
+ * Performs callback with an array: [[array of sentences], {Parsed JSON with labels}]
  */
 
 var epubParser = require("epub"); // Module for parsing epub files
@@ -12,8 +13,6 @@ var bookCallback; // Callback to execute after parsing book
 var parsedSubtitles; // Results from parsing the subtitles
 var subtitleCallback; // Callback to execute after parsing subtitles
 var eventupdater; // Updater for registring our progress
-
-var usecachedfile = false; // For debugging purposes
 
 /**
  * Parses epubs
@@ -92,32 +91,49 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
  * Spawns the java application that does the semantic role labeling
  */
 callSRLParser = function(){
-	if (!usecachedfile){
-		console.log("SRL started..");
-		var spawn = require('child_process').spawn;
-		var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
-		{
-			cwd : __dirname+'/srl/' // Set working directory to the srl folder (where the java application resides)
+	var done = function(){
+		eventupdater.emit('syncprogressupdate',100); // Put the progress on 100%
+		fs.readFile(__dirname + '/srl/srlout.json', 'UTF-8', function (srlerr, srldata){
+			var parsedSRL = JSON.parse(srldata);
+			fs.readFile(__dirname + '/srl/posout.json', 'UTF-8', function (poserr, posdata){
+				var parsedPOS = JSON.parse(posdata);
+				bookCallback(null, [parsedBook, parsedSRL["book"], parsedPOS["book"]]); // Make a callback using all quotes
+				subtitleCallback(null, [parsedSubtitles, parsedSRL["subtitle"], parsedPOS["subtitle"]]); // Make a callback using all subtitles
+			});
 		});
-		child.stdout.on('data', function (data) {
-			var procent = '' + data;
-			var procentindex = procent.indexOf('%');
-			if (procentindex !== -1){
-				var procentnumber = procent.substr(0,procentindex);
-				eventupdater.emit('syncprogressupdate',procentnumber);
-			}
-		});
-		child.on('close', function (code) {
-			console.log("SRL finished!");
-			bookCallback(null, parsedBook); // Make a callback using all quotes
-			subtitleCallback(null,parsedSubtitles); // Make a callback using all subtitles
-		});
-	}
-	else{
-		console.log("Using old data! (Only for debugging purposes)");
-		bookCallback(null, parsedBook); // Make a callback using all quotes
-		subtitleCallback(null,parsedSubtitles); // Make a callback using all subtitles
-	}
+	};
+	fs.readFile(__dirname + '/../config.json', 'UTF-8', function (configerr, configdata){
+		var usecachedfile = JSON.parse(configdata)['srl']['usecachedversion'];
+		fs.readFile(__dirname + '/srl/srlout.json', 'UTF-8', function (srlerr, srlout){
+			fs.readFile(__dirname + '/srl/posout.json', 'UTF-8', function (poserr, posout){
+				if (!usecachedfile||srlerr||poserr){
+					console.log("SRL started..");
+					var spawn = require('child_process').spawn;
+					var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
+					{
+						cwd : __dirname+'/srl/' // Set working directory to the srl folder (where the java application resides)
+					});
+					child.stdout.on('data', function (data) {
+						var procent = '' + data;
+						var procentindex = procent.indexOf('%');
+						if (procentindex !== -1){
+							var procentnumber = procent.substr(0,procentindex);
+							eventupdater.emit('syncprogressupdate',procentnumber);
+						}
+					});
+					child.on('close', function (code) {
+						console.log("SRL finished!");
+						done();
+					});
+				}
+				else{
+					console.log("Using old data! (Only for debugging purposes)");
+					done();
+				}
+			});
+		});	
+	});
+	
 }
 
 /**

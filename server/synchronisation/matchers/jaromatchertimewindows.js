@@ -2,7 +2,7 @@
  * Synchronizes a given book and subtitle using the Jaro Winkler Distance and time windows
  */
 
-var natural = require('natural'); // load natural language facilities
+var natural = require('natural'); // Load natural language facilities
 
 var delta = 0.90; // Minimum distance between two fragments to be equal
 var windowsize = 8; // Size of the window around an exact match
