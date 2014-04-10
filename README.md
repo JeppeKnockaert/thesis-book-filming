@@ -28,7 +28,14 @@ Node will automatically fetch all dependencies for the project.
 Make sure you have a folder called "tmp" in the server folder, the uploaded files will be stored here.
 You will also need a folder called "download" to store files that are available for the user to download.
 
-###Models for the SRL Module
+###SRL Module
+
+####Dependencies
+
+You will need to install the WordNet command-line tool and add it to your PATH variable.
+The latest release is available for download on their [website](http://wordnet.princeton.edu/wordnet/download/current-version/).
+
+####Models
 
 The SRL (Semantic Role Labeling) module needs model files to work properly. 
 These files are quite big, that's why you need to download them yourself and put them in the right directory.
