@@ -3,11 +3,12 @@
 	"description": "Thesis about the synchronization of books and their film adaptations",
 	"private": true,
 	"dependencies": {
-		"express" : "3.4.1",
+		"express" : "4.0.0",
 		"natural" : "0.1.27",
-		"js2xmlparser" : "0.1.2",
-		"tmp" : "0.0.21",
-		"pos" : "0.1.3",
-    	"libxmljs" : "0.8.1"
+		"js2xmlparser" : "0.1.3",
+		"tmp" : "0.0.23",
+		"pos" : "0.1.5",
+    	"libxmljs" : "0.8.1",
+    	"async" : "0.7.0"
 	}
 }
