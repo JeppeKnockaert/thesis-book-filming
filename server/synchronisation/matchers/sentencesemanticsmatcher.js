@@ -2,6 +2,14 @@
  * Synchronizes a given book and subtitle using sentence level semantic analysis
  */
 
+var delta = 0.7; // Minimum similarity to pass
+var async = require('async'); // Load async module
+var queuesize = 10000; // Number of parallel processes allowed
+var queue = async.queue(function (task, callback) { // Queue for executing processes
+    callWordNetTask(task,callback);
+}, queuesize);
+var exec = require('child_process').exec;
+
 /**
  * Synchronizes a parsed epub and srt from simpleparser using sentence level semantic analysis
  * @param book the parsed epub file
@@ -17,15 +25,29 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	var subArray = subtitle[0];
 	var subRoles = subtitle[1];
 	var subPos = subtitle[2];
-
-	calculateSentenceSimilarity(bookRoles[126],bookPos[126],subRoles[24],subPos[24],function(similarity){
-		console.log("total similarity: "+similarity);
+	var matches = {"match" : new Array()};
+	bookArray.forEach(function (bookvalue, bookindex){
+	 	subArray.forEach(function (subvalue, subindex){
+	 		var sentence1 = bookRoles[bookindex];
+	 		var sentence2 = subRoles[subindex];
+	 		if (sentence1 !== null && sentence2 !== null){
+		 		calculateSentenceSimilarity(sentence1,bookPos[bookindex],sentence2,subPos[subindex], function(similarity){
+	 				if (similarity >= delta){ // Match is found
+	 					var match = { 
+							"fromTime" : subvalue.fromTime,
+							"subtitleindex" : subindex,
+							"quoteindex" : bookindex,
+							"subtitle" : subvalue.text,
+					   		"quote" : bookvalue,
+						};
+						matches["match"].push(match);
+	 				}
+		 		});
+	 		}
+	 	});
+	 	updater.emit('syncprogressupdate',Math.floor((bookindex*100)/bookArray.length));
 	});
-
-	// bookArray.forEach(function (bookvalue, bookindex){
-	// 	var frames = bookRoles[bookindex]; // Fetch the frames for the current sentence
-	// });
-	
+	callback(matches); // Return the array with matches	
 }
 
 /**
@@ -163,10 +185,17 @@ getRelatedWords = function(word,type,callback){
 	if (type == 'n'){
 		options += '-meron '; // Request meronyms
 		options += '-holon '; // Request holonyms
-	}
-	
-	var exec = require('child_process').exec;
-	exec('wn "'+word+'" '+options, function (error, stdout, stderr) {
+	}	
+	queue.push({word:word,options:options},callback); // Create task that searches WordNet
+}
+
+/**
+ * Task for the queue: call WordNet with the given arguments
+ * @param task object with 2 field: word (the word to look for) and options (the cmdline arguments)
+ * @param callback the callback that needs to be called with the results
+ */
+callWordNetTask = function(task,callback){
+	exec('wn "'+task.word+'" '+task.options, function (error, stdout, stderr) {
 		if (stdout === ""){
 			callback(new Array());
 		}

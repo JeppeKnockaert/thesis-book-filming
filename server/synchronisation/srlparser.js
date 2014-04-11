@@ -16,13 +16,13 @@ var eventupdater; // Updater for registring our progress
 
 /**
  * Parses epubs
- * @param bookfile the epub file in the format of the express bodyparser
+ * @param bookfile the path to the epub file
  * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.parseBook = function(bookfile, preprocessor, updater, callback){
 	eventupdater = updater;
-	var epub = new epubParser(bookfile.path); // Create the epub parser
+	var epub = new epubParser(bookfile); // Create the epub parser
 	var fulltext = "";
 	epub.on("end", function(){
     	epub.flow.forEach(function(chapter, index){ // Loop trough all chapters and fetch the text
@@ -107,7 +107,7 @@ callSRLParser = function(){
 		fs.readFile(__dirname + '/srl/srlout.json', 'UTF-8', function (srlerr, srlout){
 			fs.readFile(__dirname + '/srl/posout.json', 'UTF-8', function (poserr, posout){
 				if (!usecachedfile||srlerr||poserr){
-					console.log("SRL started..");
+					eventupdater.emit('message',"SRL/POS tagging in progress...");
 					var spawn = require('child_process').spawn;
 					var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
 					{
@@ -122,7 +122,7 @@ callSRLParser = function(){
 						}
 					});
 					child.on('close', function (code) {
-						console.log("SRL finished!");
+						updater.emit('syncprogressupdate',0); // Reset progress for the next part
 						done();
 					});
 				}
@@ -138,13 +138,13 @@ callSRLParser = function(){
 
 /**
  * Parses subtitles
- * @param subtitlefile the srt file in the format of the express bodyparser
+ * @param subtitlefile the path to the srt file
  * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 	eventupdater = updater;
-	fs.readFile(subtitlefile.path, 'utf8', function (err,data) {
+	fs.readFile(subtitlefile, 'utf8', function (err,data) {
 	  	if (err) {
 	    	callback(err);
 		}

@@ -50,10 +50,10 @@
 				<div class="modal-dialog">
     				<div class="modal-content">
 					  	<div class="modal-header">
-					    	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 					    	<h3>Synchronizing...</h3>
 					  	</div>
 					  	<div class="modal-body">
+					  		<div id="progressmessage">Preparing to sync...</div>
 							<div class="progress progress-striped active">
 				  				<div id="syncprogressbar" class="progress-bar" ></div>
 							</div>
@@ -82,14 +82,18 @@
 			// Update the progressbar
 			var checkProgress = function(){
 				$.ajax( {
+					dataType: "json",
 					type: "POST",
 					data: {"childpid":pid},
 					url: "/progressreport",
 					success: function( response ) {
-						$("#syncprogressbar").text(response);
-						$("#syncprogressbar").width(response);
+						if (response.message !== null){
+							$("#progressmessage").text(response.message);
+						}
+						$("#syncprogressbar").text(response.progress);
+						$("#syncprogressbar").width(response.progress);
 						// Stop updating the progress if the bar is full
-						if (response === "100%"){ 
+						if (response.ready){ 
 							clearInterval(intervalid);
 							$("#childpid").val(pid);
 							$("#downloadbutton").show();
@@ -98,17 +102,23 @@
 			    });
 			};
 
+			$('#downloadbutton').click(function(){
+				$("#progressModal").modal("hide");
+				$("#downloadbutton").hide();
+				$("#cancelbutton").hide();
+				$("#progressmessage").text("Preparing to sync...");
+			});
+
 			$('#cancelbutton').click(function(){
+				$("#progressModal").modal("hide");
+				$("#downloadbutton").hide();
+				$("#cancelbutton").hide();
+				$("#progressmessage").text("Preparing to sync...");
+				clearInterval(intervalid);
 				$.ajax( {
 					type: "POST",
 					data: {"childpid":pid},
 					url: "/cancelsynchronization",
-					success: function( response ) {
-						clearInterval(intervalid);
-						$("#progressModal").modal("hide");
-						$("#downloadbutton").hide();
-						$("#cancelbutton").hide();
-					}
 			    });
 			});
 

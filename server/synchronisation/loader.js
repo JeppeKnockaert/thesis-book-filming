@@ -57,6 +57,7 @@ callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 		var postprocessor = require(__dirname + "/" + sequence.postprocessor + ".js");
 		var formatter = require(__dirname + "/" + sequence.formatter + ".js");
 		synced = true;
+		updater.emit('message',"Synchronisation in progress...");
 		matcher.synchronize(parsedBook,parsedSubtitle,postprocessor,updater,function(matches){
 			formatter.format(matches, updater);
 		});

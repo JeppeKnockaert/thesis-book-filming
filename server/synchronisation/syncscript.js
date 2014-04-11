@@ -21,7 +21,7 @@ process.on('message', function(message) {
 		// Get the loader
 		var loader = require(__dirname + '/loader.js');
 		
-		// Add a listener to the updater
+		// Add a listeners to the updater
 		updater.on('syncprogressupdate',function(progress){
 			// Send the progress to the master process
 			process.send({"name":"progressreport", "value":progress});
@@ -31,6 +31,11 @@ process.on('message', function(message) {
 			// Send the result to the master process
 			process.send({"name":"result", "value":filepath});
 		});
+
+		updater.on('message', function(message){
+			// Send a message to the master process
+			process.send({"name":"message", "value":message});
+		})
 		loader.readFiles(bookfile,subtitlefile,processingsequence,updater);
 	}
 });

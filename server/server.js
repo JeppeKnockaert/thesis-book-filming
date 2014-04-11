@@ -11,13 +11,28 @@ var cp = require('child_process');
 // Create a new application
 var app = express();
 
-// Enable file upload
-app.use(express.bodyParser({ keepExtensions: true, uploadDir: __dirname + '/tmp' }));
-app.use(express.logger('dev'));
+// Load logger for express
+var morgan = require('morgan');
+app.use(morgan('dev'));
+
+// Load busboy module for parsing uploaded files
+var Busboy = require('busboy');
+
+// Load module for temporary file creation
+var tmp = require('tmp');
+
+// Load module for os functions
+var os = require('os');
+
+// Load module for file paths
+var path = require('path');
+
+// Load module for IO
+var fs = require('fs');
 
 // If a JavaScript or CSS file is requested, send the request to the client folder
 app.get(/^(\/(js|css)\/.+)$/, function(req, res) {
-  res.sendfile('client/' + req.params[0]);
+	res.sendfile('client/' + req.params[0]);
 });
 
 // Keep track of the progress of the synchronization
@@ -30,7 +45,39 @@ app.post('/synchronize', function(req,res){
 	// Add the child to the array to keep track of its progress
 	children[child.pid] = {"child": child, "progress":0, "result":null};
 	// Send the files to the child
-	child.send({"name" : "fileupload", "value" : [req.files.bookfile, req.files.subtitlefile] });
+	var filesread = 0;
+	var book; 
+	var subtitle;
+	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+		var extension = path.extname(filename);
+		var baseName = path.basename(fieldname,extension);
+		tmp.tmpName({ dir: os.tmpdir(), prefix: baseName, postfix: extension }, function (err, path) {
+			file.pipe(fs.createWriteStream(path));
+			if (fieldname === "bookfile"){
+				book = path;
+				if (extension !== '.epub'){
+					var err = new Error("Not an epub file!");
+					throw err;
+				}
+			}
+			else{
+				subtitle = path;
+				if (extension !== '.srt'){
+					var err = new Error("Not an srt file!");
+					throw err;
+				}
+			}
+		});
+		file.on('end', function() { // When file has been read, pass it on
+			filesread++;
+			if (filesread == 2){
+				child.send({"name" : "fileupload", "value" : [book, subtitle] });
+			}
+		});
+	});
+    req.pipe(busboy); // Start the parsing
+
 	child.on("message", function(message){
 		if (message["name"] === "progressreport"){
 			// Update the progressvariable when an update is received
@@ -38,6 +85,9 @@ app.post('/synchronize', function(req,res){
 		}
 		else if (message["name"] === "result"){
 			children[child.pid].filepath = message["value"];
+		}
+		else if (message["name"] === "message"){
+			children[child.pid].message = message['value'];
 		}
 	});
 	// End the request, return the pid of the child to fetch the progress and result later on
@@ -62,43 +112,83 @@ app.post('/evaluate', function(req, res){
 
 // If a request is received to return the progress, return it based on the pid
 app.post('/progressreport', function(req, res){
-	var child = children[req.param('childpid')];
-	if (typeof child !== "undefined"){
-		res.send(""+child['progress']+"%");
-	}
-	else{
-		res.send("0%");
-	}
+	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+    	if (fieldname === "childpid"){
+    		var child = children[val];
+			if (typeof child !== "undefined"){
+				var ready = false;
+				if (typeof child['evaluation'] !== "undefined"){
+					ready = true;
+				}
+				var message = null;
+				if (typeof child['message'] !== "undefined"){
+					message = child['message'];
+				}
+				res.json({
+					progress: child['progress']+"%",
+					message: message,
+					ready: ready
+				});
+			}
+			else{
+				res.json({
+					progress: "0%",
+					message: null,
+					ready: false
+				});
+			}
+		}
+    });
+	req.pipe(busboy);
 });
 
 // If a request is received to return the result, return it based on the pid
 app.post('/fetchresult', function(req, res){
-	var child = children[req.param('childpid')];
-	var method = req.param('method');
-	if (method === "sync"){
-		if (typeof child !== "undefined"){
-			res.download(child['filepath']);
-		}
-		else{
-			res.send(404);
-		}
-		killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
-	}
-	else{
-		if (typeof child !== "undefined" && child['evaluation'] !== null){
-			res.send(""+child['evaluation']);
-			killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
-		}
-		else{
-			res.send("Please wait...");
-		}
-	}
+	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	var childpid = null;
+	var method = null;
+	busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+    	if (fieldname === "childpid"){
+    		childpid = val;
+    	}
+    	else if (fieldname === "method"){
+    		method = val;
+    	}
+    	if (method !== null && childpid !== null){
+    		var child = children[val];
+			var method = req.param('method');
+			if (method === "sync"){
+				if (typeof child !== "undefined"){
+					res.download(child['filepath']);
+				}
+				else{
+					res.send(404);
+				}
+				killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
+			}
+			else{
+				if (typeof child !== "undefined" && child['evaluation'] !== null){
+					res.send(""+child['evaluation']);
+					killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
+				}
+				else{
+					res.send("Please wait...");
+				}
+			}
+    	}    		
+	});
 });
 
 // Cancel the synchronization by killing the child process
 app.post('/cancelsynchronization', function(req, res){
-	killChild(req.param('childpid'));
-	res.send(200);
+	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+    	if (fieldname === "childpid"){
+    		killChild(val);
+    		res.send(200);
+    	}
+	});
 });
 
 /**
