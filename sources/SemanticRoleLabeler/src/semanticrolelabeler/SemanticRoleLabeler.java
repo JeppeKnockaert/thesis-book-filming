@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import edu.smu.tspell.wordnet.AdjectiveSynset;
 import edu.smu.tspell.wordnet.NounSynset;
 import edu.smu.tspell.wordnet.Synset;
 import edu.smu.tspell.wordnet.SynsetType;
@@ -40,7 +41,8 @@ public class SemanticRoleLabeler {
 
     // Map with for each word and each type of that word, the related words
     private static final Map<String,Map<String,String[]>> relatedwordsMap = new HashMap<String, Map<String,String[]>>();
-
+    // Map with the derivate forms
+    private static final Map<String,Map<String,String[]>> derivatewordsMap = new HashMap<String, Map<String,String[]>>();
         
     /**
      * Executes main application
@@ -162,6 +164,20 @@ public class SemanticRoleLabeler {
             srlgen.close();
             posgen.close();
         }
+//        // Add derivate forms to the related words map
+//        for (Entry<String,Map<String,String[]>> baseform : derivatewordsMap.entrySet()){
+//            Map<String, String[]> baseformtypemap = relatedwordsMap.get(baseform.getKey());
+//            if (baseformtypemap != null){ // If the baseform isn't in the map, there's no need to add it
+//                for (Entry<String, String[]> basetype : baseform.getValue().entrySet()){
+//                    String[] currentArray = baseformtypemap.get(basetype.getKey());
+//                    Set<String> newrelated = new HashSet<String>(Arrays.asList(basetype.getValue()));
+//                    if (currentArray != null){ // Add existing related words
+//                        newrelated.addAll(Arrays.asList(currentArray));
+//                    }
+//                    baseformtypemap.put(basetype.getKey(), newrelated.toArray(new String[0]));
+//                }
+//            }
+//        }
         // Write related words map to file
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT); //Enable pretty printing
@@ -293,7 +309,25 @@ public class SemanticRoleLabeler {
         // If we haven't got the related words yet, get them
         if (!relatedwordsMap.containsKey(lowercaseword)|| !relatedwordsMap.get(lowercaseword).containsKey(keytype)){
             WordNetDatabase wn = WordNetDatabase.getFileInstance(); // Get the wordnet database
-
+            // Add this word to the arrays of possible baseforms
+            String[] baseFormCandidates = wn.getBaseFormCandidates(word, type);
+            for (String baseform : baseFormCandidates){ // Add the word to each of the baseforms
+                String lowerbaseform = baseform.toLowerCase();
+                Map<String, String[]> typemap = derivatewordsMap.get(lowerbaseform);
+                Set<String> relatedbase = new HashSet<String>(); // Add the original form to the new related array
+                relatedbase.add(lowercaseword);
+                if (typemap != null){
+                    String[] alreadyrelated = typemap.get(keytype); // Check if there was already a related array
+                    if (alreadyrelated != null){ // Add them to the new related array
+                        relatedbase.addAll(Arrays.asList(alreadyrelated));
+                    }
+                }
+                else{
+                    derivatewordsMap.put(lowerbaseform, new HashMap<String, String[]>());
+                    typemap = derivatewordsMap.get(lowerbaseform);
+                }
+                typemap.put(keytype, relatedbase.toArray(new String[0]));
+            }
             Synset[] synsets = wn.getSynsets(word, type);
             List<Synset> relatedsynsets = new ArrayList<>();
             Set<String> relatedstrings = new HashSet<>();
@@ -316,6 +350,10 @@ public class SemanticRoleLabeler {
                     VerbSynset vsyns = (VerbSynset)syns; 
                     relatedsynsets.addAll(Arrays.asList(vsyns.getHypernyms())); // Add the hypernyms
                     relatedsynsets.addAll(Arrays.asList(vsyns.getTroponyms())); // Add the hyponyms
+                }
+                else if (type.equals(SynsetType.ADJECTIVE)){
+                    AdjectiveSynset asyns = (AdjectiveSynset) syns;
+                    relatedsynsets.addAll(Arrays.asList(asyns.getSimilar())); // Add the synonyms
                 }
             }
             for (Synset syns : relatedsynsets){
