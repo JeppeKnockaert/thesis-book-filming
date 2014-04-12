@@ -289,14 +289,9 @@ public class SemanticRoleLabeler {
             type = SynsetType.ADVERB;
             keytype = "r";
         }
-        
-        // If we haven't got the related words yet, make a hashmap to store them
-        if (!relatedwordsMap.containsKey(lowercaseword)){
-            relatedwordsMap.put(lowercaseword, new HashMap<String, String[]>());
-        }
-        
+                
         // If we haven't got the related words yet, get them
-        if (!relatedwordsMap.get(lowercaseword).containsKey(keytype)){
+        if (!relatedwordsMap.containsKey(lowercaseword)|| !relatedwordsMap.get(lowercaseword).containsKey(keytype)){
             WordNetDatabase wn = WordNetDatabase.getFileInstance(); // Get the wordnet database
 
             Synset[] synsets = wn.getSynsets(word, type);
@@ -326,7 +321,13 @@ public class SemanticRoleLabeler {
             for (Synset syns : relatedsynsets){
                 relatedstrings.addAll(Arrays.asList(syns.getWordForms()));
             }
-            relatedwordsMap.get(lowercaseword).put(keytype,relatedstrings.toArray(new String[0])); // Add the resulting array to the map
+            if (!relatedstrings.isEmpty()){ // Don't need to add to the map if there are no related terms
+                // If we haven't got the related words yet, make a hashmap to store them
+                if (!relatedwordsMap.containsKey(lowercaseword)){
+                    relatedwordsMap.put(lowercaseword, new HashMap<String, String[]>());
+                }
+                relatedwordsMap.get(lowercaseword).put(keytype,relatedstrings.toArray(new String[0])); // Add the resulting array to the map
+            }
         }
     }
 }
