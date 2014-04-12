@@ -4,7 +4,8 @@
 
 /**
  * Reads the uploaded files and compares them to achieve evaluation of the results
- * @param resultsfile file with the results of a synchronisation
+ * @param resultsfile path to the file with the results of a synchronisation
+ * @param groundtruthfile path to the fie with the groundtruth
  * @param updater the eventemitter to keep track of the results of the evaluation
  */
 exports.evaluate = function(resultsfile,groundtruthfile,updater){
@@ -13,8 +14,8 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 	var fs = require('fs');
 
 	// Read files
-	fs.readFile(resultsfile.path, 'utf8', function (err,resultsxml) {
-		fs.readFile(groundtruthfile.path, 'utf8', function (err,groundtruthxml) {
+	fs.readFile(resultsfile, 'utf8', function (err,resultsxml) {
+		fs.readFile(groundtruthfile, 'utf8', function (err,groundtruthxml) {
 			// Parse both xml files
 			var resultsDoc = libxmljs.parseXmlString(resultsxml);
 			var groundtruthDoc = libxmljs.parseXmlString(groundtruthxml);

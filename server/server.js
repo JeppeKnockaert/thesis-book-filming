@@ -96,18 +96,45 @@ app.post('/synchronize', function(req,res){
 
 // Send the uploaded files to the evaluator when the form is submitted
 app.post('/evaluate', function(req, res){
-	// Make a new child to start the processing
-	var child = cp.fork(__dirname + '/evaluation/evaluationscript.js'); 
-	// Add the child to the array to keep track of its results
-	children[child.pid] = {"child": child, "evaluation": null};
-	child.send({"name" : "fileupload", "value" : [req.files.resultfile, req.files.groundtruthfile] });
-	child.on("message", function(message){
-		if (message["name"] === "result"){
-			children[child.pid].evaluation = message["value"];
-		}
+	var filesread = 0;
+	var resultfile; 
+	var groundtruthfile;
+	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+		var extension = path.extname(filename);
+		var baseName = path.basename(fieldname,extension);
+		tmp.tmpName({ dir: os.tmpdir(), prefix: baseName, postfix: extension }, function (err, path) {
+			file.pipe(fs.createWriteStream(path));
+			if (extension !== '.xml'){
+				var err = new Error("Not an xml file!");
+				throw err;
+			}
+			if (fieldname === "resultfile"){
+				resultfile = path;
+			}
+			else{
+				groundtruthfile = path;
+			}
+		});
+		file.on('end', function() { // When file has been read, pass it on
+			filesread++;
+			if (filesread == 2){
+				// Make a new child to start the processing
+				var child = cp.fork(__dirname + '/evaluation/evaluationscript.js'); 
+				// Add the child to the array to keep track of its results
+				children[child.pid] = {"child": child, "evaluation": null};
+				child.send({"name" : "fileupload", "value" : [resultfile, groundtruthfile] });
+				child.on("message", function(message){
+					if (message["name"] === "result"){
+						children[child.pid].evaluation = message["value"];
+					}
+				});
+				// End the request, return the pid of the child to fetch the progress and result later on
+				res.send(""+child.pid);
+			}
+		});
 	});
-	// End the request, return the pid of the child to fetch the progress and result later on
-	res.send(""+child.pid);
+    req.pipe(busboy); // Start the parsing
 });
 
 // If a request is received to return the progress, return it based on the pid

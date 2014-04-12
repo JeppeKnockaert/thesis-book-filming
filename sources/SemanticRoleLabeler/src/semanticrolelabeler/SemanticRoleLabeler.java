@@ -164,20 +164,20 @@ public class SemanticRoleLabeler {
             srlgen.close();
             posgen.close();
         }
-//        // Add derivate forms to the related words map
-//        for (Entry<String,Map<String,String[]>> baseform : derivatewordsMap.entrySet()){
-//            Map<String, String[]> baseformtypemap = relatedwordsMap.get(baseform.getKey());
-//            if (baseformtypemap != null){ // If the baseform isn't in the map, there's no need to add it
-//                for (Entry<String, String[]> basetype : baseform.getValue().entrySet()){
-//                    String[] currentArray = baseformtypemap.get(basetype.getKey());
-//                    Set<String> newrelated = new HashSet<String>(Arrays.asList(basetype.getValue()));
-//                    if (currentArray != null){ // Add existing related words
-//                        newrelated.addAll(Arrays.asList(currentArray));
-//                    }
-//                    baseformtypemap.put(basetype.getKey(), newrelated.toArray(new String[0]));
-//                }
-//            }
-//        }
+        // Add derivate forms to the related words map
+        for (Entry<String,Map<String,String[]>> baseform : derivatewordsMap.entrySet()){
+            Map<String, String[]> baseformtypemap = relatedwordsMap.get(baseform.getKey());
+            if (baseformtypemap != null){ // If the baseform isn't in the map, there's no need to add it
+                for (Entry<String, String[]> basetype : baseform.getValue().entrySet()){
+                    String[] currentArray = baseformtypemap.get(basetype.getKey());
+                    Set<String> newrelated = new HashSet<String>(Arrays.asList(basetype.getValue()));
+                    if (currentArray != null){ // Add existing related words
+                        newrelated.addAll(Arrays.asList(currentArray));
+                    }
+                    baseformtypemap.put(basetype.getKey(), newrelated.toArray(new String[0]));
+                }
+            }
+        }
         // Write related words map to file
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT); //Enable pretty printing
@@ -229,42 +229,53 @@ public class SemanticRoleLabeler {
     private static void generateSRLSentence(JsonGenerator jgenerator, Sentence sentence) throws IOException {
         boolean started = false;
         List<Predicate> predicates = sentence.getPredicates();
-        for (Predicate predicate : predicates){ // Iterate the predicates
-            if (predicate.getPOS().contains("VB")){ // Only verb predicates are needed
-                if (!started){ // If object not yet openend
-                    jgenerator.writeStartObject(); // Start object with predicates
-                    started = true;
-                }
-                jgenerator.writeFieldName(predicate.getForm()); // Predicate as field name
-                Map<Word, String> argmap = predicate.getArgMap(); // Get the arguments of the predicate
-                Set<Word> arguments = argmap.keySet();
-                jgenerator.writeStartObject(); // Start object with arguments
-                jgenerator.writeFieldName("rel"); // Label to indicate the verb
-                jgenerator.writeStartArray();
-                jgenerator.writeString(predicate.getForm());
-                jgenerator.writeEndArray();
-                for (Entry<Word, String> entry : argmap.entrySet()){
-                    Word word = entry.getKey();
-                    String argLabel = entry.getValue();
-                    Yield argYield = word.getYield(predicate, argLabel, arguments);
-                    jgenerator.writeFieldName(argLabel); // Write argument label
-                    jgenerator.writeStartArray(); // Start array with words (associated with the argument)
-                    for (Word yieldWord : argYield){ // Add all the words (associated with the argument)
-                        if (yieldWord.getForm().matches(".*[a-zA-Z].*")){ // Don't do punctuation
-                            jgenerator.writeString(yieldWord.getForm());
-                        }
-                    }
-                    jgenerator.writeEndArray(); // End array with words
-                }
-                jgenerator.writeEndObject(); // End object with arguments
+        
+        jgenerator.writeStartObject(); // Start object with predicates
+        jgenerator.writeFieldName("tokens"); // Write token field
+        jgenerator.writeStartArray(); // Write token array
+        String[] tokens = sentence.getFormArray();
+        for (String token : tokens) {
+            if (token.matches(".*[a-zA-Z].*")){ // Don't do punctuation
+                jgenerator.writeString(token.toLowerCase());
             }
+        }
+        jgenerator.writeEndArray();
+        jgenerator.writeFieldName("predicates"); // Write predicates field
+        for (Predicate predicate : predicates){ // Write predicates object
+            if (!started){ // If object not yet openend
+                jgenerator.writeStartObject();
+                started = true;
+            }
+            jgenerator.writeFieldName(predicate.getForm()); // Predicate as field name
+            Map<Word, String> argmap = predicate.getArgMap(); // Get the arguments of the predicate
+            Set<Word> arguments = argmap.keySet();
+            jgenerator.writeStartObject(); // Start object with arguments
+            jgenerator.writeFieldName("rel"); // Label to indicate the predicate
+            jgenerator.writeStartArray();
+            jgenerator.writeString(predicate.getForm().toLowerCase());
+            jgenerator.writeEndArray();
+            for (Entry<Word, String> entry : argmap.entrySet()){
+                Word word = entry.getKey();
+                String argLabel = entry.getValue();
+                Yield argYield = word.getYield(predicate, argLabel, arguments);
+                jgenerator.writeFieldName(argLabel); // Write argument label
+                jgenerator.writeStartArray(); // Start array with words (associated with the argument)
+                for (Word yieldWord : argYield){ // Add all the words (associated with the argument)
+                    if (yieldWord.getForm().matches(".*[a-zA-Z].*")){ // Don't do punctuation
+                        jgenerator.writeString(yieldWord.getForm().toLowerCase());
+                    }
+                }
+                jgenerator.writeEndArray(); // End array with words
+            }
+            jgenerator.writeEndObject(); // End object with arguments
         }
         if (started){ // If there is an object
             jgenerator.writeEndObject(); // End object with predicates
         }
-        else{
-            jgenerator.writeNull(); // Fill in null if there is no object
+        else{ // Fill in an array with tokens if there is no object
+            jgenerator.writeNull();
         }        
+        jgenerator.writeEndObject();
     }
 
     /**
@@ -279,7 +290,7 @@ public class SemanticRoleLabeler {
         jgenerator.writeStartObject(); // Start object with words from the sentence
         for (int i = 0; i < wordarray.length; i++){
             if (wordarray[i].matches(".*[a-zA-Z].*")){ // Don't do empty strings or punctuation
-                jgenerator.writeFieldName(wordarray[i]); // word as field name
+                jgenerator.writeFieldName(wordarray[i].toLowerCase()); // word as field name
                 jgenerator.writeString(posarray[i]); // pos as value
                 generateRelatedWords(wordarray[i], posarray[i]);
             }
