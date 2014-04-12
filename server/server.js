@@ -118,7 +118,7 @@ app.post('/progressreport', function(req, res){
     		var child = children[val];
 			if (typeof child !== "undefined"){
 				var ready = false;
-				if (typeof child['evaluation'] !== "undefined"){
+				if (typeof child['filepath'] !== "undefined"){
 					ready = true;
 				}
 				var message = null;
@@ -156,8 +156,7 @@ app.post('/fetchresult', function(req, res){
     		method = val;
     	}
     	if (method !== null && childpid !== null){
-    		var child = children[val];
-			var method = req.param('method');
+    		var child = children[childpid];
 			if (method === "sync"){
 				if (typeof child !== "undefined"){
 					res.download(child['filepath']);
@@ -176,8 +175,9 @@ app.post('/fetchresult', function(req, res){
 					res.send("Please wait...");
 				}
 			}
-    	}    		
+    	}		
 	});
+	req.pipe(busboy); // Start the parsing
 });
 
 // Cancel the synchronization by killing the child process
@@ -189,6 +189,7 @@ app.post('/cancelsynchronization', function(req, res){
     		res.send(200);
     	}
 	});
+	req.pipe(busboy); // Start the parsing
 });
 
 /**

@@ -2,13 +2,8 @@
  * Synchronizes a given book and subtitle using sentence level semantic analysis
  */
 
-var delta = 0.7; // Minimum similarity to pass
-var async = require('async'); // Load async module
-var queuesize = 10000; // Number of parallel processes allowed
-var queue = async.queue(function (task, callback) { // Queue for executing processes
-    callWordNetTask(task,callback);
-}, queuesize);
-var exec = require('child_process').exec;
+var delta = 0.9; // Minimum similarity to pass
+var reldict; // Dictionairy with the related words for each word and wordtype in the text
 
 /**
  * Synchronizes a parsed epub and srt from simpleparser using sentence level semantic analysis
@@ -25,13 +20,14 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	var subArray = subtitle[0];
 	var subRoles = subtitle[1];
 	var subPos = subtitle[2];
+	reldict = book[3]; // should be the same as subtitle[3]
 	var matches = {"match" : new Array()};
 	bookArray.forEach(function (bookvalue, bookindex){
 	 	subArray.forEach(function (subvalue, subindex){
 	 		var sentence1 = bookRoles[bookindex];
 	 		var sentence2 = subRoles[subindex];
 	 		if (sentence1 !== null && sentence2 !== null){
-		 		calculateSentenceSimilarity(sentence1,bookPos[bookindex],sentence2,subPos[subindex], function(similarity){
+ 				calculateSentenceSimilarity(sentence1,bookPos[bookindex],sentence2,subPos[subindex], function(similarity){
 	 				if (similarity >= delta){ // Match is found
 	 					var match = { 
 							"fromTime" : subvalue.fromTime,
@@ -42,10 +38,13 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 						};
 						matches["match"].push(match);
 	 				}
+	 				var progress = bookindex*subArray.length+subindex;
+	 				var size = bookArray.length*subArray.length;
+	 				updater.emit('syncprogressupdate',Math.floor((progress*100)/size));
 		 		});
 	 		}
 	 	});
-	 	updater.emit('syncprogressupdate',Math.floor((bookindex*100)/bookArray.length));
+	 	
 	});
 	callback(matches); // Return the array with matches	
 }
@@ -154,125 +153,23 @@ calculateRoleSimilarity = function(termsetm,termsetn,possetm,possetn,callback){
 		}
 		else{
 			// Fetch the terms related to the current term
-			getRelatedWords(term,type,function(relatedwords){ 
+			var relatedwords = reldict[term.toLowerCase()];
+			if (typeof relatedwords !== "undefined" && relatedwords !== null){
+				relatedwords = relatedwords[type];
+			}
+			if (typeof relatedwords !== "undefined" && relatedwords !== null){ 
 				var i = 0;
 				var found = false;
 				while (!found && i < relatedwords.length){
 					// A related term is included in the other termset
-					if (relatedwords[i].indexOf(termsetn) !== -1){ 
+					if (termsetn.indexOf(relatedwords[i]) !== -1){ 
 						found = true;
 						rsim++;
 					}
 					i++;
 				}
-				checkForCallback();
-			});
+			}
+			checkForCallback();
 		}
 	});
-}
-
-/**
- * Given a word an its word type, return an array of related words (synonyms, hypernyms, hyponyms, meronyms, holonyms)
- * @param word the word for which the related words are needed
- * @param type the type of that word: 'n' for nouns, 'v' for verbs, 'a' for adjectives, and 'r' for adverbs
- * @param callback function to call when ready
- */
-getRelatedWords = function(word,type,callback){
-	var options = '-syns'+type+' '; // Request synonyms/hypernyms
-	if (type === 'n'||type === 'v'){
-		options += '-hypo'+type+' '; // Request hyponyms
-	}
-	if (type == 'n'){
-		options += '-meron '; // Request meronyms
-		options += '-holon '; // Request holonyms
-	}	
-	queue.push({word:word,options:options},callback); // Create task that searches WordNet
-}
-
-/**
- * Task for the queue: call WordNet with the given arguments
- * @param task object with 2 field: word (the word to look for) and options (the cmdline arguments)
- * @param callback the callback that needs to be called with the results
- */
-callWordNetTask = function(task,callback){
-	exec('wn "'+task.word+'" '+task.options, function (error, stdout, stderr) {
-		if (stdout === ""){
-			callback(new Array());
-		}
-		else{
-			// Split the output in parts
-			var synonymText;
-			var hyponymText;
-			if (type === 'n'||type === 'v'){
-				synonymText = stdout.match(/.*\n[\s\S]*Hyponyms/i)[0];
-				if (type === 'n'){
-					hyponymText = stdout.match(/Hyponyms.*\n[\s\S]*Meronyms/i)[0];
-				}
-				else{
-					// Hyponyms is the last one for verbs, no meronyms and holonyms
-					hyponymText = stdout.match(/Hyponyms.*\n[\s\S]*/i)[0]; 
-				}
-			}
-			else{
-				// Synonyms and hypernyms are the only ones for adjectives and adverbs, others are not available
-				synonymText = stdout.match(/.*\n[\s\S]*/i)[0]; 
-			}
-			var meronymText;
-			var holonymText;
-			if (type === 'n'){ // Meronyms and holonyms are only for nouns
-				meronymText = stdout.match(/Meronyms.*\n[\s\S]*Holonyms/i)[0];
-				holonymText = stdout.match(/Holonyms.*\n[\s\S]*/i)[0];
-			}
-			
-			// Get the synonyms
-			var synonymRegex = /Sense\ [0-9]+\ *\n([^\n]*)/gi;
-			var synonyms = getWordArrayFromRegex(synonymRegex,synonymText);
-			
-			// Get the hypernyms
-			var hypernymRegex = /=>([^\n]*)/g;
-			var hypernyms = getWordArrayFromRegex(hypernymRegex,synonymText);
-
-			// Get the hyponyms
-			var hyponyms = new Array();
-			if (type === 'n'||type === 'v'){
-				var hyponymRegex = /=>([^\n]*)/g;
-				hyponyms = getWordArrayFromRegex(hyponymRegex,hyponymText);
-			}
-
-			var meronyms = new Array();
-			var holonyms = new Array();
-			if (type === 'n'){
-				// Get the meronyms
-				var meronymRegex = /:([^\n]*)/g;
-				meronyms = getWordArrayFromRegex(meronymRegex,meronymText);
-				
-				// Get the holonyms
-				var holonymRegex = /:([^\n]*)/g;
-				holonyms = getWordArrayFromRegex(holonymRegex,holonymText);
-			}
-
-			callback(synonyms.concat(hypernyms,hyponyms,meronyms,holonyms));
-		}
-	});
-}
-
-/**
- * Given a regex that searches for comma separated strings of words, return an array with the words
- * @param regex the regex to execute
- * @param text the text on which to execute the regex
- * @return an array with words (if there are any) 
- */
-getWordArrayFromRegex = function(regex,text){
-	var completestring = "";
-	while (matches = regex.exec(text)) {
-		// Clean spaces and brackets
-		completestring+=matches[1].replace(/\ *,\ */g,',').replace(/\([^\)]*\)/,'').trim()+","; 
-	}
-	if (completestring !== ""){
-		completestring = completestring.substring(0,completestring.length-1); // Remove last comma
-		return completestring.split(',');
-	}
-	else{
-		return new Array();
-	}
 }

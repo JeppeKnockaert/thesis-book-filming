@@ -27,8 +27,14 @@ Node will automatically fetch all dependencies for the project.
 
 ####Dependencies
 
-You will need to install the WordNet command-line tool and add it to your PATH variable.
-The latest release is available for download on their [website](http://wordnet.princeton.edu/wordnet/download/current-version/).
+You will need to download the WordNet dictionairies and place them in this directory (relative to the main folder): 
+server/synchronisation/srl/dict
+
+To get all the latest dictionairy files:
+- First download the [full WordNet distribution (3.0)](http://wordnetcode.princeton.edu/3.0/WordNet-3.0.tar.bz2)
+- Get the dict folder from the distribution and move it to server/synchronisation/srl/dict
+- Then download the [updated dictionairy files (3.1)](http://wordnetcode.princeton.edu/wn3.1.dict.tar.gz)
+- Move the files to server/synchronisation/srl/dict and replace the ones that already exist
 
 ####Models
 

@@ -4,12 +4,22 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import edu.smu.tspell.wordnet.NounSynset;
+import edu.smu.tspell.wordnet.Synset;
+import edu.smu.tspell.wordnet.SynsetType;
+import edu.smu.tspell.wordnet.VerbSynset;
+import edu.smu.tspell.wordnet.WordNetDatabase;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -28,12 +38,19 @@ import se.lth.cs.srl.util.FileExistenceVerifier;
  */
 public class SemanticRoleLabeler {
 
+    // Map with for each word and each type of that word, the related words
+    private static final Map<String,Map<String,String[]>> relatedwordsMap = new HashMap<String, Map<String,String[]>>();
+
+        
     /**
      * Executes main application
      * @param args the input file
      * @throws java.io.IOException Writing failed
      */
     public static void main(String[] args) throws IOException {
+        // Set path to wordnet dictionairy
+        System.setProperty("wordnet.database.dir", (new File("dict")).getAbsolutePath());
+
         // Look for filenames of inputfiles
         if (args.length != 2){
             System.err.println("needs <bookinput> <subtitleinput> as arguments");
@@ -145,7 +162,10 @@ public class SemanticRoleLabeler {
             srlgen.close();
             posgen.close();
         }
-        
+        // Write related words map to file
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT); //Enable pretty printing
+        objectMapper.writeValue(new File("relatedwords.json"), relatedwordsMap);
     }     
     
     /**
@@ -228,7 +248,7 @@ public class SemanticRoleLabeler {
         }
         else{
             jgenerator.writeNull(); // Fill in null if there is no object
-        }
+        }        
     }
 
     /**
@@ -244,10 +264,70 @@ public class SemanticRoleLabeler {
         for (int i = 0; i < wordarray.length; i++){
             if (wordarray[i].matches(".*[a-zA-Z].*")){ // Don't do empty strings or punctuation
                 jgenerator.writeFieldName(wordarray[i]); // word as field name
-                jgenerator.writeString(posarray[i]); // word as field name
+                jgenerator.writeString(posarray[i]); // pos as value
+                generateRelatedWords(wordarray[i], posarray[i]);
             }
         }
         jgenerator.writeEndObject(); // End object with words from the sentence
+    }
+        
+    private static void generateRelatedWords(String word, String POS) throws IOException{
+        String lowercaseword = word.toLowerCase();
+                
+        // Find the synset type based on the POS tag
+        SynsetType type = SynsetType.NOUN;
+        String keytype = "n";
+        if (POS.contains("VB")){
+            type = SynsetType.VERB;
+            keytype = "v";
+        }
+        else if (POS.contains("JJ")){
+            type = SynsetType.ADJECTIVE;
+            keytype = "a";
+        }
+        else if (POS.contains("RB")){
+            type = SynsetType.ADVERB;
+            keytype = "r";
+        }
+        
+        // If we haven't got the related words yet, make a hashmap to store them
+        if (!relatedwordsMap.containsKey(lowercaseword)){
+            relatedwordsMap.put(lowercaseword, new HashMap<String, String[]>());
+        }
+        
+        // If we haven't got the related words yet, get them
+        if (!relatedwordsMap.get(lowercaseword).containsKey(keytype)){
+            WordNetDatabase wn = WordNetDatabase.getFileInstance(); // Get the wordnet database
+
+            Synset[] synsets = wn.getSynsets(word, type);
+            List<Synset> relatedsynsets = new ArrayList<>();
+            Set<String> relatedstrings = new HashSet<>();
+            for (Synset syns : synsets){
+                relatedstrings.addAll(Arrays.asList(syns.getWordForms())); // Add synonyms
+                if (type.equals(SynsetType.NOUN)){
+                    NounSynset nsyns = (NounSynset)syns;
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getHypernyms())); // Add the hypernyms
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getHyponyms())); // Add the hyponyms
+                    // Add the holonyms
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getMemberHolonyms()));
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getPartHolonyms()));
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getSubstanceHolonyms()));
+                    // Add the meronyms
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getMemberMeronyms()));
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getPartMeronyms()));
+                    relatedsynsets.addAll(Arrays.asList(nsyns.getSubstanceMeronyms()));
+                }
+                else if (type.equals(SynsetType.VERB)){
+                    VerbSynset vsyns = (VerbSynset)syns; 
+                    relatedsynsets.addAll(Arrays.asList(vsyns.getHypernyms())); // Add the hypernyms
+                    relatedsynsets.addAll(Arrays.asList(vsyns.getTroponyms())); // Add the hyponyms
+                }
+            }
+            for (Synset syns : relatedsynsets){
+                relatedstrings.addAll(Arrays.asList(syns.getWordForms()));
+            }
+            relatedwordsMap.get(lowercaseword).put(keytype,relatedstrings.toArray(new String[0])); // Add the resulting array to the map
+        }
     }
 }
 

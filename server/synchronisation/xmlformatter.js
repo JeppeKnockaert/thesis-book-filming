@@ -1,6 +1,11 @@
 /**
  * Formats the results in XML form and saves it as a file
  */
+// Load module for os functions
+var os = require('os');
+
+// Load module for file paths
+var path = require('path');
 
 // Load the Jason to XML parser
 var js2xmlparser = require("js2xmlparser");
@@ -18,7 +23,7 @@ exports.format = function(matches, updater){
 	var fs = require('fs');
 
 	// Create a temporary file
-	tmp.tmpName({ dir: __dirname+'/../download/', prefix: "result", postfix: ".xml" }, function (err, path) {
+	tmp.tmpName({ dir: os.tmpdir(), prefix: "result", postfix: ".xml" }, function (err, path) {
 		if (err){
 			console.log(err);
 		}
