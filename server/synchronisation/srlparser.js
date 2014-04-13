@@ -68,7 +68,7 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 								}	
 							});
 						}
-						fs.writeFile(__dirname + '/srl/book', bookText, function (err) { // Write the sentences to file for SRL
+						fs.writeFile(__dirname + '/libs/book', bookText, function (err) { // Write the sentences to file for SRL
 							if (err){
 								console.log(err);
 							}
@@ -93,11 +93,11 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 callSRLParser = function(){
 	var done = function(){
 		eventupdater.emit('syncprogressupdate',0); // Reset progress for the next part
-		fs.readFile(__dirname + '/srl/srlout.json', 'UTF-8', function (srlerr, srldata){
+		fs.readFile(__dirname + '/libs/srlout.json', 'UTF-8', function (srlerr, srldata){
 			var parsedSRL = JSON.parse(srldata);
-			fs.readFile(__dirname + '/srl/posout.json', 'UTF-8', function (poserr, posdata){
+			fs.readFile(__dirname + '/libs/posout.json', 'UTF-8', function (poserr, posdata){
 				var parsedPOS = JSON.parse(posdata);
-				fs.readFile(__dirname + '/srl/relatedwords.json', 'UTF-8', function (relerr, reldata){
+				fs.readFile(__dirname + '/libs/relatedwords.json', 'UTF-8', function (relerr, reldata){
 					var reldict = JSON.parse(reldata);
 					bookCallback(null, [parsedBook, parsedSRL["book"], parsedPOS["book"], reldict]); // Make a callback using all quotes
 					subtitleCallback(null, [parsedSubtitles, parsedSRL["subtitle"], parsedPOS["subtitle"], reldict]); // Make a callback using all subtitles
@@ -107,15 +107,15 @@ callSRLParser = function(){
 	};
 	fs.readFile(__dirname + '/../config.json', 'UTF-8', function (configerr, configdata){
 		var usecachedfile = JSON.parse(configdata)['srl']['usecachedversion'];
-		fs.readFile(__dirname + '/srl/srlout.json', 'UTF-8', function (srlerr, srlout){
-			fs.readFile(__dirname + '/srl/posout.json', 'UTF-8', function (poserr, posout){
-				fs.readFile(__dirname + '/srl/relatedwords.json', 'UTF-8', function (relerr, relout){
+		fs.readFile(__dirname + '/libs/srlout.json', 'UTF-8', function (srlerr, srlout){
+			fs.readFile(__dirname + '/libs/posout.json', 'UTF-8', function (poserr, posout){
+				fs.readFile(__dirname + '/libs/relatedwords.json', 'UTF-8', function (relerr, relout){
 					if (!usecachedfile||srlerr||poserr||relerr){
 						eventupdater.emit('message',"SRL/POS tagging in progress...");
 						var spawn = require('child_process').spawn;
 						var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
 						{
-							cwd : __dirname+'/srl/' // Set working directory to the srl folder (where the java application resides)
+							cwd : __dirname+'/libs/' // Set working directory to the srl folder (where the java application resides)
 						});
 						child.stdout.on('data', function (data) {
 							var procent = '' + data;
@@ -249,7 +249,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 				});
 
 				if (data.trim() === ""){ // When the file is empty, we're ready
-					fs.writeFile(__dirname + '/srl/subtitle', subtitleText, function (err) {
+					fs.writeFile(__dirname + '/libs/subtitle', subtitleText, function (err) {
 						if (err){
 							console.log(err);
 						}

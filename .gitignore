@@ -5,6 +5,6 @@ server/download/*
 files/*
 !files/*.xml
 server/config.json
-server/synchronisation/srl/*
-!server/synchronisation/srl/*.jar
-!server/synchronisation/srl/lib/
+server/synchronisation/libs/*
+!server/synchronisation/libs/*.jar
+!server/synchronisation/libs/lib/
