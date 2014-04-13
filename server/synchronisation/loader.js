@@ -59,7 +59,9 @@ callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 		synced = true;
 		updater.emit('message',"Synchronisation in progress...");
 		matcher.synchronize(parsedBook,parsedSubtitle,postprocessor,updater,function(matches){
+			updater.emit('message',"Writing results...");
 			formatter.format(matches, updater);
+			updater.emit('message',"Synchronisation finished!");
 		});
 	}
 }

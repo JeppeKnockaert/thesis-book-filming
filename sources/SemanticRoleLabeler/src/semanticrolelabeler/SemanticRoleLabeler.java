@@ -269,10 +269,10 @@ public class SemanticRoleLabeler {
             }
             jgenerator.writeEndObject(); // End object with arguments
         }
-        if (started){ // If there is an object
+        if (started){ // If there are predicates
             jgenerator.writeEndObject(); // End object with predicates
         }
-        else{ // Fill in an array with tokens if there is no object
+        else{
             jgenerator.writeNull();
         }        
         jgenerator.writeEndObject();

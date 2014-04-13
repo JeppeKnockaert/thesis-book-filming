@@ -34,7 +34,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
  			done[index]++; 
  			if (done[index] === bookArray.length){ // Check if every quote has been compared to the subtitle
  				if (subMatches[index].length > 0){
- 					matches["match"].push(chooseBestMatch(subMatches[index],matches,bookRoles,subRoles));
+ 					matches["match"].push(chooseBestMatch(subMatches[index],bookRoles,subRoles));
  				}
  				totaldone++;
  				if (totaldone === subArray.length){ // If completely finished, return the matches
@@ -80,7 +80,14 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	});
 }
 
-chooseBestMatch = function(subMatches,matches,bookRoles,subRoles){
+/**
+ * Choose best match in a list with possible matches
+ * @param subMatches list with possible matches
+ * @param bookRoles object with tokens per sentence for the book
+ * @param subRoles object with tokens per sentence for the subtitles
+ * @return the best match
+ */
+chooseBestMatch = function(subMatches,bookRoles,subRoles){
 	if (subMatches.length > 1){ // Check if we need to reduce the number of matches
 		var maxsimilarity = 0;
 		var found = false;
@@ -101,9 +108,8 @@ chooseBestMatch = function(subMatches,matches,bookRoles,subRoles){
 				}
 			});
 			if (maxMatches.length > 1){ // Check if we need to reduce the number of matches
-				
 				var mostequal = 0;
-				var mostequalindex = -1;
+				var mostequalindex = 0;
 				maxMatches.forEach(function (matchvalue,matchindex){
 					var bookwords = bookRoles[matchvalue.quoteindex]["tokens"];
 					var subwords = subRoles[matchvalue.subtitleindex]["tokens"];
@@ -222,9 +228,6 @@ calculateRoleSimilarity = function(termsetm,termsetn,possetm,possetn,callback){
 	termsetm.forEach(function(term){
 		if (term.match(/.*[a-zA-Z].*/) !== null){
 			var posTerm = possetm[term];
-			if (typeof posTerm === "undefined"){
-				console.log("term: "+term+" "+Object.keys(possetm));
-			}
 			var type = 'n'; // Noun
 			if (posTerm.indexOf('VB') !== -1){
 				type = 'v'; // Verb
