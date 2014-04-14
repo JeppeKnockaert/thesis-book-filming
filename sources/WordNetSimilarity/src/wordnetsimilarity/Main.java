@@ -23,8 +23,25 @@ import java.util.Set;
  */
 public class Main {
     
-    // As there is no virtual root node for verbs in WordNet, we have to keep them ourselves
-    private static final HashSet<Synset> rootverbs = new HashSet<Synset>();
+    // Optimal parameters for WordNet
+    private static final double alpha = 0.2;
+    private static final double beta = 0.45;
+    
+    // Class to represent path results
+    private static class Path{
+        private final int length;
+        private final Synset subsumer;
+        private int subsumerdepth;
+        
+        public Path(int length, Synset subsumer){
+            this.length = length;
+            this.subsumer = subsumer;
+        }
+
+        public void setSubsumerdepth(int subsumerdepth) {
+            this.subsumerdepth = subsumerdepth;
+        }
+    }
     
     /**
      * Calculates the WordNet similarity between each two words in a given input file
@@ -69,28 +86,31 @@ public class Main {
      * @param pos2 POS tag of second word
      * @return the word similarity
      */
-    private static int getWordSimilarity(String word1, String word2, String pos1, String pos2) {
+    private static double getWordSimilarity(String word1, String word2, String pos1, String pos2) {
         WordNetDatabase wn = WordNetDatabase.getFileInstance(); // Get the wordnet database
         SynsetType type1 = getSynsetType(pos1); 
         SynsetType type2 = getSynsetType(pos2);
-        int pathlength = -1;
-        if (word1.equals(word2)){
-            pathlength = 0;
+        
+        if (word1.equals(word2)){ // If the words are the same, the similarity is 1
+            return 1;
         }
         else if (type1.equals(type2)){ // Same POS
+            
             Synset[] syns1 = wn.getSynsets(word1,type1);
             Synset[] syns2 = wn.getSynsets(word2,type2);
             if (syns1.length > 0 && syns2.length > 0){ // Both words included in WordNet
-                pathlength = getPathLength(syns1,syns2);
+                Path path = getPath(syns1,syns2);
+                double lengthfunction = Math.exp(-alpha*path.length);
+                double ebh = Math.exp(beta*path.subsumerdepth);
+                double nebh = Math.exp(-beta*path.subsumerdepth);
+                double depthfunction = (ebh-nebh)/(ebh+nebh);
+                System.out.println("depth: "+path.subsumerdepth);
+                System.out.println("length: "+path.length);
+                System.out.println(lengthfunction*depthfunction);
+                return lengthfunction*depthfunction;
             }
         }
-        System.out.println("pathlength: "+pathlength);
-        if (pathlength >= 0){
-            return 1;
-        }
-        else{
-            return 0;
-        }
+        return 0; // In all other cases, the similarity is zero
     }
 
     /**
@@ -116,16 +136,29 @@ public class Main {
      * Gets the shortest path length between two synsets
      * @param synsets1 first synset
      * @param synsets2 second synset
-     * @return the path length
+     * @return the path
      */
-    private static int getPathLength(Synset[] synsets1, Synset[] synsets2) {
+    private static Path getPath(Synset[] synsets1, Synset[] synsets2) {
+        
+        // Calculate paths
+        Map<Synset, Map<Synset, Set<Synset>>> trees1 = new HashMap<Synset, Map<Synset, Set<Synset>>>();
+        Map<Synset, Map<Synset, Set<Synset>>> trees2 = new HashMap<Synset, Map<Synset, Set<Synset>>>();
+        for (Synset synset : synsets1) {
+            trees1.put(synset, calculatePaths(synset));
+        }
+        for (Synset synset : synsets2) {
+            trees2.put(synset, calculatePaths(synset));
+        }
+        
         Set<String> words1 = new HashSet<String>();
         Set<String> words2 = new HashSet<String>();
         // Look for an equal synset (= pathlength 0)
         for (Synset synset1 : synsets1) { 
             for (Synset synset2 : synsets2) {
-                if (synset1.equals(synset2)) { 
-                    return 0;
+                if (synset1.equals(synset2)) {
+                    Path path = new Path(0,synset1);
+                    path.setSubsumerdepth(getSubsumerDepth(trees1.get(synset1), trees2.get(synset2), synset1));
+                    return path;
                 }
                 words1.addAll(Arrays.asList(synset1.getWordForms()));
                 words2.addAll(Arrays.asList(synset2.getWordForms()));
@@ -133,39 +166,49 @@ public class Main {
         }
         // Look for common words in the synsets (= pathlength 1)
         for (String word : words1) {
-            if (words2.contains(word)){
-                return 1;
-            }
-        }
-        
-        // Calculate paths
-        Map<Synset, Map<Synset, Set<Synset>>> paths1 = new HashMap<Synset, Map<Synset, Set<Synset>>>();
-        Map<Synset, Map<Synset, Set<Synset>>> paths2 = new HashMap<Synset, Map<Synset, Set<Synset>>>();
-        for (Synset synset : synsets1) {
-            paths1.put(synset, calculatePaths(synset));
-        }
-        for (Synset synset : synsets2) {
-            paths2.put(synset, calculatePaths(synset));
-        }
-        
-        // Compare paths
-        int min = Integer.MAX_VALUE;
-        for (Entry<Synset, Map<Synset, Set<Synset>>> path1 : paths1.entrySet()) {
-            for (Entry<Synset, Map<Synset, Set<Synset>>> path2 : paths2.entrySet()) {
-                int distance = getTotalDistance(path1.getValue(),path2.getValue(),
-                        path1.getKey(),path2.getKey());
-                if (distance < min){
-                    min = distance;
+            if (words2.contains(word)){ 
+                // Get a random synset from both words (because the level is the same for each one), take the deepest of the two and return it
+                int depth1 = getSubsumerDepth(trees1.get(synsets1[0]), trees2.get(synsets2[0]), synsets1[0]);
+                int depth2 = getSubsumerDepth(trees1.get(synsets1[0]), trees2.get(synsets2[0]), synsets2[0]);
+                if (depth1 >= depth2){
+                    Path path = new Path(1, synsets1[0]);
+                    path.setSubsumerdepth(depth1);
+                    return path;
+                }
+                else{
+                    Path path = new Path(1, synsets2[0]);
+                    path.setSubsumerdepth(depth2);
+                    return path;
                 }
             }
         }
-        return min;
+        
+        // Compare paths
+        Path minpath = null;
+        Map<Synset, Set<Synset>> mintree1 = null;
+        Map<Synset, Set<Synset>> mintree2 = null;
+        
+        for (Entry<Synset, Map<Synset, Set<Synset>>> tree1 : trees1.entrySet()) {
+            for (Entry<Synset, Map<Synset, Set<Synset>>> tree2 : trees2.entrySet()) {
+                Path newpath = getTotalPath(tree1.getValue(),tree2.getValue(),
+                        tree1.getKey(),tree2.getKey());
+                if (minpath == null || newpath.length < minpath.length){
+                    mintree1 = tree1.getValue();
+                    mintree2 = tree2.getValue();
+                    minpath = newpath;
+                }
+            }
+        }
+        if (minpath != null && minpath.subsumer != null){ // If the subsumer is filled in, set its depth
+            minpath.setSubsumerdepth(getSubsumerDepth(mintree1, mintree2, minpath.subsumer));
+        }
+        return minpath;
     }
 
     /**
-     * Calculate the three for a given leaf node
+     * Calculate the tree for a given leaf node
      * @param synset the leaf node
-     * @return the three, represented as a map with the parents for each node
+     * @return the tree, represented as a map with the parents for each node
      */
     private static Map<Synset, Set<Synset>> calculatePaths(Synset synset) {
         Map<Synset, Set<Synset>> parents = new HashMap<Synset, Set<Synset>>();
@@ -184,12 +227,6 @@ public class Main {
                         pursued.add(abovelevelset); // Add the synsets to the pursued ones
                         newsetsabove.add(abovelevelset); // Pursue the path in the next round
                     }
-                }
-            }
-            // We reached a verb root node!
-            if (newsetsabove.isEmpty() && synset.getType().equals(SynsetType.VERB)){ 
-                for (Synset rootnode : setsabove) {
-                    rootverbs.add(rootnode);
                 }
             }
             setsabove = newsetsabove;
@@ -219,44 +256,54 @@ public class Main {
     }
 
     /**
-     * Get the shortest total distance between a startnode and a goalnode
-     * @param startpath the three from the perspective of the startnode
-     * @param goalpath the three from the perspective of the goalnode
+     * Get the path with shortest total distance between a startnode and a goalnode
+     * @param starttree the tree from the perspective of the startnode
+     * @param goaltree the tree from the perspective of the goalnode
      * @param start the startnode
      * @param goal the goalnoade
-     * @return the shortest total distance
+     * @return the path with the shortest total distance
      */
-    private static int getTotalDistance(Map<Synset, Set<Synset>> startpath, Map<Synset, Set<Synset>> goalpath, Synset start, Synset goal) {
+    private static Path getTotalPath(Map<Synset, Set<Synset>> starttree, Map<Synset, Set<Synset>> goaltree, Synset start, Synset goal) {
         int bestdistance = Integer.MAX_VALUE;
+        Synset bestsubsumer = null;
         Set<Synset> commonsets = new HashSet<Synset>();
-
-        for (Synset synset : goalpath.keySet()) { // Get the shared sets 
-            if (startpath.keySet().contains(synset)){
+        
+        for (Synset synset : goaltree.keySet()) { // Get the shared sets 
+            if (starttree.keySet().contains(synset)){
                 commonsets.add(synset);
             }
         }
-        // Go trough the sets that are shared between paths,
+        // Go trough the nodes that are shared between trees,
         // calculate the distance when using each of these as subsumer and keep the minimum distance
         for (Synset synset : commonsets) {
-            int startToSubsumer = getSingleDistance(startpath, start, synset, 0);
-            int goalToSubsumer = getSingleDistance(goalpath, goal, synset, 0);
+            int startToSubsumer = getSingleDistance(starttree, start, synset, 0);
+            int goalToSubsumer = getSingleDistance(goaltree, goal, synset, 0);
             int totalDistance = startToSubsumer+goalToSubsumer;
+            if (totalDistance < bestdistance){
+                if (totalDistance == 9){
+                    int startToSubsumer2 = getSingleDistance(starttree, start, synset, 0);
+                    System.out.println("");
+                }
+                bestdistance = totalDistance;
+                bestsubsumer = synset;
+            }
+        }
+        if (start.getType().equals(SynsetType.VERB)){ // If we're handling verbs, try the root nodes too
+            // Get distance to current root nodes, but add one to each distance for the virtual rootnode
+            int startToRoot = getSingleDistance(starttree, start, getRootNode(starttree), 1);
+            int goalToRoot = getSingleDistance(goaltree, goal, getRootNode(goaltree), 1);
+            int totalDistance = startToRoot+goalToRoot;
             if (totalDistance < bestdistance){
                 bestdistance = totalDistance;
             }
         }
-        if (start.getType().equals(SynsetType.VERB)){ // If we're handling verbs, try the root nodes too
-            for (Synset synset : rootverbs) {  
-                // Get distance to current root nodes, but add one to each distance for the virtual rootnode
-                int startToRoot = getSingleDistance(startpath, start, getRootNode(startpath), 1);
-                int goalToRoot = getSingleDistance(goalpath, goal, getRootNode(goalpath), 1);
-                int totalDistance = startToRoot+goalToRoot;
-                if (totalDistance < bestdistance){
-                    bestdistance = totalDistance;
-                }
-            }
+        Path path = new Path(bestdistance,bestsubsumer);
+        // If a virtual root node (in the case of verbs) was chose, that's the subsumer
+        // This isn't a real node, so we set subsumer to null, but we know its depth (0)
+        if (bestsubsumer == null){ 
+            path.setSubsumerdepth(0);
         }
-        return bestdistance;
+        return path;
     }
     
     
@@ -298,5 +345,24 @@ public class Main {
             }
         }
         return null;
+    }
+    
+    /**
+     * Gets the maximal depth in the hierarchical tree for the subsumer node
+     * @param tree1 tree1
+     * @param tree2 tree2
+     * @param subsumer subsumer node
+     * @return the maximal depth
+     */
+    private static int getSubsumerDepth(Map<Synset, Set<Synset>> tree1, Map<Synset, Set<Synset>> tree2, Synset subsumer){
+        Synset root1 = getRootNode(tree1);
+        Synset root2 = getRootNode(tree2);
+        int depth1 = getSingleDistance(tree1,subsumer,root1,0);
+        int depth2 = getSingleDistance(tree2,subsumer,root2,0);
+        int maxdepth = (depth1>=depth2)?depth1:depth2;
+        if (!root1.equals(root2)){ // Shared virtual node, add 1 to outcome!
+            maxdepth++;
+        }
+        return maxdepth;
     }
 }
