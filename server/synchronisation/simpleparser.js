@@ -11,7 +11,7 @@ var fs = require('fs'); // Module for reading files
  * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
-exports.parseBook = function(bookfile, preprocessor, callback){
+exports.parseBook = function(bookfile, preprocessor, updater, callback){
 	var epub = new epubParser(bookfile); // Create the epub parser
 	var fulltext = "";
 	epub.on("end", function(){
@@ -67,7 +67,7 @@ exports.parseBook = function(bookfile, preprocessor, callback){
  * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
-exports.parseSubtitle = function(subtitlefile, preprocessor, callback){
+exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 	fs.readFile(subtitlefile, 'utf8', function (err,data) {
 	  	if (err) {
 	    	callback(err);

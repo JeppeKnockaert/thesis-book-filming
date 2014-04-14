@@ -2,6 +2,9 @@
  * Synchronizes a given book and subtitle using sentence similarity based on semantic nets and corpus statistics
  */
 
+var pos = require('pos'); // Module for POS tagging
+var fs = require('fs'); // Module for IO
+
 /**
  * Synchronizes a parsed epub and srt from simpleparser using sentence similarity
  * based on semantic nets and corpus statistics
@@ -13,5 +16,30 @@
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
+	var tagger = new pos.Tagger();
+	var lexer = new pos.Lexer();
+
+	var tocompare = {
+		"book" : new Array(),
+		"subtitle" : new Array()
+	}
+
+	subtitle.forEach(function(subtitle,subtitleindex){
+		var subWords = lexer.lex(subtitle.text);
+		tocompare["subtitle"].push(tagger.tag(subWords));
+	});
+	book.forEach(function(quote, quoteindex){
+		var quoteWords = lexer.lex(quote);
+		tocompare["book"].push(tagger.tag(quoteWords));
+	});
+
+	var tocomparejson = JSON.stringify(tocompare)
+	fs.writeFile(__dirname + '/../libs/tocompare', tocomparejson, function (err) {
+		if (err){
+			console.log(err);
+		}
+		console.log("written!");
+	});
+
 
 }
