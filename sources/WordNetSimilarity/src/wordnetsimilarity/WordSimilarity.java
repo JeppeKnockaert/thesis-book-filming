@@ -222,7 +222,7 @@ public class WordSimilarity {
                 Set<Synset> setsabovelevel = getSynsetsAbove(levelset,withholonyms);
                 parents.put(levelset,setsabovelevel);
                 for (Synset setabovelevel : setsabovelevel) { // Add the children to each parent
-                    Set<Synset> setsbelowlevel = new HashSet(currentsetsbelow);
+                    Set<Synset> setsbelowlevel = new HashSet<Synset>(currentsetsbelow);
                     // The set above is contained in the sets below on the same branch
                     // => We have a loop!
                     if (setsbelow.get(levelset).contains(setabovelevel)){

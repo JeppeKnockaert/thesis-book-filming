@@ -115,13 +115,13 @@ callSRLParser = function(){
 						var spawn = require('child_process').spawn;
 						var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
 						{
-							cwd : __dirname+'/libs/' // Set working directory to the srl folder (where the java application resides)
+							cwd : __dirname+'/libs/' // Set working directory to the libs folder (where the java application resides)
 						});
+						child.stdout.setEncoding('utf8');
 						child.stdout.on('data', function (data) {
-							var procent = '' + data;
-							var procentindex = procent.indexOf('%');
+							var procentindex = data.indexOf('%');
 							if (procentindex !== -1){
-								var procentnumber = procent.substr(0,procentindex);
+								var procentnumber = data.substr(0,procentindex);
 								eventupdater.emit('syncprogressupdate',procentnumber);
 							}
 						});

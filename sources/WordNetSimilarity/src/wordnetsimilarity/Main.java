@@ -65,29 +65,20 @@ public class Main {
         
         
         // Find all sentence similarities
-        JsonFactory jfactory = new JsonFactory();
-        DecimalFormat df = new DecimalFormat("#.##");
-        int index = 0;
-        //try (JsonGenerator jsongen = jfactory.createGenerator(new File("sentencesimilarities.json"),JsonEncoding.UTF8)) {
-            //jsongen.writeStartArray();
-            int procent = 0;
-            for (int j = 0; j < subtitleSentences.size(); j++) {
-                for (int k = 0; k < bookSentences.size(); k++) {
-                    double sim = semsim.getSentenceSimilarity(subtitleSentences.get(j),
-                            bookSentences.get(k), subtitlePOS.get(j), bookPOS.get(k));
-                    if (sim >= generalthreshold)
-                        System.out.format("Result %d - %.2f\n",index,sim);
-                        //jsongen.writeString(index+" "+df.format(sim));
-                    int newprocent = ((j*bookSentences.size()+k)*100)/(bookSentences.size()*subtitleSentences.size());
-                    if (newprocent > procent){
-                        procent = newprocent;
-                        System.out.println(procent+"%");
-                    }
-                    index++;
+        int procent = 0;
+        for (int j = 0; j < subtitleSentences.size(); j++) {
+            for (int k = 0; k < bookSentences.size(); k++) {
+                double sim = semsim.getSentenceSimilarity(subtitleSentences.get(j),
+                        bookSentences.get(k), subtitlePOS.get(j), bookPOS.get(k));
+                if (sim >= generalthreshold)
+                    System.out.format("%d - %d - %.2f\n",j,k,sim);
+                int newprocent = ((j*bookSentences.size()+k)*100)/(bookSentences.size()*subtitleSentences.size());
+                if (newprocent > procent){
+                    procent = newprocent;
+                    System.out.println(procent+"%");
                 }
             }
-            //jsongen.writeEndArray();
-        //}
+        }
     }
 
     /**
