@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 /**
@@ -21,7 +20,19 @@ import java.util.Set;
 public class WordSimilarity {
     
     // Cache for similarities between words
-    private final Map<SynsetType, Map<Set,Double>> cachedsimilarities;
+    private final Map<String,Double> cachednounsimilarities;
+    private final Map<String,Double> cachedverbsimilarities;
+    
+    // Cache for the wordtrees
+    private final Map<Synset, Map<Synset, Set<Synset>>> cachedSynsetTrees;
+    
+    // Cache for nodes
+    private final Map<Synset, Set<Synset>> nounnodes;
+    private final Map<Synset, Set<Synset>> nounnodeswithoutholonyms;
+    private final Map<Synset, Set<Synset>> verbnodes;
+    
+    // Cache for distances
+    private final Map<Synset,Map<Synset, Integer>> cacheddistances;
     
     // Optimal parameters for WordNet
     private static final double alpha = 0.2;
@@ -56,9 +67,13 @@ public class WordSimilarity {
     private WordSimilarity(){
         // Set path to wordnet dictionairy
         System.setProperty("wordnet.database.dir", (new File("dict")).getAbsolutePath());
-        cachedsimilarities = new HashMap<SynsetType, Map<Set,Double>>();
-        cachedsimilarities.put(SynsetType.NOUN, new HashMap<Set, Double>());
-        cachedsimilarities.put(SynsetType.VERB, new HashMap<Set, Double>());
+        cachednounsimilarities = new HashMap<String,Double>();
+        cachedverbsimilarities = new HashMap<String,Double>();
+        cachedSynsetTrees = new HashMap<Synset, Map<Synset, Set<Synset>>>();
+        cacheddistances = new HashMap<Synset, Map<Synset, Integer>>();
+        nounnodes = new HashMap<Synset, Set<Synset>>();
+        nounnodeswithoutholonyms = new HashMap<Synset, Set<Synset>>();
+        verbnodes = new HashMap<Synset, Set<Synset>>();
     }
     
     /**
@@ -76,7 +91,7 @@ public class WordSimilarity {
         if (word1.equals(word2)){ // If the words are the same, the similarity is 1
             return 1;
         }
-        else if (type1.equals(type2) && // Same POS
+        else if (type1 != null && type1.equals(type2) && // Same POS
                 (type1.equals(SynsetType.NOUN)||type1.equals(SynsetType.VERB))){ // Only verbs and nouns have hierarchies
             double fromCache = checkCacheForSimilarity(word1,word2,type1);
             if (fromCache >= 0){
@@ -92,7 +107,7 @@ public class WordSimilarity {
                 double depthfunction = (ebh-nebh)/(ebh+nebh);
                 double similarity = lengthfunction*depthfunction;
                 // Cache similarity value
-                addToCache(word1,word2,type1,similarity);
+                addSimilarityToCache(word1,word2,type1,similarity);
                 return similarity;
             }
         }
@@ -105,15 +120,12 @@ public class WordSimilarity {
      * @return the synsettype according to the tag
      */
     private SynsetType getSynsetType(String pos) {
-        SynsetType type = SynsetType.NOUN;
-        if (pos.contains("VB")){
+        SynsetType type = null;
+        if (pos.contains("NN")){
+            type = SynsetType.NOUN;
+        }
+        else if (pos.contains("VB")){
             type = SynsetType.VERB;
-        }
-        else if (pos.contains("JJ")){
-            type = SynsetType.ADJECTIVE;
-        }
-        else if (pos.contains("RB")){
-            type = SynsetType.ADVERB;
         }
         return type;
     }
@@ -129,10 +141,10 @@ public class WordSimilarity {
         Map<Synset, Map<Synset, Set<Synset>>> trees1 = new HashMap<Synset, Map<Synset, Set<Synset>>>();
         Map<Synset, Map<Synset, Set<Synset>>> trees2 = new HashMap<Synset, Map<Synset, Set<Synset>>>();
         for (Synset synset : synsets1) {
-            trees1.put(synset, calculatePaths(synset,true));
+            trees1.put(synset, getSynsetTree(synset));
         }
         for (Synset synset : synsets2) {
-            trees2.put(synset, calculatePaths(synset,true));
+            trees2.put(synset, getSynsetTree(synset));
         }
         
         // Look for an equal synset (= pathlength 0)
@@ -140,7 +152,7 @@ public class WordSimilarity {
             for (Synset synset2 : synsets2) {
                 if (synset1.equals(synset2)) {
                     Path path = new Path(0,synset1);
-                    path.setSubsumerdepth(getSubsumerDepth(trees1.get(synset1), trees2.get(synset2), synset1));
+                    path.setSubsumerdepth(getSingleDistance(trees1.get(synset1),synset1,null));
                     return path;
                 }
             }
@@ -153,8 +165,8 @@ public class WordSimilarity {
                 for (String word : words2) {
                     if (words1.contains(word)){
                         // Get the deepest of the two synsets
-                        int depth1 = getSubsumerDepth(trees1.get(synset1), null, synset1);
-                        int depth2 = getSubsumerDepth(trees2.get(synset2), null, synset2);
+                        int depth1 = getSingleDistance(trees1.get(synset1), synset1, null);
+                        int depth2 = getSingleDistance(trees2.get(synset2), synset2, null);
                         int maxdepth = (depth1 >= depth2)?depth1:depth2;
                         Synset subsumer = (depth1 >= depth2)?synset1:synset2;
                         Path path = new Path(1, subsumer);
@@ -167,22 +179,20 @@ public class WordSimilarity {
         
         // Compare paths
         Path minpath = null;
-        Map<Synset, Set<Synset>> mintree1 = null;
-        Map<Synset, Set<Synset>> mintree2 = null;
+        Map<Synset, Set<Synset>> mintree = null;
         
         for (Map.Entry<Synset, Map<Synset, Set<Synset>>> tree1 : trees1.entrySet()) {
             for (Map.Entry<Synset, Map<Synset, Set<Synset>>> tree2 : trees2.entrySet()) {
                 Path newpath = getTotalPath(tree1.getValue(),tree2.getValue(),
                         tree1.getKey(),tree2.getKey());
                 if (minpath == null || newpath.length < minpath.length){
-                    mintree1 = tree1.getValue();
-                    mintree2 = tree2.getValue();
+                    mintree = tree1.getValue();
                     minpath = newpath;
                 }
             }
         }
         if (minpath != null && minpath.subsumer != null){ // If the subsumer is filled in, set its depth
-            minpath.setSubsumerdepth(getSubsumerDepth(mintree1, mintree2, minpath.subsumer));
+            minpath.setSubsumerdepth(getSingleDistance(mintree, minpath.subsumer, null));
         }
         return minpath;
     }
@@ -255,15 +265,30 @@ public class WordSimilarity {
         SynsetType type = synset.getType();
         Set<Synset> setsabove = new HashSet<Synset>();
         if (type.equals(SynsetType.NOUN)){
-            NounSynset nounsynset = (NounSynset) synset;
-            setsabove.addAll(Arrays.asList(nounsynset.getHypernyms())); // ISA relation
-            if (allowholonyms){
-                setsabove.addAll(Arrays.asList(nounsynset.getPartHolonyms())); // HASA relation
-            }  
+            Set<Synset> cachedparents = (allowholonyms)?nounnodes.get(synset):nounnodeswithoutholonyms.get(synset);
+            if (cachedparents != null){
+                return cachedparents;
+            }
+            else{
+                NounSynset nounsynset = (NounSynset) synset;
+                setsabove.addAll(Arrays.asList(nounsynset.getHypernyms())); // ISA relation
+                if (allowholonyms){
+                    setsabove.addAll(Arrays.asList(nounsynset.getPartHolonyms())); // HASA relation
+                    nounnodes.put(synset, setsabove);
+                }
+                else{
+                    nounnodeswithoutholonyms.put(synset, setsabove);
+                }
+            }
         }
         else {
+            Set<Synset> cachedparents = verbnodes.get(synset);
+            if (cachedparents != null){
+                return cachedparents;
+            }
             VerbSynset verbsynset = (VerbSynset) synset;
             setsabove.addAll(Arrays.asList(verbsynset.getHypernyms())); // ISA relation
+            verbnodes.put(synset,setsabove);
         }
         return setsabove;
     }
@@ -289,8 +314,8 @@ public class WordSimilarity {
         // Go trough the nodes that are shared between trees,
         // calculate the distance when using each of these as subsumer and keep the minimum distance
         for (Synset synset : commonsets) {
-            int startToSubsumer = getSingleDistance(starttree, start, synset, 0);
-            int goalToSubsumer = getSingleDistance(goaltree, goal, synset, 0);
+            int startToSubsumer = getSingleDistance(starttree, start, synset);
+            int goalToSubsumer = getSingleDistance(goaltree, goal, synset);
             int totalDistance = startToSubsumer+goalToSubsumer;
             if (totalDistance < bestdistance){
                 bestdistance = totalDistance;
@@ -299,8 +324,8 @@ public class WordSimilarity {
         }
         if (start.getType().equals(SynsetType.VERB)){ // If we're handling verbs, try the root nodes too
             // Get distance to current root nodes, but add one to each distance for the virtual rootnode
-            int startToRoot = getSingleDistance(starttree, start, getRootNode(starttree), 1);
-            int goalToRoot = getSingleDistance(goaltree, goal, getRootNode(goaltree), 1);
+            int startToRoot = getSingleDistance(starttree, start, null);
+            int goalToRoot = getSingleDistance(goaltree, goal, null);
             int totalDistance = startToRoot+goalToRoot;
             if (totalDistance < bestdistance){
                 bestdistance = totalDistance;
@@ -315,71 +340,70 @@ public class WordSimilarity {
         return path;
     }
     
-    
+    /**
+     * Calculates the path length between the given start and goal within the same path
+     * @param path given path, contains parents for each node
+     * @param start start node
+     * @param goal end node, null if looking for the distance to the root node
+     * @return the path length
+     */
+    private int getSingleDistance(Map<Synset, Set<Synset>> path, Synset start, Synset goal){
+        int dist =  getSingleDistanceRecursive(path, start, goal, 0);
+        if (dist < 0){
+            System.err.println("No distance found!");
+        }
+        return dist;
+    }
 
     /**
      * Calculates the path length between the given start and goal within the same path
-     * @param path the given path, contains parents for each node
-     * @param start the startndoe
-     * @param goal the endnode
+     * @param path given path, contains parents for each node
+     * @param start start node
+     * @param goal end node, null if looking for the distance to the root node
      * @param distance the distance traveled so far
      * @return the path length
      */
-    private int getSingleDistance(Map<Synset, Set<Synset>> path, Synset start, Synset goal, int distance) {
-        if (goal.equals(start)){ // If goal is same as start, the pathlength is given by the traveled distance
+    private int getSingleDistanceRecursive(Map<Synset, Set<Synset>> path, Synset start, Synset goal, int distance) {
+        // Check cache
+        Map<Synset, Integer> cachedstartdistances = cacheddistances.get(start);
+        Integer cacheddistance = (cachedstartdistances!=null)?cachedstartdistances.get(goal):null;
+        
+        if (cacheddistance != null){
+            return distance+cacheddistance;
+        }
+        if (goal != null && goal.equals(start)){ // If goal is same as start, the pathlength is given by the traveled distance
             return distance;
         }
         else { // Check all possible paths to the goal and take the shortest to return
             int bestdistance = Integer.MAX_VALUE;
             Set<Synset> parents = path.get(start);
+            // If looking for the root node, we've found it, 
+            //because the startnode is the root node (it has no parents)
+            if (goal == null && parents.isEmpty()){ 
+                if (start.getType().equals(SynsetType.VERB)){ // Real root node is virtual, so one up
+                    distance++;
+                }
+                return distance;
+            }
             for (Synset parent : parents) {
-                int pathlength = getSingleDistance(path, parent, goal, distance+1); // Add one to traveled distance
-                if (pathlength < bestdistance){
+                int pathlength = getSingleDistanceRecursive(path, parent, goal, distance+1); // Add one to traveled distance
+                if (pathlength < bestdistance && pathlength >= 0){
                     bestdistance = pathlength;
                 }
             }
-            return bestdistance;
-        }
-    }
-
-    /**
-     * Gets the root node from the given path
-     * @param path the path
-     * @return the root node
-     */
-    private Synset getRootNode(Map<Synset, Set<Synset>> path) {
-        for (Entry<Synset, Set<Synset>> entry : path.entrySet()) {
-            if (entry.getValue().isEmpty()){
-                return entry.getKey();
+            // Write to cache
+            if (cachedstartdistances == null){
+                cachedstartdistances = new HashMap<Synset, Integer>();
+                cacheddistances.put(start, cachedstartdistances);
+            }
+            if (bestdistance == Integer.MAX_VALUE){ // No path found
+                return -1;
+            }
+            else{
+                cachedstartdistances.put(goal,bestdistance);
+                return bestdistance;
             }
         }
-        return null;
-    }
-    
-    /**
-     * Gets the maximal depth in the hierarchical tree for the subsumer node
-     * @param tree1 first tree
-     * @param tree2 second tree (optional)
-     * @param subsumer subsumer node
-     * @return the maximal depth
-     */
-    private int getSubsumerDepth(Map<Synset, Set<Synset>> tree1, Map<Synset, Set<Synset>> tree2, Synset subsumer){
-        Synset root1 = getRootNode(tree1);
-        int depth1 = getSingleDistance(tree1,subsumer,root1,0);
-
-        // If two trees are specified, take the one where the depth is biggest
-        if (tree2 != null){
-            Synset root2 = getRootNode(tree2);
-            int depth2 = getSingleDistance(tree2,subsumer,root2,0);
-            int maxdepth = (depth1>=depth2)?depth1:depth2;
-            if (!root1.equals(root2)){ // Shared virtual node, add 1 to outcome!
-                maxdepth++;
-            }
-            return maxdepth;
-        }
-        else{
-            return depth1;
-        }        
     }
     
     /**
@@ -390,10 +414,14 @@ public class WordSimilarity {
      * @return -1 if not cached, else the similarity value
      */
     private double checkCacheForSimilarity(String word1, String word2, SynsetType type) {
-        Set wordset = new HashSet(2);
-        wordset.add(word1);
-        wordset.add(word2);
-        Double result = cachedsimilarities.get(type).get(wordset);
+        String key = (word1.compareTo(word2) <= 0)?word1+" "+word2:word2+" "+word1;
+        Double result;
+        if (type.equals(SynsetType.NOUN)){
+            result = cachednounsimilarities.get(key);
+        }
+        else{
+            result = cachedverbsimilarities.get(key);
+        }
         if (result != null){
             return result;
         }
@@ -409,10 +437,28 @@ public class WordSimilarity {
      * @param type word type
      * @param similarity the similarity value
      */
-    private void addToCache(String word1, String word2, SynsetType type, double similarity) {
-        Set wordset = new HashSet(2);
-        wordset.add(word1);
-        wordset.add(word2);
-        cachedsimilarities.get(type).put(wordset, similarity);
+    private void addSimilarityToCache(String word1, String word2, SynsetType type, double similarity) {
+        String key = (word1.compareTo(word2) <= 0)?word1+" "+word2:word2+" "+word1;
+        if (type.equals(SynsetType.NOUN)){
+            cachednounsimilarities.put(key, similarity);
+        }
+        else{
+            cachedverbsimilarities.put(key, similarity);
+        }
     }
+    
+    /**
+     * Gets a synset tree from cache if possible or generates one, saves it in the cache and returns it
+     * @param synset the synset
+     * @return the synset tree
+     */
+    private Map<Synset, Set<Synset>> getSynsetTree(Synset synset) {
+        Map<Synset, Set<Synset>> tree = cachedSynsetTrees.get(synset);
+        if (tree == null){
+            tree = calculatePaths(synset,true);
+            cachedSynsetTrees.put(synset, tree);
+        }
+        return tree;
+    }
+    
 }

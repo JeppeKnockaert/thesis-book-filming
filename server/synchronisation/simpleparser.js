@@ -29,7 +29,7 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
     					var matcharray = new Array();
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
-							var sentences = matches[1].split(/[\.\?\!]/);
+							var sentences = matches[1].match(/[^\.\?\!]+[\.\?\!]/g);
 							var process = function(functionind,processedmatch){
 					    		if (functionind !== -1){
 					    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
@@ -39,6 +39,9 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 				    				matcharray.push(processedmatch);
 					    		}
 						    };
+						    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
+						    	sentences = [ matches[1] ];
+						    }
 							sentences.forEach(function (sentence){
 								var nextfunction = -1;
 								if (preprocessor.length > 1){
@@ -131,7 +134,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 					text += textline+"\n";
 					data = data.substring(linebreak+1);
 				}
-				var sentences = text.split(/([\.\?\!]|^\-)/);
+				var sentences = text.match(/([^\.\?\!]+[\.\?\!]|^\-[^\-]+)/g);
 				var process = function(functionind,processedtext){
 		    		if (functionind !== -1){
 		    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
@@ -145,6 +148,9 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 						});
 					}
 			    };
+			    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
+			    	sentences = [ text ];
+			    }
 				sentences.forEach(function (sentence){
 					var nextfunction = -1;
 					if (preprocessor.length > 1){
