@@ -68,7 +68,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 					"quoteindex" : quoteindex,
 					"subtitle" : subvalue.text,
 			   		"quote" : bookvalue,
-			   		"score" : linesplit[2]
+			   		"score" : linesplit[2].trim()
 				};
 				matches["match"].push(match);
 			}
@@ -78,7 +78,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			}
 		});
 		child.on('close', function (code) {
-			updater.emit('syncprogressupdate',100);
+			callback(matches);
 		});
 	});
 }
