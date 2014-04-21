@@ -3,7 +3,9 @@
  * 	- removes tags
  * 	- removes extra spaces
  * 	- removes linebreaks
- *  - removes punctuation
+ *  - removes non-regular punctuation (different from period, exclamation mark and question mark)
+ *  - removes hyphens at the start of sentences (often occurs in subtitles)
+ * 	- Change ’ apostrophes to '
  */
 
 /**
@@ -23,7 +25,5 @@ exports.preprocess = function(text, callback){
 	}
 	else{
 		callback(""); // If no word, return an empty string
-	}
-	//returntext = returntext.replace(/[^A-z\ 0-9]/g,""); // Remove punctuation
-	
+	}	
 }
