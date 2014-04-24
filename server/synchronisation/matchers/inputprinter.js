@@ -18,19 +18,24 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			"fromTime" : subvalue.fromTime,
 			"subtitle" : subvalue.text						
 		};
+		if (typeof subvalue.scene !== "undefined"){
+			sub["scene"]= subvalue.scene;
+		}
 		subtitles["subtitle"].push(sub);
 		if (subindex === subtitle.length-1){
 			callback(subtitles); // Return the array with subtitles
 			console.log("done subs!");
 		}
 	});
-	
 	var quotes = {"quote" : new Array()};
 	book.forEach(function (bookvalue, bookindex){ // Go trough all quotes
-		var quote = { 
+		var quote = {
 			"quoteindex" : bookindex,
-	   		"quote" : bookvalue
+	   		"quote" : bookvalue.text
 		};
+		if (typeof bookvalue.paragraph !== "undefined"){
+			quote["paragraph"]= bookvalue.paragraph;
+		}
 		quotes["quote"].push(quote);
 		if (bookindex === book.length-1){
 			callback(quotes); // Return the array with quotes

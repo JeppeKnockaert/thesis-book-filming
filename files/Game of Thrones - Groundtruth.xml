@@ -206,7 +206,7 @@
 	<match>
 		<fromTime>00:27:27,187 </fromTime>
 		<subtitleindex>219</subtitleindex>
-		<quoteindex>516</quoteindex>
+		<quoteindex>515</quoteindex>
 		<subtitle>Guarding the North for you Your Grace</subtitle>
 		<quote>Your Grace</quote>
 	</match>
@@ -220,14 +220,14 @@
 	<match>
 		<fromTime>00:28:19,948 </fromTime>
 		<subtitleindex>233</subtitleindex>
-		<quoteindex>518</quoteindex>
+		<quoteindex>517</quoteindex>
 		<subtitle>Take me to your crypt</subtitle>
 		<quote>Take me down to your crypt Eddard</quote>
 	</match>
 	<match>
 		<fromTime>00:28:19,948 </fromTime>
 		<subtitleindex>234</subtitleindex>
-		<quoteindex>525</quoteindex>
+		<quoteindex>518</quoteindex>
 		<subtitle>I want to pay my respects</subtitle>
 		<quote>I would pay my respects</quote>
 	</match>

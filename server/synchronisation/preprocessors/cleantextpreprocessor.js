@@ -19,7 +19,7 @@ exports.preprocess = function(text, callback){
 	returntext = returntext.replace(/<[^>]+?>/g,""); // Remove tags
 	returntext = returntext.replace(/^\ *-/g,""); // Remove hyphen as first character (occurs often in subtitles)
 	returntext = returntext.replace("’","'"); // Unify all apostrophes
-	returntext = returntext.replace(/[^\.\?\!]$/,"."); // Replace non-regular punctuation marks at the end by a period
+	returntext = returntext.replace(/[^\.\?\!a-zA-Z0-9]\s*$/,"."); // Replace non-regular punctuation marks at the end by a period
 	if (returntext.match(/.*[a-zA-Z].*/) !== null){
 		callback(returntext.trim()); // Remove additional whitespaces  
 	}

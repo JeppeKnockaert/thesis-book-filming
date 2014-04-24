@@ -1,9 +1,18 @@
 /**
- * Parses books and subtitles
+ * Parses books and subtitles and performs semantic role labeling for each sentence
+ * Performs callback with an array: [[array of sentences], {Parsed JSON with labels}]
  */
 
 var epubParser = require("epub"); // Module for parsing epub files
 var fs = require('fs'); // Module for reading files
+var srl = false; // Has SRL started yet?
+var bookParsed = false; // Is the book parsed yet?
+var subParsed = false; // Are the subs parsed yet?
+var parsedBook; // Results from parsing the book
+var bookCallback; // Callback to execute after parsing book
+var parsedSubtitles; // Results from parsing the subtitles
+var subtitleCallback; // Callback to execute after parsing subtitles
+var eventupdater; // Updater for registring our progress
 
 /**
  * Parses epubs
@@ -12,6 +21,7 @@ var fs = require('fs'); // Module for reading files
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.parseBook = function(bookfile, preprocessor, updater, callback){
+	eventupdater = updater;
 	var epub = new epubParser(bookfile); // Create the epub parser
 	var fulltext = "";
 	epub.on("end", function(){
@@ -25,9 +35,10 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 					if (matches !== null && matches.length > 4){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
 						fulltext += text;
 					}
+					var bookText = "";
+					parsedBook = new Array();
     				if (index == epub.flow.length-1){
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
-    					var matcharray = new Array();
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
 							var sentences = matches[1].match(/[^\.\?\!“”]+([\.\?\!“”]|$)/g);
 							var process = function(functionind,processedmatch){
@@ -36,7 +47,8 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
 					    		}
 					    		else if (processedmatch.trim() !== ""){
-				    				matcharray.push(processedmatch);
+					    			parsedBook.push(processedmatch);
+				    				bookText += processedmatch+"\n";
 					    		}
 						    };
 						    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
@@ -44,18 +56,28 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 						    }
 							sentences.forEach(function (sentence){
 								var nextfunction = -1;
-								if (preprocessor.length > 1){
+								if (preprocessor.length > 1){ // If there is more than one preprocessor, the next has index 1
 									nextfunction = 1;
 								}
-								if (preprocessor.length > 0){
+								if (preprocessor.length > 0){ // If there is at least one preprocessor, execute it
 									preprocessor[0].preprocess(sentence, process.bind(null,nextfunction));	
 								}
-								else{
-									matcharray.push(sentence);
-								}
+								else{ // If there are no preprocessors, just add the not processed sentence
+									process(-1,sentence);
+								}	
 							});
 						}
-    					callback(null, matcharray); // Make a callback using all quotes
+						fs.writeFile(__dirname + '/libs/book', bookText, function (err) { // Write the sentences to file for SRL
+							if (err){
+								console.log(err);
+							}
+							bookCallback = callback; 
+							if (subParsed && !srl){ // If subtitles are done and that method didn't start the SRL, start it
+								srl = true;
+								callSRLParser();
+							}
+							bookParsed = true; // Book has been parsed
+						});
     				}
     			}
     		});
@@ -65,18 +87,73 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 }
 
 /**
+ * Spawns the java application that does the semantic role labeling
+ */
+callSRLParser = function(){
+	var done = function(){
+		eventupdater.emit('syncprogressupdate',0); // Reset progress for the next part
+		fs.readFile(__dirname + '/libs/srlout.json', 'UTF-8', function (srlerr, srldata){
+			var parsedSRL = JSON.parse(srldata);
+			fs.readFile(__dirname + '/libs/posout.json', 'UTF-8', function (poserr, posdata){
+				var parsedPOS = JSON.parse(posdata);
+				fs.readFile(__dirname + '/libs/relatedwords.json', 'UTF-8', function (relerr, reldata){
+					var reldict = JSON.parse(reldata);
+					bookCallback(null, [parsedBook, parsedSRL["book"], parsedPOS["book"], reldict]); // Make a callback using all quotes
+					subtitleCallback(null, [parsedSubtitles, parsedSRL["subtitle"], parsedPOS["subtitle"], reldict]); // Make a callback using all subtitles
+				});
+			});
+		});
+	};
+	fs.readFile(__dirname + '/../config.json', 'UTF-8', function (configerr, configdata){
+		var usecachedfile = JSON.parse(configdata)['srl']['usecachedversion'];
+		fs.readFile(__dirname + '/libs/srlout.json', 'UTF-8', function (srlerr, srlout){
+			fs.readFile(__dirname + '/libs/posout.json', 'UTF-8', function (poserr, posout){
+				fs.readFile(__dirname + '/libs/relatedwords.json', 'UTF-8', function (relerr, relout){
+					if (!usecachedfile||srlerr||poserr||relerr){
+						eventupdater.emit('message',"SRL/POS tagging in progress...");
+						var spawn = require('child_process').spawn;
+						var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
+						{
+							cwd : __dirname+'/libs/' // Set working directory to the libs folder (where the java application resides)
+						});
+						child.stdout.setEncoding('utf8');
+						child.stdout.on('data', function (data) {
+							var procentindex = data.indexOf('%');
+							if (procentindex !== -1){
+								var procentnumber = data.substr(0,procentindex);
+								eventupdater.emit('syncprogressupdate',procentnumber);
+							}
+						});
+						child.on('close', function (code) {
+							done();
+						});
+					}
+					else{
+						console.log("Using old data! (Only for debugging purposes)");
+						done();
+					}
+				});
+			});
+		});	
+	});
+	
+}
+
+/**
  * Parses subtitles
  * @param subtitlefile the path to the srt file
  * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
+	eventupdater = updater;
 	fs.readFile(subtitlefile, 'utf8', function (err,data) {
 	  	if (err) {
 	    	callback(err);
 		}
 		else{
-			var subtitles = new Array();
+			parsedSubtitles = new Array();
+			var subtitleText = "";
 			while (data.trim() !== ""){
 				var linebreak = data.indexOf("\n"); // Find next linebreak
 				var indexline = data.substring(0,linebreak); // Capture the line
@@ -141,11 +218,12 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 		    			preprocessor[functionind].preprocess(processedtext, process.bind(null,nextfunction));
 		    		}
 		    		else if (processedtext.trim() !== ""){
-						subtitles.push({ // Store the subtitle
+						parsedSubtitles.push({ // Store the subtitle
 							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
 							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
 							"text" : processedtext
 						});
+						subtitleText += processedtext+'\n';
 					}
 			    };
 			    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
@@ -153,25 +231,29 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 			    }
 				sentences.forEach(function (sentence){
 					var nextfunction = -1;
-					if (preprocessor.length > 1){
+					if (preprocessor.length > 1){ // If there is more than one preprocessor, the next has index 1
 						nextfunction = 1;
 					}
-					if (preprocessor.length > 0){
+					if (preprocessor.length > 0){ // If there is at least one preprocessor, execute it
 						preprocessor[0].preprocess(sentence, process.bind(null,nextfunction));
 					}
-					else{
-						subtitles.push({ // Store the subtitle
-							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
-							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
-							"text" : sentence
-						});
+					else{ // If there are no preprocessors, just add the not processed sentence
+						process(-1,sentence);
 					}
 				});
-
-				if (data.trim() === ""){ // When the file is empty, pass the resulting array to the callback
-					callback(null,subtitles);
-				}
 			}
+			// When the file is empty, we're ready
+			fs.writeFile(__dirname + '/libs/subtitle', subtitleText, function (err) {
+				if (err){
+					console.log(err);
+				}
+				subtitleCallback = callback;
+				if (bookParsed && !srl){ // If book is done and that method didn't start the SRL, start it
+					srl = true;
+					callSRLParser();
+				}
+				subParsed = true; // Subtites have been parsed
+			});
 		}
 	});
 }

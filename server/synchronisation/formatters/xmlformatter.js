@@ -19,6 +19,8 @@ var tmp = require('tmp');
  * @param updater the eventemitter to keep track of the progressupdates
  */
 exports.format = function(matches, updater){
+	updater.emit('message',"Writing results...");
+
 	var result = js2xmlparser("matches", matches);
 	var fs = require('fs');
 

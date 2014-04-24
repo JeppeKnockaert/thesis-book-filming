@@ -86,9 +86,9 @@
 					data: {"childpid":pid, "method":"eval"},
 					url: "/fetchresult",
 					success: function( response ) {
-						console.log(response);
 						// Remove the interval once the results have been returned
 						if (response !== "Please wait..."){
+							console.log(intervalid+" cancelled");
 							clearInterval(intervalid);
 						}
 						$("#evaluationpanelbody").html(response);

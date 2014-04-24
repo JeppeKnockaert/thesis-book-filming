@@ -2,8 +2,9 @@
  * Reads the uploaded files and sends them to the appropriate parser
  */
 
-// Check if the synchronization is already started
-var synced = false;
+var fs = require('fs'); // Load module for IO
+
+var synced = false; // Check if the synchronization is already started
 
 var parsedBook = null;
 var parsedSubtitle = null;
@@ -17,7 +18,7 @@ var parsedSubtitle = null;
  * @param updater the eventemitter to keep track of the progressupdates
  */
 exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
-	var parser = require(__dirname + "/" + sequence.parser + ".js");
+	var parser = require(__dirname + "/parsers/" + sequence.parser + ".js");
 	var preprocessors = new Array();
 	sequence.preprocessor.forEach(function(preprocessor,i){
 		preprocessors[i] = require(__dirname + "/preprocessors/" + preprocessor + ".js");
@@ -54,14 +55,26 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 	if (!synced){
 		var matcher = require(__dirname + "/matchers/" + sequence.matcher + ".js");
-		var postprocessor = require(__dirname + "/" + sequence.postprocessor + ".js");
-		var formatter = require(__dirname + "/" + sequence.formatter + ".js");
+		var formatter = require(__dirname + "/formatters/" + sequence.formatter + ".js");
 		synced = true;
 		updater.emit('message',"Synchronisation in progress...");
-		matcher.synchronize(parsedBook,parsedSubtitle,postprocessor,updater,function(matches){
-			updater.emit('message',"Writing results...");
-			formatter.format(matches, updater);
-			updater.emit('message',"Synchronisation finished!");
+		matcher.synchronize(parsedBook,parsedSubtitle,updater,function(matches){
+			var postprocessorfilename = __dirname + "/postprocessors/" + sequence.postprocessor + ".js";
+			fs.exists(postprocessorfilename, function(exists) { 
+				var syncready = "Synchronisation finished!";
+				if (exists) { // If there is a postprocessor, do the postprocessing first
+					var postprocessor = require(postprocessorfilename);
+					postprocessor.postprocess(matches, function(postmatches){
+						formatter.format(matches, updater);
+						updater.emit('message',syncready);
+					});
+				}
+				else{ // Else, continue to formatter
+					formatter.format(matches, updater);
+					updater.emit('message',syncready);
+				}
+			}); 
+			
 		});
 	}
 }
