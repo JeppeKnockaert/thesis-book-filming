@@ -4,9 +4,9 @@
     	<title>Synchronize books and filmings</title>
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<!-- Bootstrap -->
-    	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
     	<!-- Main css -->
-    	<link href="css/main.css" rel="stylesheet" media="screen">
+    	<link href="css/main.css" rel="stylesheet">
     	<script src="http://code.jquery.com/jquery.js"></script>
     	<script> 
 			$(function(){
@@ -21,7 +21,7 @@
 	  		<div id="header"></div>
 	    	<form id="syncform" class="form-horizontal" method="post" enctype="multipart/form-data">
 				<div class="form-group">
-					<label class="col-xs-1" for="bookupload">Book (epub)</label>
+					<label class="col-xs-1" for="bookupload">Book (.epub)</label>
 					<div class="col-xs-3">
 		    			<input type="text" id="bookupload" class="uploadFile form-control" placeholder="Choose File" disabled="disabled"/>
 		    		</div>
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-1" for="subtitleupload">Subtitles (srt)</label>
+					<label class="col-xs-1" for="subtitleupload">Subtitles (.srt)</label>
 					<div class="col-xs-3">
 		    			<input type="text" id="subtitleupload" class="uploadFile form-control" placeholder="Choose File" disabled="disabled"/>
 		    		</div>
@@ -41,7 +41,7 @@
 					</div>
 				</div>
 				<div class="col-xs-offset-1">
-					<button id="syncButton" type="submit" class="btn btn-primary">Synchronize</button>
+					<button id="syncButton" type="submit" class="btn btn-primary">Synchronise</button>
 				</div>
 			</form>
 
@@ -50,7 +50,7 @@
 				<div class="modal-dialog">
     				<div class="modal-content">
 					  	<div class="modal-header">
-					    	<h3>Synchronizing...</h3>
+					    	<h3>Synchronising...</h3>
 					  	</div>
 					  	<div class="modal-body">
 					  		<div id="progressmessage">Preparing to sync...</div>

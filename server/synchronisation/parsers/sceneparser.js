@@ -6,6 +6,7 @@ var epubParser = require("epub"); // Module for parsing epub files
 var fs = require('fs'); // Module for reading files
 var maxtimebetweendialogue = 5000; // Maximum amount of time between two sentences in a dialogue (in milliseconds)
 var segmentlength = 60; // Length of one videosegment (in seconds)
+var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter must contain to be considered
 
 /**
  * Parses epubs
@@ -25,9 +26,9 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				var paragraphregex = /<p[^>]*>([\s\S]+?)<\/p>/g;
+    				var paragraphregex = /<p[^>]*>([^<]*[a-zA-Z].+?)<\/p>/g;
     				var paragraphs = text.match(paragraphregex); // Match paragraphs
-					if (paragraphs !== null && paragraphs.length > 4){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
+					if (paragraphs !== null && paragraphs.length > minimumnrofparagraphs){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
 						while (paragraph = paragraphregex.exec(text)) { // Go over all paragraphs
 							var regex = /[“]([^“”]+?)[”]/g; // Match quotes
 							while (quotes = regex.exec(paragraph[1])) { // Go over all quotes and put them in an array

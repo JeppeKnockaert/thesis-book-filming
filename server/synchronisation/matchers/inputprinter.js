@@ -16,7 +16,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 		var sub = { 
 			"subtitleindex" : subindex,
 			"fromTime" : subvalue.fromTime,
-			"subtitle" : subvalue.text						
+			"subtitletext" : subvalue.text						
 		};
 		if (typeof subvalue.scene !== "undefined"){
 			sub["scene"]= subvalue.scene;
@@ -31,7 +31,7 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 	book.forEach(function (bookvalue, bookindex){ // Go trough all quotes
 		var quote = {
 			"quoteindex" : bookindex,
-	   		"quote" : bookvalue.text
+	   		"quotetext" : bookvalue.text
 		};
 		if (typeof bookvalue.paragraph !== "undefined"){
 			quote["paragraph"]= bookvalue.paragraph;

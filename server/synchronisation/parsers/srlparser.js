@@ -13,6 +13,7 @@ var bookCallback; // Callback to execute after parsing book
 var parsedSubtitles; // Results from parsing the subtitles
 var subtitleCallback; // Callback to execute after parsing subtitles
 var eventupdater; // Updater for registring our progress
+var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter must contain to be considered
 
 /**
  * Parses epubs
@@ -31,8 +32,8 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				var matches = text.match(/<p[^>]*>/g); // Match paragraphs
-					if (matches !== null && matches.length > 4){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
+    				var matches = text.match(/<p[^>]*>[^<]*[a-zA-Z].+?<\/p>/g); // Match paragraphs
+					if (matches !== null && matches.length > minimumnrofparagraphs){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
 						fulltext += text;
 					}
 					var bookText = "";
@@ -47,7 +48,9 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
 					    		}
 					    		else if (processedmatch.trim() !== ""){
-					    			parsedBook.push(processedmatch);
+					    			parsedBook.push({
+					    				"text" : processedmatch
+					    			});
 				    				bookText += processedmatch+"\n";
 					    		}
 						    };

@@ -4,9 +4,9 @@
     	<title>Evaluate matching</title>
     	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     	<!-- Bootstrap -->
-    	<link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
     	<!-- Main css -->
-    	<link href="css/main.css" rel="stylesheet" media="screen">
+    	<link href="css/main.css" rel="stylesheet">
     	<script src="http://code.jquery.com/jquery.js"></script>
     	<script> 
 			$(function(){
@@ -21,7 +21,7 @@
   			<div id="header"></div>
 	    	<form id="evaluationform" class="form-horizontal" method="post" enctype="multipart/form-data">
 				<div class="form-group">
-					<label class="col-xs-2" for="resultupload">Result from matching (xml)</label>
+					<label class="col-xs-2" for="resultupload">Synchronisation results (.xml)</label>
 					<div class="col-xs-3">
 		    			<input type="text" id="resultupload" class="uploadFile form-control" placeholder="Choose File" disabled="disabled"/>
 		    		</div>
@@ -31,7 +31,7 @@
 					</div>
 				</div>
 				<div class="form-group">
-					<label class="col-xs-2" for="groundtruthupload">Ground truth (xml)</label>
+					<label class="col-xs-2" for="groundtruthupload">Ground truth (.xml)</label>
 					<div class="col-xs-3">
 		    			<input type="text" id="groundtruthupload" class="uploadFile form-control" placeholder="Choose File" disabled="disabled"/>
 		    		</div>
@@ -88,7 +88,6 @@
 					success: function( response ) {
 						// Remove the interval once the results have been returned
 						if (response !== "Please wait..."){
-							console.log(intervalid+" cancelled");
 							clearInterval(intervalid);
 						}
 						$("#evaluationpanelbody").html(response);

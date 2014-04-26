@@ -4,6 +4,7 @@
 
 var epubParser = require("epub"); // Module for parsing epub files
 var fs = require('fs'); // Module for reading files
+var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter must contain to be considered
 
 /**
  * Parses epubs
@@ -21,8 +22,8 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				var matches = text.match(/<p[^>]*>/g); // Match paragraphs
-					if (matches !== null && matches.length > 4){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
+    				var matches = text.match(/<p[^>]*>[^<]*[a-zA-Z].+?<\/p>/g); // Match paragraphs
+					if (matches !== null && matches.length > minimumnrofparagraphs){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
 						fulltext += text;
 					}
     				if (index == epub.flow.length-1){
@@ -36,7 +37,9 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
 					    		}
 					    		else if (processedmatch.trim() !== ""){
-				    				matcharray.push(processedmatch);
+				    				matcharray.push({
+				    					"text" : processedmatch
+				    				});
 					    		}
 						    };
 						    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
