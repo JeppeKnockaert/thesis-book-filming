@@ -263,8 +263,8 @@
 		<subtitleindex>294</subtitleindex>
 		<fromTime>00:20:10,960 </fromTime>
 		<subtitle>You know how to hunt</subtitle>
-		<quoteindex>157</quoteindex>
-		<quote>Youre the best hunter I know</quote>
+		<quoteindex>164</quoteindex>
+		<quotetext>You know how to kill</quotetext>
 	</match>
 	<match>
 		<subtitleindex>296</subtitleindex>
@@ -279,13 +279,6 @@
 		<subtitle>Whatever you do dont let them starve</subtitle>
 		<quoteindex>167</quoteindex>
 		<quote>Dont let them starve</quote>
-	</match>
-	<match>
-		<subtitleindex>336</subtitleindex>
-		<fromTime>00:23:57,353 </fromTime>
-		<subtitle>Youre supposed to tell us how to get sponsors and give us advice</subtitle>
-		<quoteindex>185</quoteindex>
-		<quote>The one who advises you lines up your sponsors and dictates the presentation of any gifts</quote>
 	</match>
 	<match>
 		<subtitleindex>413</subtitleindex>

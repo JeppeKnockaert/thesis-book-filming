@@ -6,7 +6,6 @@ var epubParser = require("epub"); // Module for parsing epub files
 var fs = require('fs'); // Module for reading files
 var maxtimebetweendialogue = 5000; // Maximum amount of time between two sentences in a dialogue (in milliseconds)
 var segmentlength = 60; // Length of one videosegment (in seconds)
-var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter must contain to be considered
 
 /**
  * Parses epubs
@@ -16,58 +15,49 @@ var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter mus
  */
 exports.parseBook = function(bookfile, preprocessor, updater, callback){
 	var epub = new epubParser(bookfile); // Create the epub parser
-	var paragraphindex = 0;
+	var fulltext = "";
 	epub.on("end", function(){
-		var matcharray = new Array();
-		var chaptersdone = 0;
     	epub.flow.forEach(function(chapter, index){ // Loop trough all chapters and fetch the text
     		epub.getChapter(chapter.id, function(err,text){
     			if (err){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				var paragraphregex = /<p[^>]*>([^<]*[a-zA-Z].+?)<\/p>/g;
-    				var paragraphs = text.match(paragraphregex); // Match paragraphs
-					if (paragraphs !== null && paragraphs.length > minimumnrofparagraphs){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
-						while (paragraph = paragraphregex.exec(text)) { // Go over all paragraphs
-							var regex = /[“]([^“”]+?)[”]/g; // Match quotes
-							while (quotes = regex.exec(paragraph[1])) { // Go over all quotes and put them in an array
-								var sentences = quotes[1].match(/[^\.\?\!“”]+([\.\?\!“”]|$)/g);
-								var process = function(functionind,processedmatch){
-						    		if (functionind !== -1){
-						    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
-						    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
-						    		}
-						    		else if (processedmatch.trim() !== ""){
-					    				matcharray.push({
-					    					"paragraph": paragraphindex,
-					    					"text" : processedmatch
-					    				});
-						    		}
-							    };
-							    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
-							    	sentences = [ quotes[1] ];
-							    }
-								sentences.forEach(function (sentence){
-									var nextfunction = -1;
-									if (preprocessor.length > 1){
-										nextfunction = 1;
-									}
-									if (preprocessor.length > 0){
-										preprocessor[0].preprocess(sentence, process.bind(null,nextfunction));	
-									}
-									else{
-										process(-1,sentence);
-									}
-								});
-							}
-							paragraphindex++;
-						}    	
-					}				
-    			}
-    			chaptersdone++;
-    			if (chaptersdone === epub.flow.length){
-					callback(null, matcharray); // Make a callback using all quotes
+    				fulltext += text;
+    				if (index == epub.flow.length-1){ // When the last chapters is processed, start parsing
+    					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
+    					var matcharray = new Array();
+						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
+							var sentences = matches[1].match(/[^\.\?\!“”]+([\.\?\!“”]|$)/g);
+							var process = function(functionind,processedmatch){
+					    		if (functionind !== -1){
+					    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
+					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
+					    		}
+					    		else if (processedmatch.trim() !== ""){
+				    				matcharray.push({
+				    					"text" : processedmatch
+				    				});
+					    		}
+						    };
+						    if (sentences == null){ // If only one sentence, add it to the array (else, the array already exists)
+						    	sentences = [ matches[1] ];
+						    }
+							sentences.forEach(function (sentence){
+								var nextfunction = -1;
+								if (preprocessor.length > 1){
+									nextfunction = 1;
+								}
+								if (preprocessor.length > 0){
+									preprocessor[0].preprocess(sentence, process.bind(null,nextfunction));	
+								}
+								else{
+									process(-1,sentence);
+								}
+							});
+						}
+    					callback(null, matcharray); // Make a callback using all quotes
+    				}
     			}
     		});
 		});
@@ -88,6 +78,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 		}
 		else{
 			var subtitles = new Array();
+			var scenestarts = {};
 			var previousEndInMillis = -1;
 			var startSceneMillis = 0;
 			var sceneindex = 0;
@@ -162,7 +153,9 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 		    				//console.log(sceneindex+": "+(totalFromInMillis-startSceneMillis)/1000+" seconds (started at:"+startSceneMillis/1000/60+")");
 		    				startSceneMillis = totalFromInMillis;
 		    				sceneindex++;
-		    			}				
+		    				scenestarts[sceneindex] = subtitles.length; // Map the index of the first subtitle of the index of the scene
+		    			}			
+		    			
 						subtitles.push({ // Store the subtitle
 							"scene" : sceneindex,
 							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
@@ -193,7 +186,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 				// 	console.log(sceneindex+": "+(totalFromInMillis-startSceneMillis)/1000+" seconds (started at:"+startSceneMillis/1000/60+")");
 				// }
 			}
-			callback(null,subtitles);  // When the file is empty, pass the resulting array to the callback
+			callback(null,[subtitles,scenestarts]);  // When the file is empty, pass the resulting array to the callback
 		}
 	});
 }

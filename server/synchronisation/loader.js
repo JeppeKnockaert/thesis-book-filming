@@ -23,6 +23,7 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 	sequence.preprocessor.forEach(function(preprocessor,i){
 		preprocessors[i] = require(__dirname + "/preprocessors/" + preprocessor + ".js");
 	});
+	updater.emit('message',"Parsing in progress...");
 	// Parse the epub file
 	parser.parseBook(bookfile, preprocessors, updater, function(err, book){
 		if (err){
@@ -59,22 +60,33 @@ callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 		synced = true;
 		updater.emit('message',"Synchronisation in progress...");
 		matcher.synchronize(parsedBook,parsedSubtitle,updater,function(matches){
-			var postprocessorfilename = __dirname + "/postprocessors/" + sequence.postprocessor + ".js";
-			fs.exists(postprocessorfilename, function(exists) { 
-				var syncready = "Synchronisation finished!";
-				if (exists) { // If there is a postprocessor, do the postprocessing first
-					var postprocessor = require(postprocessorfilename);
-					postprocessor.postprocess(matches, function(postmatches){
-						formatter.format(matches, updater);
+			var syncready = "Synchronisation finished!";
+			if (sequence.postprocessor.length > 0){ // If there is a postprocessor, do the postprocessing first
+				updater.emit('message',"Postprocessing in progress...");
+				var postprocessors = new Array();
+				sequence.postprocessor.forEach(function(postprocessor,i){
+					postprocessors[i] = require(__dirname + "/postprocessors/" + postprocessor + ".js");
+				});
+				var process = function(functionind,processedmatches){
+		    		if (functionind !== -1){
+		    			var nextfunction = (functionind+1<sequence.postprocessor.length)?functionind+1:-1;
+		    			postprocessors[functionind].postprocess(processedmatches, process.bind(null,nextfunction));
+		    		}
+		    		else{
+	    				formatter.format(processedmatches, updater);
 						updater.emit('message',syncready);
-					});
-				}
-				else{ // Else, continue to formatter
-					formatter.format(matches, updater);
-					updater.emit('message',syncready);
-				}
-			}); 
-			
+		    		}
+			    };
+			    var nextfunction = -1;
+			    if (postprocessors.length > 1){
+			    	nextfunction = 1;
+			    }
+			    postprocessors[0].postprocess(matches, process.bind(null,nextfunction));
+			}
+			else{ // Else, continue to formatter
+				formatter.format(matches, updater);
+				updater.emit('message',syncready);
+			}
 		});
 	}
 }

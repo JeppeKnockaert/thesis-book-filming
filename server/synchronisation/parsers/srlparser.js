@@ -32,22 +32,21 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				var matches = text.match(/<p[^>]*>[^<]*[a-zA-Z].+?<\/p>/g); // Match paragraphs
-					if (matches !== null && matches.length > minimumnrofparagraphs){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
-						fulltext += text;
-					}
+					fulltext += text;
 					var bookText = "";
 					parsedBook = new Array();
-    				if (index == epub.flow.length-1){
+    				if (index == epub.flow.length-1){ // When the last chapters is processed, start parsing
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
 							var sentences = matches[1].match(/[^\.\?\!“”]+([\.\?\!“”]|$)/g);
+							var done = 0;
 							var process = function(functionind,processedmatch){
+								done++;
 					    		if (functionind !== -1){
 					    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
 					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
 					    		}
-					    		else if (processedmatch.trim() !== ""){
+					    		if (done === preprocessor.length && processedmatch.trim() !== ""){
 					    			parsedBook.push({
 					    				"text" : processedmatch
 					    			});
@@ -215,12 +214,14 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 					data = data.substring(linebreak+1);
 				}
 				var sentences = text.match(/([^\.\?\!“”]+([\.\?\!“”]|$)|^\-[^\-]+)/g);
+				var done = 0;
 				var process = function(functionind,processedtext){
+					done++;
 		    		if (functionind !== -1){
 		    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
 		    			preprocessor[functionind].preprocess(processedtext, process.bind(null,nextfunction));
 		    		}
-		    		else if (processedtext.trim() !== ""){
+		    		if (done === preprocessor.length && processedtext.trim() !== ""){
 						parsedSubtitles.push({ // Store the subtitle
 							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
 							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,

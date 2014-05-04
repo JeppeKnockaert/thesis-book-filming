@@ -22,11 +22,8 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     				callback(new Error("Error reading chapter with id "+chapter.id));
     			}
     			else{
-    				var matches = text.match(/<p[^>]*>[^<]*[a-zA-Z].+?<\/p>/g); // Match paragraphs
-					if (matches !== null && matches.length > minimumnrofparagraphs){ //Threshold for the minimum number of paragraphs for a chapter to be relevant
-						fulltext += text;
-					}
-    				if (index == epub.flow.length-1){
+    				fulltext += text;
+    				if (index == epub.flow.length-1){ // When the last chapters is processed, start parsing
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
     					var matcharray = new Array();
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array

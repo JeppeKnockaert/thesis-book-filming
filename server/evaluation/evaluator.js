@@ -44,7 +44,16 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 				}
 			});
 			falsepositives = resultChildren.length - truepositives; // Every match found, minus the real matches = false matches
-			updater.emit("result","<p>True positives: "+truepositives+"</p><p>False positives: "+falsepositives+"</p><p>False negatives: "+falsenegatives+"</p><p>Precision: "+(truepositives/(truepositives+falsepositives))+"</p><p>Recall: "+(truepositives/(truepositives+falsenegatives))+"</p>");
+			var precision = truepositives/(truepositives+falsepositives); 
+			var recall = truepositives/(truepositives+falsenegatives);
+			updater.emit("result","<p>True positives: "+truepositives+
+				"</p><p>False positives: "+falsepositives+
+				"</p><p>False negatives: "+falsenegatives+
+				"</p><p>Precision: "+precision+
+				"</p><p>Recall: "+recall+
+				"</p><p>F<sub>1</sub>: "+(2*precision*recall)/(precision+recall)+
+				"</p><p>F<sub>0.5</sub>: "+(1.25*precision*recall)/(0.25*precision+recall)+
+				"</p><p>F<sub>2</sub>: "+(5*precision*recall)/(4*precision+recall)+"</p>");
 		});
 	});
 

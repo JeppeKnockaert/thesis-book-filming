@@ -79,15 +79,18 @@ app.post('/synchronize', function(req,res){
     req.pipe(busboy); // Start the parsing
 
 	child.on("message", function(message){
-		if (message["name"] === "progressreport"){
-			// Update the progressvariable when an update is received
-			children[child.pid].progress = message["value"];
-		}
-		else if (message["name"] === "result"){
-			children[child.pid].filepath = message["value"];
-		}
-		else if (message["name"] === "message"){
-			children[child.pid].message = message['value'];
+		// Make sure the child wasn't cancelled before processing messages
+		if (typeof children[child.pid] !== "undefined"){
+			if (message["name"] === "progressreport"){
+				// Update the progressvariable when an update is received
+				children[child.pid].progress = message["value"];
+			}
+			else if (message["name"] === "result"){
+				children[child.pid].filepath = message["value"];
+			}
+			else if (message["name"] === "message"){
+				children[child.pid].message = message['value'];
+			}
 		}
 	});
 	// End the request, return the pid of the child to fetch the progress and result later on

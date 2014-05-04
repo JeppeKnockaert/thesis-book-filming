@@ -11,10 +11,17 @@ var natural = require('natural'); // Module for natural language processing
  * @param callback the callback that needs to be executed after this function is ready
  */
 exports.preprocess = function(text, callback){
-	var tokens = natural.PorterStemmer.tokenizeAndStem(text); // Stem and tokenize using Porter stemming
+	var tokenizer = new natural.TreebankWordTokenizer();
+	var tokens = tokenizer.tokenize(text); // Stem and tokenize using Porter stemming
 	var returntext = "";
 	tokens.forEach(function(token){
-		returntext += token+" ";
+		var stem = natural.PorterStemmer.stem(token);
+		returntext += natural.PorterStemmer.stem(token)+" ";
 	});
+	if (returntext.split(" ").length < text.split(" ").length){
+		console.log(text);
+		console.log(returntext);
+		console.log(tokens);
+	}
 	callback(returntext.trim()); // Remove trailing spaces
 }

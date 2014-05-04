@@ -6,11 +6,13 @@
  * Simply prints the input files for creating a ground truth
  * @param book the parsed epub file
  * @param subtitle the parsed srt file
- * @param postprocessor an instance of the postprocessor
  * @param updater the eventemitter to keep track of the progressupdates
  * @param callback the callback that needs to be executed after this function is ready
  */
-exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
+exports.synchronize = function(book,subtitle,updater,callback){
+	if (Array.isArray(subtitle)){
+		subtitle = subtitle[0];
+	}
 	var subtitles = {"subtitle" : new Array()};
 	subtitle.forEach(function (subvalue, subindex){ // Go trough all subtitles
 		var sub = { 
@@ -33,9 +35,6 @@ exports.synchronize = function(book,subtitle,postprocessor,updater,callback){
 			"quoteindex" : bookindex,
 	   		"quotetext" : bookvalue.text
 		};
-		if (typeof bookvalue.paragraph !== "undefined"){
-			quote["paragraph"]= bookvalue.paragraph;
-		}
 		quotes["quote"].push(quote);
 		if (bookindex === book.length-1){
 			callback(quotes); // Return the array with quotes

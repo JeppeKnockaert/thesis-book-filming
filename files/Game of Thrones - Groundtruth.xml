@@ -205,13 +205,6 @@
 	</match>
 	<match>
 		<fromTime>00:27:27,187 </fromTime>
-		<subtitleindex>219</subtitleindex>
-		<quoteindex>515</quoteindex>
-		<subtitle>Guarding the North for you Your Grace</subtitle>
-		<quote>Your Grace</quote>
-	</match>
-	<match>
-		<fromTime>00:27:27,187 </fromTime>
 		<subtitleindex>220</subtitleindex>
 		<quoteindex>516</quoteindex>
 		<subtitle>Winterfell is yours</subtitle>
@@ -568,6 +561,13 @@
 		<quote>He is Aegon the Dragonlord come again and you will be his queen</quote>
 	</match>
 	<match>
+		<fromTime>00:38:06,826 </fromTime>
+		<subtitleindex>364</subtitleindex>
+		<quoteindex>445</quoteindex>
+		<subtitle>They cry out for their true king.</subtitle>
+		<quote>They cry out for their king.</quote>
+	</match>
+	<match>
 		<fromTime>00:38:23,927 </fromTime>
 		<subtitleindex>370</subtitleindex>
 		<quoteindex>435</quoteindex>
@@ -657,6 +657,13 @@
 		<quoteindex>503</quoteindex>
 		<subtitle>if that's what it took</subtitle>
 		<quote>I’d let his whole khalasar fuck you if need be sweet sister all forty thousand men and their horses too if that was what it took to get my army</quote>
+	</match>
+	<match>
+		<fromTime>00:41:17,517 </fromTime>
+		<subtitleindex>418</subtitleindex>
+		<quoteindex>767</quoteindex>
+		<subtitle>Why aren&apos;t you at the feast?</subtitle>
+		<quote>Why aren&apos;t you at the feast?</quote>
 	</match>
 	<match>
 		<fromTime>00:41:18,977 </fromTime>
@@ -923,6 +930,13 @@
 		<quoteindex>1517</quoteindex>
 		<subtitle>The ages have turned them to stone</subtitle>
 		<quote>The eons have turned them to stone yet still they burn bright with beauty</quote>
+	</match>
+	<match>
+		<fromTime>00:54:50,537 </fromTime>
+		<subtitleindex>586</subtitleindex>
+		<quoteindex>1525</quoteindex>
+		<subtitle>She&apos;s beautiful.</subtitle>
+		<quote>She&apos;s beautiful.</quote>
 	</match>
 	<match>
 		<fromTime>00:56:31,764 </fromTime>

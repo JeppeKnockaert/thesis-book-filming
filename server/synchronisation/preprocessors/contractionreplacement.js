@@ -15,7 +15,7 @@ exports.preprocess = function(text, callback){
 		var contractionsfile = fs.readFileSync(__dirname + '/contractions.json', 'utf8'); // Read the file with contractions
 		contractions = JSON.parse(contractionsfile); // Save the contractions in an object
 	}
-	
+
 	Object.keys(contractions).forEach(function(key){
 		text = text.replace(key,contractions[key]);
 	});
