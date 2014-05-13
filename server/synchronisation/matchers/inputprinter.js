@@ -26,7 +26,6 @@ exports.synchronize = function(book,subtitle,updater,callback){
 		subtitles["subtitle"].push(sub);
 		if (subindex === subtitle.length-1){
 			callback(subtitles); // Return the array with subtitles
-			console.log("done subs!");
 		}
 	});
 	var quotes = {"quote" : new Array()};
@@ -38,7 +37,6 @@ exports.synchronize = function(book,subtitle,updater,callback){
 		quotes["quote"].push(quote);
 		if (bookindex === book.length-1){
 			callback(quotes); // Return the array with quotes
-			console.log("done quotes!")
 		}		
 	});
 }

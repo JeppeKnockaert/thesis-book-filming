@@ -3,7 +3,10 @@
  * removing "lonely" quotes (in the sequence 200-5000-254, 5000 is the lonely quote)
  */
 
-var allowedgappercentage = 0.05;  //600
+// Allowed percentual gap between two quotes
+var allowedgappercentage = 0.05;
+// Number of nearby samples that are tested when a quote is out of range
+var numberofsamples = 5;
 
 /**
  * Postprocesses the given text by keeping only quotes that fit the general timeline
@@ -14,7 +17,7 @@ exports.postprocess = function(matches, callback){
 	var quotespersubtitle = {};
 	var maxquote = 0;
 
-	// Sort the quotes by subtitle and the subtitles by quote
+	// Sort the quotes by subtitle
 	matches["match"].forEach(function (match,index){
 		if(typeof quotespersubtitle[match.subtitleindex] === "undefined"){
 			quotespersubtitle[match.subtitleindex] = new Array();
@@ -32,8 +35,6 @@ exports.postprocess = function(matches, callback){
 		sortedquotespersubtitle[subindex] = sortedquotes;
 	});
 
-	console.log(sortedquotespersubtitle);
-//while (toremovepercentage > 0){
 	var toremove = new Array();
 
 	// Calculate the allowed gap between two quotes using the allowed percentual gap and the biggest quote index
@@ -41,25 +42,24 @@ exports.postprocess = function(matches, callback){
 
 	// Make sure the gap between quote indexes never gets bigger than "allowedquotegap"
 	var previousindex = -1;
-	var previoussub = -1;
 	var subtitles = Object.keys(quotespersubtitle);
 	subtitles.sort((function(a,b){return a-b})); // Sort the subtitles from small to big
-	var maxsub = subtitles[subtitles.length-1];
 	subtitles.forEach(function(subindex,arrayindex){		
 		sortedquotespersubtitle[subindex].forEach(function(quote,sortedquotesarrayindex){
 			var quoteindex = parseInt(quote.quoteindex);
-			//var totalgap = (allowedgappercentage+(Math.abs(subindex-previoussub)/maxsub))*maxquote;
+			// If the quote is out of its timeline, investigate it further
 			if (previousindex !== -1 && (quoteindex < (previousindex-allowedquotegap) || quoteindex > (previousindex+allowedquotegap))){
-				// indien eventueel, kijk paar stappen vooruit
+				// If it is within twice the range, it could still be allowed if there are enough samples nearby to support it
 				if (quoteindex < (previousindex-2*allowedquotegap) || quoteindex > (previousindex+2*allowedquotegap)){
-					var numberofsamples = 10;
 					var samples = new Array();
 					var i = 1;
+					// First look for extra samples associated with the current subtitle
 					while (samples.length < numberofsamples && sortedquotesarrayindex+i < sortedquotespersubtitle.length){
 						samples.push(parseInt(sortedquotespersubtitle[subindex][sortedquotesarrayindex+i].quoteindex));
 						i++;
 					}
 					var j = 1;
+					// If more samples are required, look into subsequent subtitles
 					while (samples.length < numberofsamples && arrayindex+j < subtitles.length){
 						var nextsubindex = subtitles[arrayindex+j];
 						var nextsortedquotes = sortedquotespersubtitle[nextsubindex];
@@ -71,7 +71,7 @@ exports.postprocess = function(matches, callback){
 						j++;
 					}
 					
-
+					// if enough samples are gathered, check how much of them support the current quote versus the previous quote
 					var quotesupport = samples.length;
 					var previousindexsupport = samples.length;
 					samples.forEach(function (sample){
@@ -82,43 +82,21 @@ exports.postprocess = function(matches, callback){
 							previousindexsupport--;
 						}
 					});
-
-					if (quotesupport > previousindexsupport){
-						console.log("problem: "+quoteindex);
-						console.log(samples);
-						console.log("support: "+quotesupport+" -> "+(quotesupport/samples.length));
-					}
-					else{
+					// If less or equal support for the current quote, remove it from the results
+					if (quotesupport <= previousindexsupport){
 						toremove.push(quote.matchindex);
 					}
-					// while (numberofsamples < 10){
-					// 	while ()
-					// 	sortedquotespersubtitle[subindex]
-
-					// }
-					// for (var i = 0; i < 10; i++){
-					// 	if 
-					// }
 				}
-				else{		
+				else{ // If a quote is too far out of the timeline, remove it without further investigation
 					toremove.push(quote.matchindex);
 				}
-				//console.log(quoteindex+" doesn't fit ("+allowedquotegapbackward+" and "+allowedquotegapforward+")");
 			}
 			else{
-				//console.log(subindex+": "+quoteindex+" produced");
 				previousindex = quoteindex;
-				previoussub = subindex;
 			}
 		});
 	});
-	toremovepercentage = (toremove.length/matches["match"].length)*100;
-	console.log(allowedgappercentage+" will delete "+toremovepercentage+"% ("+toremove.length+"/"+matches["match"].length+")");
-	if (toremovepercentage > 100){
-		console.log(toremove);
-	}
-	allowedgappercentage+=0.01;
-//}
+
 	// The indexes need to be sorted from big to small, because the array will be shifted
 	// If not removing in the right order, the indexes of the elements to remove will have shifted
 	toremove.sort(function(a,b){return b-a}); 
@@ -130,12 +108,5 @@ exports.postprocess = function(matches, callback){
 		}
 	});
 
-
-	// console.log("time");
-	// matches["match"].forEach(function (match,index){
-	// 	if (match.quoteindex == 663||match.subtitleindex == 257){
-	// 		console.log(match);
-	// 	}
-	// });
 	callback(matches);
 }

@@ -18,10 +18,5 @@ exports.preprocess = function(text, callback){
 		var stem = natural.PorterStemmer.stem(token);
 		returntext += natural.PorterStemmer.stem(token)+" ";
 	});
-	if (returntext.split(" ").length < text.split(" ").length){
-		console.log(text);
-		console.log(returntext);
-		console.log(tokens);
-	}
 	callback(returntext.trim()); // Remove trailing spaces
 }

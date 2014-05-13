@@ -13,7 +13,6 @@ var bookCallback; // Callback to execute after parsing book
 var parsedSubtitles; // Results from parsing the subtitles
 var subtitleCallback; // Callback to execute after parsing subtitles
 var eventupdater; // Updater for registring our progress
-var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter must contain to be considered
 
 /**
  * Parses epubs
@@ -39,14 +38,12 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
 							var sentences = matches[1].match(/[^\.\?\!“”]+([\.\?\!“”]|$)/g);
-							var done = 0;
 							var process = function(functionind,processedmatch){
-								done++;
 					    		if (functionind !== -1){
 					    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
 					    			preprocessor[functionind].preprocess(processedmatch, process.bind(null,nextfunction));
 					    		}
-					    		if (done === preprocessor.length && processedmatch.trim() !== ""){
+					    		else if (processedmatch.trim() !== ""){
 					    			parsedBook.push({
 					    				"text" : processedmatch
 					    			});
@@ -69,7 +66,7 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 								}	
 							});
 						}
-						fs.writeFile(__dirname + '/libs/book', bookText, function (err) { // Write the sentences to file for SRL
+						fs.writeFile(__dirname + '/../libs/book', bookText, function (err) { // Write the sentences to file for SRL
 							if (err){
 								console.log(err);
 							}
@@ -94,11 +91,11 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 callSRLParser = function(){
 	var done = function(){
 		eventupdater.emit('syncprogressupdate',0); // Reset progress for the next part
-		fs.readFile(__dirname + '/libs/srlout.json', 'UTF-8', function (srlerr, srldata){
+		fs.readFile(__dirname + '/../libs/srlout.json', 'UTF-8', function (srlerr, srldata){
 			var parsedSRL = JSON.parse(srldata);
-			fs.readFile(__dirname + '/libs/posout.json', 'UTF-8', function (poserr, posdata){
+			fs.readFile(__dirname + '/../libs/posout.json', 'UTF-8', function (poserr, posdata){
 				var parsedPOS = JSON.parse(posdata);
-				fs.readFile(__dirname + '/libs/relatedwords.json', 'UTF-8', function (relerr, reldata){
+				fs.readFile(__dirname + '/../libs/relatedwords.json', 'UTF-8', function (relerr, reldata){
 					var reldict = JSON.parse(reldata);
 					bookCallback(null, [parsedBook, parsedSRL["book"], parsedPOS["book"], reldict]); // Make a callback using all quotes
 					subtitleCallback(null, [parsedSubtitles, parsedSRL["subtitle"], parsedPOS["subtitle"], reldict]); // Make a callback using all subtitles
@@ -106,17 +103,17 @@ callSRLParser = function(){
 			});
 		});
 	};
-	fs.readFile(__dirname + '/../config.json', 'UTF-8', function (configerr, configdata){
+	fs.readFile(__dirname + '/../../config.json', 'UTF-8', function (configerr, configdata){
 		var usecachedfile = JSON.parse(configdata)['srl']['usecachedversion'];
-		fs.readFile(__dirname + '/libs/srlout.json', 'UTF-8', function (srlerr, srlout){
-			fs.readFile(__dirname + '/libs/posout.json', 'UTF-8', function (poserr, posout){
-				fs.readFile(__dirname + '/libs/relatedwords.json', 'UTF-8', function (relerr, relout){
+		fs.readFile(__dirname + '/../libs/srlout.json', 'UTF-8', function (srlerr, srlout){
+			fs.readFile(__dirname + '/../libs/posout.json', 'UTF-8', function (poserr, posout){
+				fs.readFile(__dirname + '/../libs/relatedwords.json', 'UTF-8', function (relerr, relout){
 					if (!usecachedfile||srlerr||poserr||relerr){
 						eventupdater.emit('message',"SRL/POS tagging in progress...");
 						var spawn = require('child_process').spawn;
 						var child = spawn('java',['-jar','-Xmx4g','SemanticRoleLabeler.jar','book','subtitle'],
 						{
-							cwd : __dirname+'/libs/' // Set working directory to the libs folder (where the java application resides)
+							cwd : __dirname+'/../libs/' // Set working directory to the libs folder (where the java application resides)
 						});
 						child.stdout.setEncoding('utf8');
 						child.stdout.on('data', function (data) {
@@ -214,14 +211,12 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 					data = data.substring(linebreak+1);
 				}
 				var sentences = text.match(/([^\.\?\!“”]+([\.\?\!“”]|$)|^\-[^\-]+)/g);
-				var done = 0;
 				var process = function(functionind,processedtext){
-					done++;
 		    		if (functionind !== -1){
 		    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
 		    			preprocessor[functionind].preprocess(processedtext, process.bind(null,nextfunction));
 		    		}
-		    		if (done === preprocessor.length && processedtext.trim() !== ""){
+		    		else if (processedtext.trim() !== ""){
 						parsedSubtitles.push({ // Store the subtitle
 							"fromTime"	: fromHours+":"+fromMinutes+":"+fromSeconds+","+fromMillis,
 							"toTime"	: toHours+":"+toMinutes+":"+toSeconds+","+toMillis,
@@ -247,7 +242,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 				});
 			}
 			// When the file is empty, we're ready
-			fs.writeFile(__dirname + '/libs/subtitle', subtitleText, function (err) {
+			fs.writeFile(__dirname + '/../libs/subtitle', subtitleText, function (err) {
 				if (err){
 					console.log(err);
 				}

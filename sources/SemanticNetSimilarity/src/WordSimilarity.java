@@ -1,4 +1,4 @@
-package wordnetsimilarity;
+
 
 import edu.smu.tspell.wordnet.NounSynset;
 import edu.smu.tspell.wordnet.Synset;

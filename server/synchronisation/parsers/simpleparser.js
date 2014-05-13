@@ -4,7 +4,6 @@
 
 var epubParser = require("epub"); // Module for parsing epub files
 var fs = require('fs'); // Module for reading files
-var minimumnrofparagraphs = 5; // The minimum number of paragraphs a chapter must contain to be considered
 
 /**
  * Parses epubs

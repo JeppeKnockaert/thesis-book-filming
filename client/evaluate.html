@@ -7,7 +7,7 @@
     	<link href="css/bootstrap.min.css" rel="stylesheet">
     	<!-- Main css -->
     	<link href="css/main.css" rel="stylesheet">
-    	<script src="http://code.jquery.com/jquery.js"></script>
+    	<script src="js/jquery-2.1.1.min.js"></script>
     	<script> 
 			$(function(){
 				$("#header").load("header.html",function() {
@@ -91,6 +91,12 @@
 							clearInterval(intervalid);
 						}
 						$("#evaluationpanelbody").html(response);
+					},
+					error: function( error ) {
+						if (intervalid !== -1){
+							clearInterval(intervalid);
+							$("#evaluationpanelbody").html("Connection error");
+						}
 					}
 			    });
 			};
