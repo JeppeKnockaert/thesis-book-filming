@@ -5,7 +5,6 @@
 var epubParser = require("epub"); // Module for parsing epub files
 var fs = require('fs'); // Module for reading files
 var maxtimebetweendialogue = 5000; // Maximum amount of time between two sentences in a dialogue (in milliseconds)
-var segmentlength = 60; // Length of one videosegment (in seconds)
 
 /**
  * Parses epubs
@@ -150,7 +149,6 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 				sentences.forEach(function (sentence){
 					// If a new scene is detected (because too much time between subtitles), increase the scene index
 	    			if (totalFromInMillis-previousEndInMillis >= maxtimebetweendialogue || previousEndInMillis < 0){
-	    				//console.log(sceneindex+": "+(totalFromInMillis-startSceneMillis)/1000+" seconds (started at:"+startSceneMillis/1000/60+")");
 	    				startSceneMillis = totalFromInMillis;
 	    				sceneindex++;
 	    				scenestarts[sceneindex] = subtitles.length; // Map the index of the first subtitle of the index of the scene
@@ -167,9 +165,6 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 					previousEndInMillis = totalFromInMillis;
 				});
 				previousEndInMillis = totalToInMillis;
-				// if (data.trim() === ""){
-				// 	console.log(sceneindex+": "+(totalFromInMillis-startSceneMillis)/1000+" seconds (started at:"+startSceneMillis/1000/60+")");
-				// }
 			}
 
 			var mergedsubs = new Array();
@@ -177,7 +172,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 			var process = function(functionind,from,to,scene,processedtext){
 	    		if (functionind !== -1){ // Call next preprocessor
 	    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
-	    			preprocessor[functionind].preprocess(processedtext, process.bind(null,nextfunction,subtitles[i].fromTime,subtitles[j].toTime,subtitles[j].scene));
+	    			preprocessor[functionind].preprocess(processedtext, process.bind(null,nextfunction,from,to,scene));
 	    		}
 	    		else if (processedtext.trim() !== ""){
 					mergedsubs.push({ // Store the subtitle
@@ -190,6 +185,11 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 		    };
 		    // Try to merge multiple lines of subtitles
 			for (var i = 0; i < subtitles.length; i++){
+				var currtext = "";
+				while (currtext.match(/[a-zA-Z0-9]/) === null){
+					currtext = subtitles[i++].text.trim().replace(/<[^>]+?>/g,"");
+				}
+				i--;
 				var subtext = "";
 				var nextscene = false;
 				var j = i;
@@ -201,15 +201,10 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 				j--;
 				// Call preprocessors
 				var nextfunction = -1;
-				if (preprocessor.length > 1){
-					nextfunction = 1;
-				}
 				if (preprocessor.length > 0){
-					preprocessor[0].preprocess(subtext.trim(), process.bind(null,nextfunction,subtitles[i].fromTime,subtitles[j].toTime,subtitles[j].scene));
+					nextfunction = 0;
 				}
-				else{
-					process(-1,subtitles[i].fromTime,subtitles[j].toTime,subtitles[j].scene,subtext.trim());
-				}
+				process(nextfunction,subtitles[i].fromTime,subtitles[j].toTime,subtitles[j].scene,subtext.trim());
 				i = j;
 			}
 			callback(null,[mergedsubs,scenestarts]);  // When the file is empty, pass the resulting array to the callback

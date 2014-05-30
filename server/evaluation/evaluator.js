@@ -4,7 +4,7 @@
 
 var libxmljs = require("libxmljs"); // Load module for reading XML
 var fs = require('fs'); // Load module for IO
-var debug = true;
+var debug = false;
 
 /**
  * Reads the uploaded files and compares them to achieve evaluation of the results
@@ -82,7 +82,9 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 							falsenegatives--; // One less false negative
 							truepositives++; // Add a new true match
 							found = true;
-							console.log(resultsubindex+" en "+resultquoteindex);
+							if (debug){
+								console.log(resultsubindex+" en "+resultquoteindex);
+							}
 						}
 						i++;
 					}
@@ -93,29 +95,15 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 				// Print the true positives
 				console.log("Single matches");
 				console.log("--------------");
-				checkChildren(normalmatches);
-				multimatching = true;
+			}
+			checkChildren(normalmatches);
+			multimatching = true;
+			if (debug){
 				console.log("");
 				console.log("Multi matches");
 				console.log("--------------");
-				checkChildren(multimatches);
-
-				// Print the false negatives
-				foundsinglegroundindexes.sort(function(a,b){return b-a});
-				foundmultigroundindexes.sort(function(a,b){return b-a}); 
-				foundsinglegroundindexes.forEach(function(groundindex){
-					normalmatches.splice(groundindex,1);
-				});
-				foundmultigroundindexes.forEach(function(groundindex){
-					multimatches.splice(groundindex,1);
-				});
-				normalmatches.forEach(function(falsenegative){
-					console.log(falsenegative.toString());
-				});
-				multimatches.forEach(function(falsenegative){
-					console.log(falsenegative.toString());
-				});
 			}
+			checkChildren(multimatches);
 
 			// Go over the remaining results and check if they are doubles of true positives (can be the case for multimatches)
 			resultChildren.forEach(function (resultChild){
@@ -133,18 +121,29 @@ exports.evaluate = function(resultsfile,groundtruthfile,updater){
 					i++;
 				}
 			});
-
+			
 			falsepositives = positives - truepositives;
 			var precision = truepositives/(truepositives+falsepositives); 
 			var recall = truepositives/(truepositives+falsenegatives);
+			var f1 = (2*precision*recall)/(precision+recall);
+			var f05 = (1.25*precision*recall)/(0.25*precision+recall);
+			var f2 = (5*precision*recall)/(4*precision+recall);
+
+			// Only show 3 decimals
+			precision = precision.toFixed(4);
+			recall = recall.toFixed(4);			
+			f1 = f1.toFixed(4);
+			f05 = f05.toFixed(4);
+			f2 = f2.toFixed(4);
+
 			updater.emit("result","<p>True positives: "+truepositives+
 				"</p><p>False positives: "+falsepositives+
 				"</p><p>False negatives: "+falsenegatives+
 				"</p><p>Precision: "+precision+
 				"</p><p>Recall: "+recall+
-				"</p><p>F<sub>1</sub>: "+(2*precision*recall)/(precision+recall)+
-				"</p><p>F<sub>0.5</sub>: "+(1.25*precision*recall)/(0.25*precision+recall)+
-				"</p><p>F<sub>2</sub>: "+(5*precision*recall)/(4*precision+recall)+"</p>");
+				"</p><p>F<sub>1</sub>: "+f1+
+				"</p><p>F<sub>0.5</sub>: "+f05+
+				"</p><p>F<sub>2</sub>: "+f2+"</p>");
 		});
 	});
 

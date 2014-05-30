@@ -102,12 +102,6 @@ exports.postprocess = function(matches, callback){
 		matches["match"].splice(toremoveindex,1);
 		ind++;
 	});
-	// console.log("scene");
-	// matches["match"].forEach(function (match,index){
-	// 	if (match.quoteindex == 663||match.subtitleindex == 257){
-	// 		console.log(match);
-	// 	}
-	// });
 
 	callback(matches);
 }

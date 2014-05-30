@@ -26,7 +26,7 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
     					var regex = /[“]([^“”]+?)[”]/g; // Match quotes
     					var matcharray = new Array();
 						while (matches = regex.exec(fulltext)) { // Go over all matches and put them in an array
-							var sentences = matches[1].match(/[^\.\?\!“”]+([\.\?\!“”]|$)/g);
+							var sentences = matches[1].match(/([^\.\?\!“”](\.\.\.)?)+([\.\?\!“”]|$)/g);
 							var process = function(functionind,processedmatch){
 					    		if (functionind !== -1){
 					    			var nextfunction = (functionind+1<preprocessor.length)?functionind+1:-1;
@@ -163,7 +163,7 @@ exports.parseSubtitle = function(subtitlefile, preprocessor, updater, callback){
 					}
 				});
 			}
-			callback(null,subtitles); // When the file is empty, pass the resulting array to the callback
+			callback(null,[subtitles,null]); // When the file is empty, pass the resulting array to the callback
 		}
 	});
 }

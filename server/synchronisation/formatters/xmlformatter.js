@@ -16,16 +16,18 @@ var tmp = require('tmp');
 /**
  * Saves the results in XML form
  * @param matches the result from the synchronization phase
+ * @param filenameprefix choose the first part of the filename
  * @param updater the eventemitter to keep track of the progressupdates
+ * @param callback function to be called when ready, has the resulting filepath as parameter
  */
-exports.format = function(matches, updater){
+exports.format = function(matches, filenameprefix, updater, callback){
 	updater.emit('message',"Writing results...");
 
 	var result = js2xmlparser("matches", matches);
 	var fs = require('fs');
 
 	// Create a temporary file
-	tmp.tmpName({ dir: os.tmpdir(), prefix: "result", postfix: ".xml" }, function (err, path) {
+	tmp.tmpName({ dir: os.tmpdir(), prefix: filenameprefix+"-", postfix: ".xml" }, function (err, path) {
 		if (err){
 			console.log(err);
 		}
@@ -34,9 +36,8 @@ exports.format = function(matches, updater){
 			    if(err) {
 			        console.log(err);
 			    }
-			    updater.emit('syncprogressupdate',100); // Put the progress on 100%
-				updater.emit("result",path); // Send the filepath to the result
+			    callback(path); // Send the filepath as result
 			});
 		}
-	});	 
+	});
 }

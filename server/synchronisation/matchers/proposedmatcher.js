@@ -11,15 +11,27 @@ var minnumberofmatchingwords = 3;
 // Search window for exact matches with less words than minnumberofmatchingwords
 var relsearchwindow = -1;
 
+// Minimum score of a match to be create a time window around it
+var minimumscorefortimewindow = 0.8;
+
 /**
  * Synchronizes a parsed epub and srt from simpleparser using (partial) exact matching
  * @param book the parsed epub file
  * @param subtitle the parsed srt file
+ * @param parameters an array with the parameters for the matching algorithm
  * @param updater the eventemitter to keep track of the progressupdates
  * @param callback the callback that needs to be executed after this function is ready
  */
-exports.synchronize = function(book,subtitle,updater,callback){
+exports.synchronize = function(book,subtitle,parameters,updater,callback){
 	var matches = {"match" : new Array()};
+	// Set parameter values
+	if (parameters.length > 0){
+		mindelta = parameters[0];
+		minnumberofmatchingwords = parameters[1];
+		relsearchwindow = parameters[2];
+		minimumscorefortimewindow = parameters[3];
+	}
+
 	var bookWords = new Array();
 
 	book.forEach(function (bookvalue, bookindex){ // Split the quotes into words
@@ -32,18 +44,17 @@ exports.synchronize = function(book,subtitle,updater,callback){
 		subWords[subindex] = subvalue.text.toLowerCase().split(" ");
 	});
 
-	var laststart = -1;
-	var lastend = -1;
+	var lastindex = -1;
 	bookWords.forEach(function (bookvalue, bookindex){
 		// The list of best matching subtitles (all with the maxscore)
 		var submatches = new Array();
 		// Keep the best score for a subtitle in combination with the current book index
 		var maxscore = 0;
 		// If the sentence is very short, try to find an exact match within a certain window of the previous match
-		if (bookvalue.length < minnumberofmatchingwords && laststart >= 0 && lastend >= 0 && relsearchwindow >= 0){
+		if (bookvalue.length < minnumberofmatchingwords && lastindex >= 0 && relsearchwindow >= 0){
 			var searchwindow = Math.round(relsearchwindow*subWords.length);
-			var start = (laststart-searchwindow > 0 && laststart >= 0)?laststart-searchwindow:0;
-			var end = (lastend+searchwindow < subWords.length && lastend >= 0)?lastend+searchwindow:subWords.length;
+			var start = (lastindex-searchwindow > 0)?lastindex-searchwindow:0;
+			var end = (lastindex+searchwindow < subWords.length)?lastindex+searchwindow:subWords.length;
 			// Find exact matching subtitles for this quote
 			for (var subindex = start; subindex < end; subindex++){
 				if (bookvalue.length == subWords[subindex].length && book[bookindex].text.toLowerCase() === subtitles[subindex].text.toLowerCase()){
@@ -102,11 +113,11 @@ exports.synchronize = function(book,subtitle,updater,callback){
 				}
 			}	
 		}
-		var start = -1;
-		var end = -1;
-		var matchfunction = function (matchvalue, matchindex){
-			start = (start === -1 || matchvalue < start)?matchvalue:start;
-			end = (matchvalue > end)?matchvalue:end;
+
+		var matchfunction = function (bookindex, maxscore, booklength, matchvalue, matchindex){
+			if (booklength >= minnumberofmatchingwords && maxscore >= minimumscorefortimewindow){
+				lastindex = matchvalue;
+			}
 			var match = { 
 				"fromTime" : subtitles[matchvalue].fromTime,
 				"subtitleindex" : matchvalue,
@@ -118,15 +129,7 @@ exports.synchronize = function(book,subtitle,updater,callback){
 			};
 			matches["match"].push(match);
 		};
-		submatches.forEach(matchfunction);
-		if (bookvalue.length >= minnumberofmatchingwords && maxscore >= 0.8){
-			laststart = start;
-			lastend = end;
-		}
-		else{
-			laststart = -1;
-			lastend = -1;
-		}
+		submatches.forEach(matchfunction.bind(null,bookindex, maxscore, bookvalue.length));
 		updater.emit('syncprogressupdate',Math.floor((bookindex*100)/book.length));
 	});
 	callback(matches); // Return the array with matches	

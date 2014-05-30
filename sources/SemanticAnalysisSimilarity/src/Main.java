@@ -25,8 +25,8 @@ public class Main {
         System.setProperty("wordnet.database.dir", (new File("dict")).getAbsolutePath());
 
         // Look for filenames of inputfiles
-        if (args.length != 5){
-            System.err.println("needs <bookinput> <subtitleinput> <mindelta> <minnumberofmatchingwords> <relsearchwindow> as arguments");
+        if (args.length != 6){
+            System.err.println("needs <bookinput> <subtitleinput> <mindelta> <minnumberofmatchingwords> <relsearchwindow> <minimumscorefortimewindow> as arguments");
             System.exit(0);
         }
         
@@ -53,6 +53,7 @@ public class Main {
         float mindelta = Float.parseFloat(args[2]);
         int minnumberofmatchingwords = Integer.parseInt(args[3]);
         float relsearchwindow = Float.parseFloat(args[4]);
+        float minimumscorefortimewindow = Float.parseFloat(args[5]);
         
         // Set default arguments for the SRL library
         String[] defaultargs = {
@@ -82,7 +83,7 @@ public class Main {
             System.err.println(ex);
         }
         // Execute synchronisation
-        SentenceLevelSemanticSimilarity sentencesim = new SentenceLevelSemanticSimilarity(completePipeline, mindelta, minnumberofmatchingwords, relsearchwindow);
+        SentenceLevelSemanticSimilarity sentencesim = new SentenceLevelSemanticSimilarity(completePipeline, mindelta, minnumberofmatchingwords, relsearchwindow, minimumscorefortimewindow);
         sentencesim.synchronize(booksentences, subsentences);
     }     
 }

@@ -6,10 +6,11 @@
  * Simply prints the input files for creating a ground truth
  * @param book the parsed epub file
  * @param subtitle the parsed srt file
+ * @param parameters an array with the parameters for the matching algorithm
  * @param updater the eventemitter to keep track of the progressupdates
  * @param callback the callback that needs to be executed after this function is ready
  */
-exports.synchronize = function(book,subtitle,updater,callback){
+exports.synchronize = function(book,subtitle,parameters,updater,callback){
 	if (Array.isArray(subtitle)){
 		subtitle = subtitle[0];
 	}

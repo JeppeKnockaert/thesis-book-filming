@@ -5,10 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTaggerME;
 import opennlp.tools.tokenize.SimpleTokenizer;
@@ -24,6 +22,7 @@ public class SemanticSimilarity {
     private final float mindelta; // Minimum similarity to be considered a match
     private final int minnumberofmatchingwords; // The smallest number of words a match must consist of 
     private final float relsearchwindow; // Search window for exact matches with less words than minnumberofmatchingwords
+    private final float minimumscorefortimewindow; // Minimum score of a match to be create a time window around it
     
     private final double  minwordsim; // Minimum word similarity to be categorized as similar
     private final double relativelexicalimportance; // Relative importance of lexical semantic similarity (vs. word order similarity)
@@ -44,13 +43,15 @@ public class SemanticSimilarity {
      * @param mindelta Minimum similarity that is needed to be considered a match
      * @param minnumberofmatchingwords Minimum number of matching words to be a match
      * @param relsearchwindow Size of the search window that is used when there are not enough common words
+     * @param minimumscorefortimewindow Minimum score of a match to be create a time window around it
      * @param minwordsim Minimum word similarity to be categorized as similar
      * @param relativelexicalimportance Relative importance of lexical semantic similarity
      */
-    public SemanticSimilarity(float mindelta, int minnumberofmatchingwords, float relsearchwindow, float minwordsim, float relativelexicalimportance){
+    public SemanticSimilarity(float mindelta, int minnumberofmatchingwords, float relsearchwindow, float minimumscorefortimewindow, float minwordsim, float relativelexicalimportance){
         this.mindelta = mindelta;
         this.minnumberofmatchingwords = minnumberofmatchingwords;
         this.relsearchwindow = relsearchwindow;
+        this.minimumscorefortimewindow = minimumscorefortimewindow;
         this.minwordsim = minwordsim;
         this.relativelexicalimportance = relativelexicalimportance;
     }
@@ -91,8 +92,7 @@ public class SemanticSimilarity {
         // Perform initialisation
         init(book,subtitles);
         
-	int laststart = -1;
-	int lastend = -1;
+	int lastindex = -1;
         int previousprogress = -1;
         for (int bookindex = 0; bookindex < book.size(); bookindex++){ 
             int numberofbookwords = bookPOS.get(bookindex).size();
@@ -101,10 +101,10 @@ public class SemanticSimilarity {
             // Keep the best score for a subtitle in combination with the current book index
             double maxscore = 0;
             // If the sentence is very short, try to find an exact match within a certain window of the previous match
-            if (numberofbookwords < minnumberofmatchingwords && laststart >= 0 && lastend >= 0 && relsearchwindow >= 0){
+            if (numberofbookwords < minnumberofmatchingwords && lastindex >= 0 && relsearchwindow >= 0){
                 int searchwindow = Math.round(relsearchwindow*subtitles.size());
-                int start = (laststart-searchwindow > 0 && laststart >= 0)?laststart-searchwindow:0;
-                int end = (lastend+searchwindow < subtitles.size() && lastend >= 0)?lastend+searchwindow:subtitles.size();
+                int start = (lastindex-searchwindow > 0)?lastindex-searchwindow:0;
+                int end = (lastindex+searchwindow < subtitles.size())?lastindex+searchwindow:subtitles.size();
                 // Find exact matching subtitles for this quote
                 for (int subindex = start; subindex < end; subindex++){
                     String cleanedbooksentence = book.get(bookindex).toLowerCase().replaceAll("[^a-zA-Z0-9]","").trim();
@@ -136,20 +136,11 @@ public class SemanticSimilarity {
                     }
                 }
             }
-            int start = -1;
-            int end = -1;
             for (int matchvalue : submatches){
-                start = (start == -1 || matchvalue < start)?matchvalue:start;
-                end = (matchvalue > end)?matchvalue:end;
+                if (numberofbookwords >= minnumberofmatchingwords && maxscore >= minimumscorefortimewindow){
+                    lastindex = matchvalue;
+                }
                 System.out.format("match - %d - %d - %.2f\n",matchvalue,bookindex,maxscore);
-            }
-            if (numberofbookwords >= minnumberofmatchingwords && maxscore >= 0.8){
-                laststart = start;
-                lastend = end;
-            }
-            else{
-                laststart = -1;
-                lastend = -1;
             }
             int progress = (int)Math.floor(((bookindex+1)*100)/book.size());
             if (progress > previousprogress){
@@ -174,8 +165,17 @@ public class SemanticSimilarity {
         List<String> subtitleWordsPOS = subtitlePOS.get(subindex);
         
         // Get joint word set
-        Set<String> jointwordset = new HashSet<String>(bookWords);
-        jointwordset.addAll(subtitleWords);
+        List<String> jointwordset = new ArrayList<String>();
+        for (String word : bookWords){
+            if (!jointwordset.contains(word)){
+                jointwordset.add(word);
+            }
+        }
+        for (String word : subtitleWords){
+            if (!jointwordset.contains(word)){
+                jointwordset.add(word);
+            }
+        }
         
         Map<String, String> posmap = new HashMap<String, String>();
         for (int i = 0; i < bookWords.size(); i++){
@@ -205,13 +205,13 @@ public class SemanticSimilarity {
      * @param jointwordset the joint word set of both sentences
      * @return the semantic vector
      */
-    private RealVector getSemanticVector(List<String> sentence, Map<String,String> pos, Set<String> jointwordset) {
+    private RealVector getSemanticVector(List<String> sentence, Map<String,String> pos, List<String> jointwordset) {
         double[] semanticvector = new double[jointwordset.size()];
         
         int i = 0;
         for (String word : jointwordset) { // Go trough every word of the joint word set
             if (sentence.contains(word)){ // If the sentence contains the word, the semantic similarity is 1
-                semanticvector[i++] = 1;
+                semanticvector[i++] = 1*corpusstats.get(word)*corpusstats.get(word);
             }
             else{ 
                 // If it doesn't contain the word, we look in the sentence for the word 
@@ -248,7 +248,7 @@ public class SemanticSimilarity {
      * @param jointwordset the joint word set of both sentences
      * @return the word order vector
      */
-    private RealVector getWordOrderVector(List<String> sentence, Map<String,String> pos, Set<String> jointwordset) {
+    private RealVector getWordOrderVector(List<String> sentence, Map<String,String> pos, List<String> jointwordset) {
         double[] worderordervector = new double[jointwordset.size()];
         
         int i = 0;

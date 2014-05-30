@@ -1,15 +1,10 @@
 {
 	"processingsequence":{
-		"parser" : "simpleparser",
-		"preprocessor": ["cleantextpreprocessor"],
-		"matcher" : "defaultmatcher",
-		"postprocessor" : "wordsentencepostprocessor",
+		"parser" : "sceneparser",
+		"preprocessor": ["cleantextpreprocessor","punctuationremoval"],
+		"matcherparameters" : [0.69,4,0.01,0.71],
+		"matcher" : "proposedmatcher",
+		"postprocessor" : ["scenepostprocessor"],
 		"formatter" : "xmlformatter"
-	},
-	"alchemyapi":{
-		"APIkey" : "example_must_be_replaced_with_real_key"
-	},
-	"srl":{
-		"usecachedversion" : false
 	}
 }

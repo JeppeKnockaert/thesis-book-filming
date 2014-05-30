@@ -18,8 +18,8 @@ public class Main {
      */
     public static void main(String[] args) throws IOException {
         // Look for filenames of inputfile
-        if (args.length != 7){
-            System.err.println("needs <book> <subtitle> <mindelta> <minnumberofwords> <relsearchwindow> <minwordsim> <relativelexicalimportance> as argument");
+        if (args.length != 8){
+            System.err.println("needs <book> <subtitle> <mindelta> <minnumberofwords> <relsearchwindow> <minimumscorefortimewindow> <minwordsim> <relativelexicalimportance> as argument");
             System.exit(0);
         }
         
@@ -46,10 +46,11 @@ public class Main {
         float mindelta = Float.parseFloat(args[2]);
         int minnumberofwords = Integer.parseInt(args[3]);
         float relsearchwindow = Float.parseFloat(args[4]);
-        float minwordsim = Float.parseFloat(args[5]);
-        float relativelexicalimportance = Float.parseFloat(args[6]);
+        float minimumscorefortimewindow = Float.parseFloat(args[5]);
+        float minwordsim = Float.parseFloat(args[6]);
+        float relativelexicalimportance = Float.parseFloat(args[7]);
         
-        SemanticSimilarity semsim = new SemanticSimilarity(mindelta,minnumberofwords,relsearchwindow,minwordsim,relativelexicalimportance);
+        SemanticSimilarity semsim = new SemanticSimilarity(mindelta,minnumberofwords,relsearchwindow,minimumscorefortimewindow,minwordsim,relativelexicalimportance);
         semsim.synchronize(booksentences, subtitlesentences);
         
     }

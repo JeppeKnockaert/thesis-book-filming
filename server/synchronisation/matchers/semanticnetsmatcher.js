@@ -1,7 +1,8 @@
 /**
- * Synchronizes a given book and subtitle using sentence level semantic analysis
+ * Synchronizes a given book and subtitle using sentence similarity based on semantic nets and corpus statistics
  */
 
+var pos = require('pos'); // Module for POS tagging
 var fs = require('fs'); // Module for IO
 var readline = require('readline'); // Module for reading IO per line
 
@@ -12,29 +13,49 @@ var mindelta = 0.6;
 var minnumberofmatchingwords = 3;
 
 // Search window for exact matches with less words than minnumberofmatchingwords
-var relsearchwindow = -0.2;
+var relsearchwindow = -1;
+
+// Minimum score of a match to be create a time window around it
+var minimumscorefortimewindow = 0.8;
+
+// Minimum word similarity to be categorized as similar
+var minwordsim = 0.4; 
+
+// Relative importance of lexical semantic similarity (vs. word order similarity)
+var relativelexicalimportance = 0.7; 
 
 /**
- * Synchronizes a parsed epub and srt from simpleparser using sentence level semantic analysis
+ * Synchronizes a parsed epub and srt from simpleparser using sentence similarity
+ * based on semantic nets and corpus statistics
+ *
  * @param book the parsed epub file
  * @param subtitle the parsed srt file
+ * @param parameters an array with the parameters for the matching algorithm
  * @param updater the eventemitter to keep track of the progressupdates
  * @param callback the callback that needs to be executed after this function is ready
  */
-exports.synchronize = function(book,subtitle,updater,callback){
+exports.synchronize = function(book,subtitle,parameters,updater,callback){
 	var subtitles = subtitle[0]; 
 	var matches = {"match" : new Array()};
 
+	// Set parameter values
+	if (parameters.length > 0){
+		mindelta = parameters[0];
+		minnumberofmatchingwords = parameters[1];
+		relsearchwindow = parameters[2];
+		minimumscorefortimewindow = parameters[3];
+		minwordsim = parameters[4];
+		relativelexicalimportance = parameters[5];
+	}
+
 	var nrdone = 0;
-	var bookpreparationstarted = false;
-	var subpreparationstarted = false;
 	var similarityprogressstarted = false;
 	var doneWriting = function(){
 		nrdone++;
 		if (nrdone === 2){
-			updater.emit('message',"Starting SRL Library (this can take some time)");
+			updater.emit('message',"Preparing the sentences for synchronisation...");
 			var spawn = require('child_process').spawn;
-			var child = spawn('java',['-jar','-Xmx4g','SemanticAnalysisSimilarity.jar','book','subtitle',''+mindelta,''+minnumberofmatchingwords,''+relsearchwindow],
+			var child = spawn('java',['-jar','SemanticNetSimilarity.jar','book','subtitle',''+mindelta,''+minnumberofmatchingwords,''+relsearchwindow,''+minimumscorefortimewindow,''+minwordsim,''+relativelexicalimportance],
 			{
 				cwd : __dirname+'/../libs/' // Set working directory to the libs folder (where the java application resides)
 			});
@@ -63,17 +84,9 @@ exports.synchronize = function(book,subtitle,updater,callback){
 				else if (linesplit[0].indexOf("progress") !== -1){ // Pass progressreport to the updater
 					var procentnumber = parseInt(linesplit[1].trim());
 					updater.emit('syncprogressupdate',procentnumber);
-					if (!similarityprogressstarted && linesplit[0].indexOf("similarity") !== -1){
+					if (!similarityprogressstarted){
 						updater.emit('message',"Synchronisation in progress...");
 						similarityprogressstarted = true;
-					}
-					else if (!bookpreparationstarted && linesplit[0].indexOf("bookpreparation") !== -1){
-						updater.emit('message',"Preparing the book for synchronisation...");
-						bookpreparationstarted = true;
-					}
-					else if (!subpreparationstarted && linesplit[0].indexOf("subpreparation") !== -1){
-						updater.emit('message',"Preparing the subtitles for synchronisation...");
-						subpreparationstarted = true;
 					}
 				}
 			});

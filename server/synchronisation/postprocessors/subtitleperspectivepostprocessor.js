@@ -1,9 +1,9 @@
 /**
- * This postprocessor looks for the best scene adhering to a paragraph based on voting
+ * This postprocessor looks for the best matching quote for each subtitle and removes the others
  */
 
 /**
- * Postprocesses the given text by keeping only the best matching scene for a paragraph
+ * Postprocesses the given text by keeping only the best matching quote for each subtitle
  * @param matches current array with matches
  * @param callback the callback that needs to be executed after this function is ready
  */
@@ -42,12 +42,6 @@ exports.postprocess = function(matches, callback){
 	toremove.forEach(function(toremoveindex){
 		matches["match"].splice(toremoveindex,1);
 	});
-	// console.log("def");
-	// matches["match"].forEach(function (match,index){
-	// 	if (match.quoteindex == 663 && match.subtitleindex == 257){
-	// 		console.log(match);
-	// 	}
-	// });
 	
 	callback(matches);
 }

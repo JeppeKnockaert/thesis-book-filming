@@ -59,33 +59,36 @@ callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 		var formatter = require(__dirname + "/formatters/" + sequence.formatter + ".js");
 		synced = true;
 		updater.emit('message',"Synchronisation in progress...");
-		matcher.synchronize(parsedBook,parsedSubtitle,updater,function(matches){
-			var syncready = "Synchronisation finished!";
+
+		var paramarray = sequence.matcherparameters;
+		matcher.synchronize(parsedBook,parsedSubtitle,paramarray,updater,function(matches){
+			var processMatches = function(functionind,processedmatches){
+	    		if (functionind !== -1){
+	    			var nextfunction = (functionind+1<sequence.postprocessor.length)?functionind+1:-1;
+	    			postprocessors[functionind].postprocess(processedmatches, processMatches.bind(null,nextfunction));
+	    		}
+	    		else{
+    				formatter.format(processedmatches, "result", updater, function (path){
+						updater.emit('syncprogressupdate',100); // Put the progress on 100%
+						updater.emit("result",path); 
+						updater.emit('message',"Synchronisation finished!");
+    				});						
+	    		}
+		    };
 			if (sequence.postprocessor.length > 0){ // If there is a postprocessor, do the postprocessing first
 				updater.emit('message',"Postprocessing in progress...");
 				var postprocessors = new Array();
 				sequence.postprocessor.forEach(function(postprocessor,i){
 					postprocessors[i] = require(__dirname + "/postprocessors/" + postprocessor + ".js");
 				});
-				var process = function(functionind,processedmatches){
-		    		if (functionind !== -1){
-		    			var nextfunction = (functionind+1<sequence.postprocessor.length)?functionind+1:-1;
-		    			postprocessors[functionind].postprocess(processedmatches, process.bind(null,nextfunction));
-		    		}
-		    		else{
-	    				formatter.format(processedmatches, updater);
-						updater.emit('message',syncready);
-		    		}
-			    };
 			    var nextfunction = -1;
 			    if (postprocessors.length > 1){
 			    	nextfunction = 1;
 			    }
-			    postprocessors[0].postprocess(matches, process.bind(null,nextfunction));
+			    postprocessors[0].postprocess(matches, processMatches.bind(null,nextfunction));
 			}
 			else{ // Else, continue to formatter
-				formatter.format(matches, updater);
-				updater.emit('message',syncready);
+				processMatches(-1,matches);
 			}
 		});
 	}
