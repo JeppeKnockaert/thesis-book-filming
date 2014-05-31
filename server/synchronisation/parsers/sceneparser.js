@@ -1,5 +1,6 @@
 /**
- * Parses books and subtitles with separation of scenes in subtitles
+ * Parses books and subtitles 
+ * With scene detection and partial sentence merging for subtitle parsing
  */
 
 var epubParser = require("epub"); // Module for parsing epub files
@@ -65,7 +66,7 @@ exports.parseBook = function(bookfile, preprocessor, updater, callback){
 }
 
 /**
- * Parses subtitles
+ * Parses subtitles with scene detection and partial sentence merging
  * @param subtitlefile the path to the srt file
  * @param preprocessor the preprocessor array
  * @param callback the callback that needs to be executed after this function is ready

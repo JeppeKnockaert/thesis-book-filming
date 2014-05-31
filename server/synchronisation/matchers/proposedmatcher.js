@@ -15,7 +15,7 @@ var relsearchwindow = -1;
 var minimumscorefortimewindow = 0.8;
 
 /**
- * Synchronizes a parsed epub and srt from simpleparser using (partial) exact matching
+ * Synchronizes a parsed epub and srt
  * @param book the parsed epub file
  * @param subtitle the parsed srt file
  * @param parameters an array with the parameters for the matching algorithm

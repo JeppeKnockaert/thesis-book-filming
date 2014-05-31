@@ -1,8 +1,8 @@
 /**
- * This postprocessor looks for the best scene adhering to a quote based on voting
+ * This postprocessor looks for the best scene adhering to a set of quotes based on voting
  */
 
-var allowedgap = 100;
+var allowedgap = 100; // If the gap between quote indexes is bigger than this, a new cluster is started
 
 /**
  * Postprocesses the given text by keeping only the best matching scene for a quote

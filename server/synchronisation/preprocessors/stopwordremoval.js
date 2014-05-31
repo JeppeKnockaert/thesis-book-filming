@@ -6,7 +6,7 @@ var fs = require('fs'); // Module for reading files
 var stopwords = null; // Array with stopwords
 
 /**
- * Preprocesses the given text by performing stopword removal
+ * Preprocesses the given text
  * @param text the text that needs preprocessing
  * @param callback the callback that needs to be executed after this function is ready
  */

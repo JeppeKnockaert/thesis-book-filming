@@ -8,7 +8,7 @@
  */
 
 /**
- * Preprocesses the given text by removing tags, extra spaces, punctuation and linebreaks
+ * Preprocesses the given text
  * @param text the text that needs preprocessing
  * @param callback the callback that needs to be executed after this function is ready
  */

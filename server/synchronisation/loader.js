@@ -1,5 +1,5 @@
 /**
- * Reads the uploaded files and sends them to the appropriate parser
+ * Coordinates the processing pipeline
  */
 
 var fs = require('fs'); // Load module for IO
@@ -10,8 +10,7 @@ var parsedBook = null;
 var parsedSubtitle = null;
 
 /**
- * Read the uploaded files and send them to the parser (from the processing chain)
- * for further processing.
+ * Read the uploaded files and send them to the parser for further processing.
  * @param bookfile the file containing the epub
  * @param subtitlefile the file containing the srt
  * @param sequence all files in the processing chain
@@ -47,7 +46,7 @@ exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
 };
 
 /**
- * Calls the synchronization function on the matcher object
+ * Calls the synchronization function on the matcher object, loops trough postprocessors and executes the formatter
  * @param sequence all files in the processing chain
  * @param bookfile the file containing the epub
  * @param subtitlefile the file containing the srt
@@ -70,7 +69,7 @@ callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 	    		else{
     				formatter.format(processedmatches, "result", updater, function (path){
 						updater.emit('syncprogressupdate',100); // Put the progress on 100%
-						updater.emit("result",path); 
+						updater.emit("result",path); // Send the output back to the user
 						updater.emit('message',"Synchronisation finished!");
     				});						
 	    		}

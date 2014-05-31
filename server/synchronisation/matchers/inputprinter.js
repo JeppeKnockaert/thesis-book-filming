@@ -1,4 +1,5 @@
 /**
+ * WARNING: not a real matcher, just an auxialiary module for printing the input without processing
  * Prints the bookfile and the subtitlefile for creating a ground truth
  */
 

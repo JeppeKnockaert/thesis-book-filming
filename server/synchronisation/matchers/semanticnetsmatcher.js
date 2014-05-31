@@ -25,9 +25,7 @@ var minwordsim = 0.4;
 var relativelexicalimportance = 0.7; 
 
 /**
- * Synchronizes a parsed epub and srt from simpleparser using sentence similarity
- * based on semantic nets and corpus statistics
- *
+ * Synchronizes a parsed epub and srt
  * @param book the parsed epub file
  * @param subtitle the parsed srt file
  * @param parameters an array with the parameters for the matching algorithm

@@ -2,11 +2,10 @@
  * Performs Porter stemming as preprocessing step
  */
 
-
 var natural = require('natural'); // Module for natural language processing
 
 /**
- * Preprocesses the given text by performing stopword remova
+ * Preprocesses the given text
  * @param text the text that needs preprocessing
  * @param callback the callback that needs to be executed after this function is ready
  */

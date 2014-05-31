@@ -3,7 +3,7 @@
  */
 
 /**
- * Preprocesses the given text by removing punctuation characters
+ * Preprocesses the given text
  * @param text the text that needs preprocessing
  * @param callback the callback that needs to be executed after this function is ready
  */
