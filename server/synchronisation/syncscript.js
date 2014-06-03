@@ -12,11 +12,14 @@ var updater = new events.EventEmitter();
 process.on('message', function(message) {
 	if (message["name"] === "fileupload"){
 		var bookfile = message["value"][0];
-		var subtitlefile = message["value"][1];
+		var filmfile = message["value"][1];
+		var subtitlefile = message["value"][2];
+		var outputformat = message["value"][3];
 
 		// Describe the files that need to be used in the processing chain
 		var config = fs.readFileSync(__dirname + '/../config.json');
 		var processingsequence = JSON.parse(config)["processingsequence"];
+		processingsequence["formatter"] = outputformat;
 
 		// Get the loader
 		var loader = require(__dirname + '/loader.js');
@@ -35,8 +38,14 @@ process.on('message', function(message) {
 		updater.on('message', function(message){
 			// Send a message to the master process
 			process.send({"name":"message", "value":message});
-		})
-		loader.readFiles(bookfile,subtitlefile,processingsequence,updater);
+		});
+
+		updater.on('websitecontent', function(content){
+			// Send the website content to the master process
+			process.send({"name":"websitecontent", "value":content});
+		});
+
+		loader.readFiles(bookfile,filmfile,subtitlefile,processingsequence,updater);
 	}
 });
 

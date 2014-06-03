@@ -8,17 +8,20 @@ var synced = false; // Check if the synchronization is already started
 
 var parsedBook = null;
 var parsedSubtitle = null;
+var film = null;
 
 /**
  * Read the uploaded files and send them to the parser for further processing.
  * @param bookfile the file containing the epub
+ * @param filmfile the file containing the film
  * @param subtitlefile the file containing the srt
  * @param sequence all files in the processing chain
  * @param updater the eventemitter to keep track of the progressupdates
  */
-exports.readFiles = function(bookfile, subtitlefile, sequence, updater){
+exports.readFiles = function(bookfile, filmfile, subtitlefile, sequence, updater){
 	var parser = require(__dirname + "/parsers/" + sequence.parser + ".js");
 	var preprocessors = new Array();
+	film = filmfile;
 	sequence.preprocessor.forEach(function(preprocessor,i){
 		preprocessors[i] = require(__dirname + "/preprocessors/" + preprocessor + ".js");
 	});
@@ -67,7 +70,7 @@ callSynchronization = function(sequence, parsedBook, parsedSubtitle, updater){
 	    			postprocessors[functionind].postprocess(processedmatches, processMatches.bind(null,nextfunction));
 	    		}
 	    		else{
-    				formatter.format(processedmatches, "result", updater, function (path){
+    				formatter.format(processedmatches, "result", film, updater, function (path){
 						updater.emit('syncprogressupdate',100); // Put the progress on 100%
 						updater.emit("result",path); // Send the output back to the user
 						updater.emit('message',"Synchronisation finished!");

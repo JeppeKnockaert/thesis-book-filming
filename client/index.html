@@ -40,6 +40,21 @@
 					    <input id="subtitlebtn" type="file" class="upload" name="subtitlefile" />
 					</div>
 				</div>
+				<div class="form-group">
+					<label class="col-xs-1" for="outputformat">Output format</label>
+					<div class="col-xs-3">
+		    			<select name="outputformat" class="form-control" id="outputchooser" onchange="outputChanged();">
+							<option selected="selected">XML</option>
+							<option>Fragments</option>
+						</select>
+		    		</div>
+				</div>
+				<div class="form-group" style="display: none" id="fragmentsform">
+					<label class="col-xs-1" for="filmurl">Film URL</label>
+					<div class="col-xs-3">
+		    			 <input id="filmurl" type="text" class="form-control" name="filmurl"/>
+		    		</div>
+				</div>
 				<div class="col-xs-offset-1">
 					<button id="syncButton" type="submit" class="btn btn-primary">Synchronise</button>
 				</div>
@@ -79,6 +94,16 @@
 			// child ID
 			var pid = -1;
 
+			// The output format has been changed
+			var outputChanged = function(){
+				if ($("#outputchooser").val() === "Fragments"){
+					$("#fragmentsform").show();
+				}
+				else{
+					$("#fragmentsform").hide();
+				}
+			}
+
 			// Update the progressbar
 			var checkProgress = function(){
 				$.ajax( {
@@ -101,6 +126,29 @@
 					}
 			    });
 			};
+
+			// Fetch results
+			var fetchResults = function(){
+				$.ajax( {
+					dataType: "json",
+					type: "POST",
+					data: {"childpid":pid},
+					url: "/fetchresult",
+					success: function( response ) {
+						if (response.message !== null){
+							$("#progressmessage").text(response.message);
+						}
+						$("#syncprogressbar").text(response.progress);
+						$("#syncprogressbar").width(response.progress);
+						// Stop updating the progress if the bar is full
+						if (response.ready){ 
+							clearInterval(intervalid);
+							$("#childpid").val(pid);
+							$("#downloadbutton").show();
+						}
+					}
+			    });
+			}
 
 			$('#downloadbutton').click(function(){
 				$("#progressModal").modal("hide");

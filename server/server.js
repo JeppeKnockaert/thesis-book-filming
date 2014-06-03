@@ -31,7 +31,7 @@ var path = require('path');
 var fs = require('fs');
 
 // If a JavaScript or CSS file is requested, send the request to the client folder
-app.get(/^(\/(js|css)\/.+)$/, function(req, res) {
+app.get(/^(\/(js|css|files)\/.+)$/, function(req, res) {
 	res.sendfile('client/' + req.params[0]);
 });
 
@@ -45,10 +45,18 @@ app.post('/synchronize', function(req,res){
 	// Add the child to the array to keep track of its progress
 	children[child.pid] = {"child": child, "progress":0, "result":null};
 	// Send the files to the child
-	var filesread = 0;
+	var fieldsreceived = 0;
 	var book; 
 	var subtitle;
+	var film;
+	var outputformat;
 	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	var ready = function(){
+		fieldsreceived++;
+		if (fieldsreceived == 4){
+			child.send({"name" : "fileupload", "value" : [book, film, subtitle, outputformat] });
+		}
+	}
 	busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
 		var extension = path.extname(filename);
 		var baseName = path.basename(fieldname,extension);
@@ -61,6 +69,7 @@ app.post('/synchronize', function(req,res){
 					throw err;
 				}
 			}
+			
 			else{
 				subtitle = path;
 				if (extension !== '.srt'){
@@ -70,11 +79,23 @@ app.post('/synchronize', function(req,res){
 			}
 		});
 		file.on('end', function() { // When file has been read, pass it on
-			filesread++;
-			if (filesread == 2){
-				child.send({"name" : "fileupload", "value" : [book, subtitle] });
-			}
+			ready();
 		});
+	});
+	busboy.on('field', function(key, value, keyTruncated, valueTruncated) {
+		if (key === "filmurl" && value !== ""){
+			film = value;
+		}
+		// Set formatter to use based on the choice that was made
+		if (key === "outputformat"){
+			if (value === "XML"){
+				outputformat = "xmlformatter";
+			}
+			else if (value === "Fragments"){
+				outputformat = "fragmentformatter";
+			}
+		}
+		ready();
 	});
     req.pipe(busboy); // Start the parsing
 
@@ -90,6 +111,18 @@ app.post('/synchronize', function(req,res){
 			}
 			else if (message["name"] === "message"){
 				children[child.pid].message = message['value'];
+			}
+			else if (message["name"] === "websitecontent"){
+				if (message['value'] === "EOF"){
+					children[child.pid].websitecontentready = true;	
+				}
+				else{
+					if (typeof children[child.pid].websitecontent === "undefined"){
+						children[child.pid].websitecontentready = false;	
+						children[child.pid].websitecontent = new Array();	
+					}
+					children[child.pid].websitecontent.push(message['value']);
+				}
 			}
 		}
 	});
@@ -189,7 +222,12 @@ app.post('/fetchresult', function(req, res){
     		var child = children[childpid];
 			if (method === "sync"){
 				if (typeof child !== "undefined"){
-					res.download(child['filepath']);
+					if (child['filepath'].indexOf(".html") !== -1){
+						res.redirect(child['filepath']+"?pid="+childpid);
+					}
+					else{
+						res.download(child['filepath']);
+					}
 				}
 				else{
 					res.send(404);
@@ -205,6 +243,32 @@ app.post('/fetchresult', function(req, res){
 					res.send("Please wait...");
 				}
 			}
+    	}		
+	});
+	req.pipe(busboy); // Start the parsing
+});
+
+// If a request is received to return the website content, return it based on the pid
+app.post('/fetchcontent', function(req, res){
+	var busboy = new Busboy({ headers: req.headers }); // Parse the uploaded files
+	var childpid = null;
+	var method = null;
+	busboy.on('field', function(fieldname, val, valTruncated, keyTruncated) {
+    	if (fieldname === "childpid"){
+    		childpid = val;
+    	}
+    	if (childpid !== null){
+    		var child = children[childpid];
+			if (typeof child !== "undefined"){
+				res.json({
+					"content":child['websitecontent'],
+					"ready":child['websitecontentready']
+				});
+			}
+			else{
+				res.send(404);
+			}
+			killChild(req.param('childpid')); // Child is not needed anymore, so it can be killed
     	}		
 	});
 	req.pipe(busboy); // Start the parsing
@@ -244,6 +308,11 @@ app.get('/evaluation', function(req, res){
 // If a user wants to surf to the header page, send him to that page
 app.get('/header.html', function(req, res){
 	res.sendfile('client/header.html');
+});
+
+// If a user wants to surf to the header page, send him to that page
+app.get('/results.html', function(req, res){
+	res.sendfile('client/results.html');
 });
 
 // If a user surfs to any other folder, send him to index file in the client folder

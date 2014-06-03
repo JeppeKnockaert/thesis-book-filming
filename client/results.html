@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  	<head>
+    	<title>Synchronize books and filmings</title>
+    	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    	<!-- Bootstrap -->
+    	<link href="css/bootstrap.min.css" rel="stylesheet">
+    	<!-- Main css -->
+    	<link href="css/main.css" rel="stylesheet">
+    	<script src="js/jquery-2.1.1.min.js"></script>
+    	<script> 
+			$(function(){
+				$("#header").load("header.html",function() {
+					$('#synchronisation').addClass("active");
+				}); 
+			});
+		</script>
+  	</head>
+  	<body onload="setPID()">
+	  	<div class="container">
+	  		<div id="header"></div>
+			<div id="resultlist">
+				<p id="waitmessage">Loading results, please wait...</p>
+				<ul class="pager" style="display:none">
+					<li class="prevpage" style="display:none"><a href="#" onclick="prev()">Previous</a></li>
+					<li class="nextpage" style="display:none"><a href="#" onclick="next()">Next</a></li>
+				</ul>
+				<table class="table" id="resulttable">
+					
+				</table>
+				<ul class="pager" style="display:none">
+					<li class="prevpage" style="display:none"><a href="#" onclick="prev()">Previous</a></li>
+					<li class="nextpage" style="display:none"><a href="#" onclick="next()">Next</a></li>
+				</ul>
+			</div>
+		</div>
+    	<script src="js/bootstrap.min.js"></script>
+  	</body>
+  	<script>
+
+  		var pid;
+  		var intervalid;
+  		function setPID() {
+		    var regex = new RegExp("[\\?&]pid=([^&#]*)");
+		    var results = regex.exec(location.search);
+		    // ID for the results
+		    pid = (results == null ? "" : decodeURIComponent(results[1].replace(/\+/g, " ")));
+		    // Update the progress each second starting when the upload is finished
+			intervalid = setInterval(function(){checkProgress()},1000);
+		}
+
+		var currentpage = 0;
+		var loaded = false;
+		var receivedcontent;
+		// Update the progressbar
+		var checkProgress = function(){
+			$.ajax( {
+				dataType: "json",
+				type: "POST",
+				data: {"childpid":pid},
+				url: "/fetchcontent",
+				success: function( response ) {
+					if (response.content !== null){
+						$("#waitmessage").hide();
+						receivedcontent = response.content;
+						if (!loaded && (receivedcontent.length >= 5 || response.ready)){
+							loaded = true;
+							// Show first 5 fragments
+							showFragments(0,5);
+							if (Math.ceil(receivedcontent.length/5) > 1){
+								$(".nextpage").show();
+							}
+							$(".pager").show();
+						}
+					}
+					// Stop updating when all parts have been received
+					if (response.ready){ 
+						clearInterval(intervalid);
+						$("#childpid").val(pid);
+						$("#downloadbutton").show();
+					}
+				}
+		    });
+		};
+
+		var next = function(){
+			currentpage++;
+			showFragments(currentpage*5,5);
+			if (currentpage > 0){
+				$(".prevpage").show();
+			}
+			if (currentpage === Math.ceil(receivedcontent.length/5)-1){
+				$(".nextpage").hide();
+			}
+		}
+
+		var prev = function(){
+			currentpage--;
+			showFragments(currentpage*5,5);
+			if (currentpage === 0){
+				$(".prevpage").hide();
+			}
+			if (currentpage < Math.ceil(receivedcontent.length/5)-1){
+				$(".nextpage").show();
+			}
+		}
+
+		var showFragments = function(startindex,length){
+			var pagecontent = "";
+			var endindex = (receivedcontent.length < startindex+length)?receivedcontent.length:startindex+length;
+			for (var i = startindex; i < endindex; i++){
+				pagecontent += receivedcontent[i];
+			}
+			$("#resulttable").html(pagecontent);
+		}
+  	</script>
+</html>
